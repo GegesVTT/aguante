@@ -1,0 +1,727 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#1A1A1A">
+<title>Aguante</title>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Condensed:wght@600;800&display=swap">
+<style>
+/* Layout: one phone-width column; sticky emergency header, routed views, bottom section bar. Durante screens switch to the night palette. */
+:root {
+  --paper: #F4F2EC; --card: #FFFFFF; --ink: #1A1A1A; --muted: #55524A; --line: #D9D4C7;
+  --senal: #FFC72C; --senal-ink: #1A1A1A; --refugio: #1F6F78; --refugio-fg: #1F6F78; --auxilio: #C8202A;
+  --night: #141414; --night-card: #242320; --night-line: #3C3A35; --night-ink: #F4F2EC; --night-muted: #CFCABF; --alerta: #FF5A4F;
+  --tint: #ECE7DA; --bar: #1A1A1A; --bar-ink: #F4F2EC;
+  --f-display: 'Barlow Condensed', 'Arial Narrow', 'Roboto Condensed', sans-serif;
+  --f-body: 'Atkinson Hyperlegible', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --r: 14px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #171614; --card: #23221F; --ink: #F1EEE6; --muted: #BDB8AC; --line: #3B3934;
+  --refugio-fg: #74C6CF; --tint: #2C2A26; --bar: #000000; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #171614; --card: #23221F; --ink: #F1EEE6; --muted: #BDB8AC; --line: #3B3934;
+  --refugio-fg: #74C6CF; --tint: #2C2A26; --bar: #000000; color-scheme: dark }
+
+html { font-size: 17px; }
+html.grande { font-size: 20px; }
+body { background: var(--paper); color: var(--ink); font-family: var(--f-body); font-size: 1rem; line-height: 1.45; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bar); }
+body.noche { background: var(--night); color: var(--night-ink); }
+* { box-sizing: border-box; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 800; line-height: 1; margin: 0; text-wrap: balance; letter-spacing: .01em; }
+p { margin: 0; }
+button, input, select, textarea { font: inherit; color: inherit; }
+a { color: var(--refugio-fg); }
+:focus-visible { outline: 3px solid var(--senal); outline-offset: 2px; }
+.ico { width: 1.4rem; height: 1.4rem; flex: none; }
+.wrap { max-width: 560px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+/* header */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bar); color: var(--bar-ink); }
+body.noche .top { background: #000; color: var(--night-ink); }
+.top .wrap { padding-block: 10px; display: flex; flex-direction: column; gap: 10px; }
+.brand-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.brand { display: flex; align-items: center; gap: 8px; text-decoration: none; color: inherit; min-height: 44px; }
+.brand span { font-family: var(--f-display); font-weight: 800; font-size: 1.6rem; letter-spacing: .04em; }
+.chip { min-height: 44px; padding: 0 12px; border-radius: 22px; border: 2px solid currentColor; background: transparent; display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: .9rem; cursor: pointer; }
+.sos-row { display: flex; gap: 8px; }
+.btn-aux { flex: 1; min-height: 52px; border: 0; border-radius: 12px; background: var(--auxilio); color: #fff; font-weight: 700; font-size: 1.05rem; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; }
+.btn-audio { width: 52px; min-height: 52px; border-radius: 12px; border: 2px solid var(--senal); background: transparent; color: var(--senal); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.btn-audio[aria-pressed="true"] { background: var(--senal); color: var(--senal-ink); }
+.prueba { background: var(--senal); color: var(--senal-ink); }
+.prueba .wrap { padding-block: 6px; display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: .82rem; font-weight: 700; flex-wrap: wrap; }
+.prueba button { min-height: 36px; border: 2px solid var(--senal-ink); border-radius: 18px; background: transparent; padding: 0 12px; font-weight: 700; font-size: .82rem; cursor: pointer; }
+
+/* main */
+main .wrap { padding-block: 20px 120px; display: flex; flex-direction: column; gap: 20px; }
+.eyebrow { font-size: .78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+body.noche .eyebrow { color: var(--night-muted); }
+.h-xl { font-size: 2.6rem; text-transform: uppercase; }
+.h-l { font-size: 2rem; text-transform: uppercase; }
+.h-m { font-size: 1.45rem; text-transform: uppercase; }
+.lead { font-size: 1.1rem; }
+.muted { color: var(--muted); }
+.stack { display: flex; flex-direction: column; gap: 10px; }
+.back { align-self: flex-start; min-height: 44px; display: inline-flex; align-items: center; gap: 4px; font-weight: 700; text-decoration: none; color: inherit; }
+
+/* que pasa grid */
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.tile { min-height: 124px; border-radius: var(--r); background: var(--bar); color: var(--bar-ink); text-decoration: none; padding: 14px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; }
+:root[data-theme="dark"] .tile { border: 2px solid var(--line); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tile { border: 2px solid var(--line); } }
+.tile svg { width: 2.4rem; height: 2.4rem; color: var(--senal); }
+.tile b { font-family: var(--f-display); font-weight: 800; font-size: 1.3rem; text-transform: uppercase; line-height: 1.02; }
+.tile.ayuda { background: var(--auxilio); color: #fff; border: 0; }
+.tile.ayuda svg { color: #fff; }
+
+/* cards & rows */
+.card { background: var(--card); border: 2px solid var(--line); border-radius: var(--r); padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.row { min-height: 64px; background: var(--card); border: 2px solid var(--line); border-radius: var(--r); padding: 12px 14px; display: flex; align-items: center; gap: 14px; text-decoration: none; color: inherit; }
+.row .ico-box { width: 44px; height: 44px; border-radius: 10px; background: var(--bar); color: var(--senal); display: flex; align-items: center; justify-content: center; flex: none; }
+.row .txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.row .txt b { font-size: 1.05rem; }
+.row .txt small { color: var(--muted); font-size: .88rem; }
+.row .chev { width: 1.2rem; height: 1.2rem; color: var(--muted); flex: none; }
+.meter { height: 8px; border-radius: 4px; background: var(--tint); overflow: hidden; }
+.meter i { display: block; height: 100%; background: var(--refugio); border-radius: 4px; }
+.pill { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 13px; font-size: .8rem; font-weight: 700; background: var(--tint); }
+
+/* checklist */
+.check { min-height: 56px; background: var(--card); border: 2px solid var(--line); border-radius: 12px; padding: 10px 14px; display: flex; align-items: center; gap: 14px; cursor: pointer; }
+.check input { width: 26px; height: 26px; accent-color: var(--refugio); flex: none; margin: 0; }
+.check:has(input:checked) span { color: var(--muted); text-decoration: line-through; text-decoration-thickness: 2px; }
+body.noche .check { background: var(--night-card); border-color: var(--night-line); }
+body.noche .check:has(input:checked) span { color: var(--night-muted); }
+
+/* hero band (Antes / Después) */
+.band { border-radius: var(--r); background: var(--refugio); color: #fff; padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+.band .meter { background: rgba(0,0,0,.25); }
+.band .meter i { background: var(--senal); }
+
+/* alert levels */
+.lvl { border-radius: var(--r); padding: 16px; display: flex; gap: 14px; align-items: flex-start; border: 2px solid var(--ink); }
+.lvl .dot { width: 22px; height: 22px; border-radius: 50%; flex: none; margin-top: 2px; border: 2px solid var(--ink); }
+.lvl b { font-family: var(--f-display); font-size: 1.35rem; text-transform: uppercase; }
+
+/* durante (noche) */
+.step { display: flex; flex-direction: column; gap: 18px; }
+.step .picto { width: 9rem; height: 9rem; color: var(--senal); align-self: center; }
+.step h1 { font-size: 3rem; color: var(--senal); text-transform: uppercase; line-height: .95; }
+.step .lead { font-size: 1.25rem; }
+.step .why { color: var(--night-muted); }
+.opt { min-height: 68px; border-radius: var(--r); padding: 0 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; font-weight: 700; font-size: 1.12rem; text-decoration: none; cursor: pointer; width: 100%; text-align: left; }
+.opt.primary { background: var(--night-ink); color: #1A1A1A; border: 0; }
+.opt.ghost { background: transparent; color: var(--senal); border: 3px solid var(--senal); }
+.opt.call { background: var(--auxilio); color: #fff; border: 0; }
+.opt svg { width: 1.3rem; height: 1.3rem; flex: none; }
+.tag-prueba { align-self: flex-start; font-size: .78rem; font-weight: 700; padding: 4px 10px; border-radius: 12px; background: var(--night-card); color: var(--night-muted); }
+
+/* forms */
+label.f { display: flex; flex-direction: column; gap: 6px; font-weight: 700; font-size: .95rem; }
+label.f input, label.f select, label.f textarea { min-height: 48px; border: 2px solid var(--line); border-radius: 10px; padding: 10px 12px; background: var(--card); font-weight: 400; width: 100%; }
+label.f textarea { min-height: 96px; resize: vertical; }
+.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 380px) { .two { grid-template-columns: minmax(0, 1fr); } }
+.btn { min-height: 48px; border-radius: 12px; padding: 0 16px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; text-decoration: none; border: 2px solid var(--ink); background: transparent; color: var(--ink); }
+.btn.fill { background: var(--ink); color: var(--paper); }
+.btn.senal { background: var(--senal); color: var(--senal-ink); border-color: var(--senal); }
+.btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.persona { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: end; }
+.persona .x { min-height: 48px; width: 48px; border-radius: 10px; border: 2px solid var(--line); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+/* tarjeta */
+.tarjeta { border: 3px solid var(--ink); border-radius: 16px; background: #FFFFFF; color: #1A1A1A; overflow: hidden; }
+.tarjeta .t-head { background: var(--senal); color: #1A1A1A; padding: 12px 16px; display: flex; align-items: center; gap: 10px; }
+.tarjeta .t-head b { font-family: var(--f-display); font-size: 1.5rem; letter-spacing: .04em; }
+.tarjeta .t-body { padding: 14px 16px; display: grid; gap: 10px; }
+.tarjeta dt { font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #55524A; }
+.tarjeta dd { margin: 0; font-weight: 700; }
+.tarjeta dl { margin: 0; display: grid; gap: 10px; }
+.vacio { color: #8A857A; font-weight: 400; font-style: italic; }
+
+/* numbers sheet + overlays */
+.sheet-bg { position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,.6); display: flex; align-items: flex-end; justify-content: center; }
+.sheet { width: 100%; max-width: 560px; background: var(--paper); color: var(--ink); border-radius: 18px 18px 0 0; padding: 18px max(16px, env(safe-area-inset-right, 0px)) calc(18px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 12px; max-height: 88vh; overflow: auto; }
+.sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.icon-btn { min-width: 44px; min-height: 44px; border-radius: 22px; border: 2px solid var(--line); background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.num { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: center; background: var(--card); border: 2px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+.num .n { font-family: var(--f-display); font-weight: 800; font-size: 2rem; min-width: 3.2rem; user-select: all; font-variant-numeric: tabular-nums; }
+.num .acts { display: flex; gap: 6px; }
+.num .acts a, .num .acts button { min-height: 44px; padding: 0 12px; border-radius: 10px; font-weight: 700; font-size: .9rem; display: inline-flex; align-items: center; text-decoration: none; cursor: pointer; }
+.num .acts a { background: var(--auxilio); color: #fff; border: 0; }
+.num .acts button { background: transparent; border: 2px solid var(--line); }
+.overlay { position: fixed; inset: 0; z-index: 60; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding: 24px max(16px, env(safe-area-inset-right, 0px)) calc(32px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+.overlay.luz { background: #FFFFFF; color: #1A1A1A; }
+.overlay.sos { background: #000; color: #fff; }
+.overlay.sos.on { background: #FFFFFF; color: #1A1A1A; }
+.overlay .close { min-height: 56px; padding: 0 28px; border-radius: 28px; border: 3px solid currentColor; background: transparent; font-weight: 700; font-size: 1.1rem; cursor: pointer; }
+.overlay p { font-weight: 700; margin-bottom: 16px; text-align: center; }
+
+/* tools grid */
+.tool { min-height: 116px; border-radius: var(--r); background: var(--card); border: 2px solid var(--line); padding: 14px; display: flex; flex-direction: column; justify-content: space-between; gap: 8px; text-decoration: none; color: inherit; cursor: pointer; text-align: left; }
+.tool svg { width: 2rem; height: 2rem; color: var(--refugio-fg); }
+.tool b { font-size: 1.05rem; }
+.tool small { color: var(--muted); font-size: .85rem; }
+.tool[aria-pressed="true"] { background: var(--senal); color: var(--senal-ink); border-color: var(--senal); }
+.tool[aria-pressed="true"] svg, .tool[aria-pressed="true"] small { color: var(--senal-ink); }
+.compass { width: 220px; height: 220px; border-radius: 50%; border: 4px solid var(--ink); align-self: center; position: relative; display: flex; align-items: center; justify-content: center; }
+.compass .needle { width: 8px; height: 180px; transition: transform .2s; background: linear-gradient(var(--auxilio) 50%, var(--ink) 50%); border-radius: 4px; }
+.compass .n-lbl { position: absolute; top: 6px; font-family: var(--f-display); font-weight: 800; font-size: 1.4rem; }
+pre.msg { white-space: pre-wrap; margin: 0; font-family: var(--f-body); background: var(--card); border: 2px solid var(--line); border-radius: 12px; padding: 14px; }
+
+/* bottom nav */
+.nav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; background: var(--card); border-top: 2px solid var(--ink); padding-bottom: env(safe-area-inset-bottom, 0px); }
+body.noche .nav { background: #000; border-top-color: var(--night-line); }
+.nav .wrap { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); padding-block: 0; }
+.nav a { min-height: 62px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; text-decoration: none; color: var(--muted); font-size: .74rem; font-weight: 700; border-top: 4px solid transparent; }
+body.noche .nav a { color: var(--night-muted); }
+.nav a svg { width: 1.35rem; height: 1.35rem; }
+.nav a[aria-current="page"] { color: var(--ink); border-top-color: var(--senal); }
+body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(80px + env(safe-area-inset-bottom, 0px)); z-index: 70; background: var(--ink); color: var(--paper); padding: 12px 18px; border-radius: 12px; font-weight: 700; max-width: calc(100% - 32px); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-logo" viewBox="0 0 300 150"><polyline points="10,75 96,75" fill="none" stroke="#1A1A1A" stroke-width="10" stroke-linecap="round"/><polyline points="204,75 290,75" fill="none" stroke="#1A1A1A" stroke-width="10" stroke-linecap="round"/><rect x="105" y="30" width="90" height="90" rx="8" transform="rotate(45 150 75)" fill="#FFC72C" stroke="#1A1A1A" stroke-width="8"/><polyline points="100,75 128,75 138,75 148,44 160,106 170,75 200,75" fill="none" stroke="#1A1A1A" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-logo-inv" viewBox="100 20 100 110"><rect x="110" y="35" width="80" height="80" rx="8" transform="rotate(45 150 75)" fill="#FFC72C"/><polyline points="108,75 128,75 138,75 148,46 160,104 170,75 192,75" fill="none" stroke="#1A1A1A" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <!-- OCHA Humanitarian Icons, UN OCHA, CC0 -->
+    <symbol id="i-flood" viewBox="0 0 48 48" fill="currentColor"><path d="M47.82007,12,33.15991.06a.24307.24307,0,0,0-.31982,0L18.17993,12A.52777.52777,0,0,0,18,12.38V30.09a8.73356,8.73356,0,0,1,3.29,1.15A4.63739,4.63739,0,0,0,24,32a4.62642,4.62642,0,0,0,2.7-.76A8.64428,8.64428,0,0,1,31.33008,30,8.60316,8.60316,0,0,1,35.95,31.24a5.22951,5.22951,0,0,0,5.43005,0A8.603,8.603,0,0,1,46,30a9.42933,9.42933,0,0,1,2,.2V12.38A.52777.52777,0,0,0,47.82007,12Z"/><path d="M46,42a8.603,8.603,0,0,0-4.62,1.24,5.22951,5.22951,0,0,1-5.43005,0A8.60316,8.60316,0,0,0,31.33008,42,8.64428,8.64428,0,0,0,26.7,43.24,4.62642,4.62642,0,0,1,24,44a4.63739,4.63739,0,0,1-2.71-.76A8.67344,8.67344,0,0,0,16.65991,42,8.60316,8.60316,0,0,0,12.04,43.24a4.68387,4.68387,0,0,1-2.71.76A4.68367,4.68367,0,0,1,6.62,43.24,8.603,8.603,0,0,0,2,42a2,2,0,0,0,0,4,4.68319,4.68319,0,0,1,2.71.76A8.60355,8.60355,0,0,0,9.33008,48,8.60325,8.60325,0,0,0,13.95,46.76a4.68407,4.68407,0,0,1,2.71-.76,4.66062,4.66062,0,0,1,2.71009.76A8.64416,8.64416,0,0,0,24,48a8.63212,8.63212,0,0,0,4.62-1.24,5.21166,5.21166,0,0,1,5.42,0,9.24531,9.24531,0,0,0,9.25,0A4.66018,4.66018,0,0,1,46,46a2,2,0,0,0,0-4Z"/><path d="M46,34a8.58937,8.58937,0,0,0-4.625,1.24414,5.24115,5.24115,0,0,1-5.42285,0A8.59052,8.59052,0,0,0,31.32617,34a8.58149,8.58149,0,0,0-4.62305,1.24414A4.69239,4.69239,0,0,1,23.99512,36a4.6958,4.6958,0,0,1-2.709-.75586A8.58937,8.58937,0,0,0,16.66113,34a8.58822,8.58822,0,0,0-4.624,1.24414A4.69245,4.69245,0,0,1,9.3291,36a4.69019,4.69019,0,0,1-2.70605-.75538A8.57668,8.57668,0,0,0,2,34a2,2,0,0,0,0,4,4.69133,4.69133,0,0,1,2.707.75585A8.5803,8.5803,0,0,0,9.3291,40a8.58818,8.58818,0,0,0,4.624-1.24415A4.69245,4.69245,0,0,1,16.66113,38a4.69578,4.69578,0,0,1,2.709.75585A8.58935,8.58935,0,0,0,23.99512,40a8.58339,8.58339,0,0,0,4.624-1.24463,5.23564,5.23564,0,0,1,5.41895.00048,9.22036,9.22036,0,0,0,9.251,0A4.70244,4.70244,0,0,1,46,38a2,2,0,0,0,0-4Z"/></symbol>
+    <symbol id="i-rain" viewBox="0 0 48 48" fill="currentColor"><path d="M11.22876,31a1.76724,1.76724,0,0,0-1.25.51776l-5.4646,5.46448a1.76777,1.76777,0,0,0,2.5,2.5l5.4646-5.46448A1.7678,1.7678,0,0,0,11.22876,31Z"/><path d="M24.23584,31a1.76724,1.76724,0,0,0-1.25.51776l-5.4646,5.46448a1.76777,1.76777,0,0,0,2.5,2.5l5.4646-5.46448A1.7678,1.7678,0,0,0,24.23584,31Z"/><path d="M37.23584,31a1.76724,1.76724,0,0,0-1.25.51776l-5.4646,5.46448a1.76777,1.76777,0,0,0,2.5,2.5l5.4646-5.46448A1.7678,1.7678,0,0,0,37.23584,31Z"/><path d="M38.98,9.01a8.73424,8.73424,0,0,0-3.16.58l-.01068.00494A11.49,11.49,0,0,0,12.98749,11.3515a5.97663,5.97663,0,0,0-7.9112,6.68994L5.07,18.04A3.81789,3.81789,0,0,0,4.48,18a4.5,4.5,0,0,0,0,9h34.5a9.00311,9.00311,0,0,0,8.83-7.24A9.29646,9.29646,0,0,0,47.98,18,8.99222,8.99222,0,0,0,38.98,9.01Z"/></symbol>
+    <symbol id="i-storm" viewBox="0 0 48 48" fill="currentColor"><path d="M38.98,9.01a8.73173,8.73173,0,0,0-3.16.58008l-.01068.00488a11.49,11.49,0,0,0-22.82184,1.75659,5.97663,5.97663,0,0,0-7.9112,6.68994L5.07,18.04A3.81041,3.81041,0,0,0,4.48,18a4.5,4.5,0,0,0,0,9h34.5a9.00311,9.00311,0,0,0,8.83-7.24A9.29694,9.29694,0,0,0,47.98,18,8.99222,8.99222,0,0,0,38.98,9.01Z"/><path d="M28.48,37H22.18652L25.752,31.29492A1.49994,1.49994,0,1,0,23.208,29.70508l-5,8A1.49972,1.49972,0,0,0,19.48,40h6.29346L22.208,45.70508A1.49994,1.49994,0,1,0,24.752,47.29492l5-8A1.49972,1.49972,0,0,0,28.48,37Z"/></symbol>
+    <symbol id="i-power" viewBox="0 0 48 48" fill="currentColor"><path d="M47,13H43V2a2,2,0,0,0-4,0V13H31V2a2,2,0,0,0-4,0V13H23a1,1,0,0,0-1,1v8a13.94922,13.94922,0,0,0,7,11.99432V37a1,1,0,0,0,1,1h2V48h6V38h2a1,1,0,0,0,1-1V33.99432A13.94922,13.94922,0,0,0,48,22V14A1,1,0,0,0,47,13Z"/><path d="M10,0A10,10,0,1,0,20,10,10.00362,10.00362,0,0,0,10,0Zm4.71,13.29a1.00761,1.00761,0,0,1,0,1.41992,1.01394,1.01394,0,0,1-1.41992,0l-3.29-3.29L6.71,14.71a1.01394,1.01394,0,0,1-1.41992,0,1.00761,1.00761,0,0,1,0-1.41992l3.29-3.29L5.29,6.71A1.004,1.004,0,0,1,6.71,5.29l3.29,3.29,3.29-3.29A1.004,1.004,0,1,1,14.71,6.71l-3.29,3.29Z"/></symbol>
+    <symbol id="i-water" viewBox="-8 0 48 48" fill="currentColor"><path d="M30.99365,0h-29.98a.96043.96043,0,0,0-1.01.99l3.7,40.49a2.92668,2.92668,0,0,0,3.01,2.52H25.2937a2.92668,2.92668,0,0,0,3.01-2.52l3.7-40.49A.96043.96043,0,0,0,30.99365,0Zm-4.77,20.24a13.1538,13.1538,0,0,0-2.6-.24,11.47084,11.47084,0,0,0-5.30993,1.17,7.65013,7.65013,0,0,1-3.69007.83,7.63608,7.63608,0,0,1-3.68-.83A11.43338,11.43338,0,0,0,5.76367,20l-1.46-16h23.3999Z"/></symbol>
+    <symbol id="i-assembly" viewBox="0 0 48 48" fill="currentColor"><circle cx="24" cy="24" r="5"/><path d="M46,22H37.82861l1.58545-1.58594a1.99978,1.99978,0,0,0-2.82812-2.82812l-5,5a2,2,0,0,0,0,2.82812l5,5a1.99978,1.99978,0,0,0,2.82812-2.82812L37.82812,26H46a2,2,0,0,0,0-4Z"/><path d="M16.414,22.586l-5-5a1.99978,1.99978,0,0,0-2.82812,2.82812L10.17139,22H2a2,2,0,0,0,0,4h8.17188L8.58594,27.58594a1.99978,1.99978,0,1,0,2.82812,2.82812l5-5A2,2,0,0,0,16.414,22.586Z"/><path d="M22.58594,16.41406a2,2,0,0,0,2.82812,0l5-5a1.99978,1.99978,0,0,0-2.82812-2.82812L26,10.17188V2a2,2,0,0,0-4,0v8.17188L20.41406,8.58594a1.99978,1.99978,0,0,0-2.82812,2.82812Z"/><path d="M25.41406,31.58594a2,2,0,0,0-2.82812,0l-5,5a1.99978,1.99978,0,0,0,2.82812,2.82812L22,37.82812V46a2,2,0,0,0,4,0V37.82812l1.58594,1.58594a1.99978,1.99978,0,0,0,2.82812-2.82812Z"/></symbol>
+    <symbol id="i-shelter" viewBox="0 0 48 48" fill="currentColor"><path d="M24,17.99438c-5.98633,0-10.5,4.084-10.5,9.5a1.5,1.5,0,0,0,3,0A6.2304,6.2304,0,0,1,20,21.94421v9.056h0v15.5a1.5,1.5,0,0,0,3,0v-12.5h2v12.5a1.5,1.5,0,0,0,3,0v-24.556a6.2304,6.2304,0,0,1,3.5,5.55017,1.5,1.5,0,0,0,3,0C34.5,22.07837,29.98633,17.99438,24,17.99438Z"/><circle cx="24.05176" cy="13.00024" r="3"/><path d="M46.75684,12.83911l-21.5-12.5a2.49865,2.49865,0,0,0-2.51368,0l-21.5,12.5A2.49954,2.49954,0,0,0,0,15.00024v30.5a2.5,2.5,0,0,0,5,0V16.43872L24,5.39185,43,16.43872V45.50024a2.5,2.5,0,0,0,5,0v-30.5A2.49954,2.49954,0,0,0,46.75684,12.83911Z"/></symbol>
+    <!-- Tabler Icons, MIT -->
+    <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2"/></symbol>
+    <symbol id="i-sos" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8a2 2 0 0 1 2 2v4a2 2 0 1 1 -4 0v-4a2 2 0 0 1 2 -2"/><path d="M17 15c.345 .6 1.258 1 2 1a2 2 0 1 0 0 -4a2 2 0 1 1 0 -4c.746 0 1.656 .394 2 1"/><path d="M3 15c.345 .6 1.258 1 2 1a2 2 0 1 0 0 -4a2 2 0 1 1 0 -4c.746 0 1.656 .394 2 1"/></symbol>
+    <symbol id="i-volume" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 8a5 5 0 0 1 0 8"/><path d="M17.7 5a9 9 0 0 1 0 14"/><path d="M6 15h-2a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h2l3.5 -4.5a.8 .8 0 0 1 1.5 .5v14a.8 .8 0 0 1 -1.5 .5l-3.5 -4.5"/></symbol>
+    <symbol id="i-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 16l2 -6l6 -2l-2 6l-6 2"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/><path d="M12 3l0 2"/><path d="M12 19l0 2"/><path d="M3 12l2 0"/><path d="M19 12l2 0"/></symbol>
+    <symbol id="i-battery" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h11a2 2 0 0 1 2 2v.5a.5 .5 0 0 0 .5 .5a.5 .5 0 0 1 .5 .5v3a.5 .5 0 0 1 -.5 .5a.5 .5 0 0 0 -.5 .5v.5a2 2 0 0 1 -2 2h-11a2 2 0 0 1 -2 -2v-6a2 2 0 0 1 2 -2"/><path d="M7 10l0 4"/><path d="M10 10l0 4"/><path d="M13 10l0 4"/></symbol>
+    <symbol id="i-backpack" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 18v-6a6 6 0 0 1 6 -6h2a6 6 0 0 1 6 6v6a3 3 0 0 1 -3 3h-8a3 3 0 0 1 -3 -3"/><path d="M10 6v-1a2 2 0 1 1 4 0v1"/><path d="M9 21v-4a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v4"/><path d="M11 10h2"/></symbol>
+    <symbol id="i-first-aid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 8v-2a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v2"/><path d="M4 10a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2l0 -8"/><path d="M10 14h4"/><path d="M12 12v4"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/><path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0"/></symbol>
+    <symbol id="i-stairs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 6h-5v5h-5v5h-5v5h-5"/><path d="M6 10v-7"/><path d="M3 6l3 -3l3 3"/></symbol>
+    <symbol id="i-checklist" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.615 20h-2.615a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8"/><path d="M14 19l2 2l4 -4"/><path d="M9 8h4"/><path d="M9 12h2"/></symbol>
+    <symbol id="i-home-move" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2"/><path d="M19 12h2l-9 -9l-9 9h2v7a2 2 0 0 0 2 2h5.5"/><path d="M16 19h6"/><path d="M19 16l3 3l-3 3"/></symbol>
+    <symbol id="i-bolt-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M15.212 15.21l-4.212 5.79v-7h-6l3.79 -5.21m1.685 -2.32l2.525 -3.47v6m1 1h5l-2.104 2.893"/></symbol>
+    <!-- Propios de Aguante -->
+    <symbol id="i-nocruzar" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="9" r="3.5"/><path d="M24 13v11M18 18h12M24 24l-5 6M24 24l5 6"/><path d="M6 34c3-2.5 6-2.5 9 0s6 2.5 9 0 6-2.5 9 0 6 2.5 9 0"/><path d="M6 41c3-2.5 6-2.5 9 0s6 2.5 9 0 6-2.5 9 0 6 2.5 9 0"/><circle cx="24" cy="24" r="21.5" stroke="#FF5A4F"/><path d="M9 9l30 30" stroke="#FF5A4F"/></symbol>
+    <symbol id="i-ventana" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="24" height="30" rx="2"/><path d="M18 6v30M6 21h24"/><path d="M34 32h10M40 28l4 4-4 4"/><path d="M14 12l-3 5 4 1-3 5" stroke-width="2.5"/></symbol>
+    <symbol id="i-hervir" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M10 22h28v14a6 6 0 0 1-6 6H16a6 6 0 0 1-6-6z"/><path d="M5 25h5M38 25h5"/><path d="M18 16c-2-3 2-5 0-8M24 16c-2-3 2-5 0-8M30 16c-2-3 2-5 0-8"/></symbol>
+    <symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12H3l9-9 9 9h-2"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></symbol>
+    <symbol id="i-after" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75M21 21v-2a4 4 0 0 0-3-3.85"/></symbol>
+    <symbol id="i-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l-1 6h-4z"/><path d="M10 9v11a2 2 0 0 0 4 0V9"/><path d="M4 5l2 1M20 5l-2 1M12 1v0"/></symbol>
+    <symbol id="i-whistle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h11l7-3v6l-4 1a6 6 0 1 1-11 3"/><circle cx="9" cy="15" r="2"/></symbol>
+    <symbol id="i-msg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-3.9A8 8 0 1 1 8.4 19z"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3H4a4 4 0 0 0 2-3v-3a7 7 0 0 1 4-6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></symbol>
+  </defs>
+</svg>
+
+<header class="top" id="top">
+  <div class="wrap">
+    <div class="brand-row">
+      <a class="brand" href="#inicio" aria-label="Aguante, ir al inicio"><svg width="32" height="32" aria-hidden="true"><use href="#i-logo-inv"/></svg><span>AGUANTE</span></a>
+      <button class="chip" id="provBtn" type="button" aria-haspopup="dialog"><span id="provLbl">Elegí provincia</span><svg class="ico" style="width:1rem;height:1rem" aria-hidden="true"><use href="#i-down"/></svg></button>
+    </div>
+    <div class="sos-row">
+      <button class="btn-aux" id="callBtn" type="button"><svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>Llamar a emergencias</button>
+      <button class="btn-audio" id="audioBtn" type="button" aria-pressed="false" aria-label="Escuchar esta pantalla"><svg class="ico" aria-hidden="true"><use href="#i-volume"/></svg></button>
+    </div>
+  </div>
+</header>
+<div class="prueba"><div class="wrap"><span>Prototipo de prueba · textos sin validar</span><button type="button" id="commentBtn" hidden>Comentar esta pantalla</button></div></div>
+
+<main id="main"><div class="wrap" id="view" aria-live="polite"></div></main>
+
+<nav class="nav" aria-label="Secciones"><div class="wrap">
+  <a href="#inicio" data-sec="inicio"><svg aria-hidden="true"><use href="#i-home"/></svg>Inicio</a>
+  <a href="#antes" data-sec="antes"><svg aria-hidden="true"><use href="#i-backpack"/></svg>Antes</a>
+  <a href="#despues" data-sec="despues"><svg aria-hidden="true"><use href="#i-after"/></svg>Después</a>
+  <a href="#plan" data-sec="plan"><svg aria-hidden="true"><use href="#i-users"/></svg>Mi plan</a>
+  <a href="#kit" data-sec="kit"><svg aria-hidden="true"><use href="#i-sos"/></svg>Herramientas</a>
+</div></nav>
+
+<div id="layer"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- storage (per viewer, optional) ---------- */
+  function load(k, d) { try { var v = localStorage.getItem('aguante.' + k); return v ? JSON.parse(v) : d; } catch (e) { return d; } }
+  function save(k, v) { try { localStorage.setItem('aguante.' + k, JSON.stringify(v)); } catch (e) {} }
+
+  var state = {
+    prov: load('prov', ''),
+    checks: load('checks', {}),
+    plan: load('plan', { hogar: '', integrantes: [{ nombre: '', datos: '' }], c1n: '', c1t: '', c2n: '', c2t: '', p1: '', p2: '', refugio: '' }),
+    grande: load('grande', false)
+  };
+
+  var PROVINCIAS = ['Buenos Aires', 'CABA', 'Catamarca', 'Chaco', 'Chubut', 'Córdoba', 'Corrientes', 'Entre Ríos', 'Formosa', 'Jujuy', 'La Pampa', 'La Rioja', 'Mendoza', 'Misiones', 'Neuquén', 'Río Negro', 'Salta', 'San Juan', 'San Luis', 'Santa Cruz', 'Santa Fe', 'Santiago del Estero', 'Tierra del Fuego', 'Tucumán'];
+
+  var NUMEROS = [
+    ['911', 'Emergencias y policía', 'La cobertura varía según la provincia'],
+    ['107', 'Emergencias médicas', ''],
+    ['100', 'Bomberos', ''],
+    ['103', 'Defensa Civil', ''],
+    ['106', 'Emergencias náuticas', '']
+  ];
+
+  /* ---------- content: durante ---------- */
+  var D = {
+    'tormenta': { sit: 'Tormenta fuerte', icon: 'storm', title: 'Quedate adentro', text: 'Alejate de ventanas y puertas de vidrio. Desenchufá los aparatos.', opts: [['Hay rayos', 'rayos'], ['Se cayó un cable o un árbol', 'cable'], ['Estoy en la calle o en el auto', 'tormenta-calle'], ['Ya estoy a resguardo', '#inicio']] },
+    'rayos': { sit: 'Tormenta fuerte', icon: 'storm', title: 'Lejos del agua y del metal', text: 'No te bañes ni uses canillas mientras haya rayos. No uses aparatos enchufados.', opts: [['Volver a tormenta', 'tormenta']] },
+    'cable': { sit: 'Tormenta fuerte', icon: 'bolt-off', title: 'No toques cables caídos', text: 'Tratá todo cable como si tuviera corriente. Alejate y no pises charcos cerca.', why: 'Avisá a la empresa de luz o a emergencias.', opts: [['Llamar a emergencias', '!numeros'], ['Volver a tormenta', 'tormenta']] },
+    'tormenta-calle': { sit: 'Tormenta fuerte', icon: 'ventana', title: 'Buscá un lugar cerrado', text: 'Entrá a un edificio. Si vas en auto, frená lejos de árboles y cables y quedate adentro.', opts: [['Volver a tormenta', 'tormenta']] },
+    'agua-casa': { sit: 'Entra agua a la casa', icon: 'flood', title: 'Cortá la luz', text: 'Desde la llave general, solo si estás seco y no estás parado en el agua.', opts: [['El agua sigue subiendo', 'subir'], ['No llego a la llave', 'no-llave'], ['Hay que salir', 'evacuar']] },
+    'subir': { sit: 'Entra agua a la casa', icon: 'stairs', title: 'Subí a lo más alto', text: 'Llevá la mochila, el celular y agua. Quedate ahí y avisá dónde estás.', opts: [['Mandar "estoy bien"', '#kit-mensaje'], ['Llamar a emergencias', '!numeros'], ['Hay que salir', 'evacuar']] },
+    'no-llave': { sit: 'Entra agua a la casa', icon: 'bolt-off', title: 'No toques nada eléctrico', text: 'Alejate de enchufes y aparatos mojados. Subí a lo alto.', opts: [['Subir a lo alto', 'subir']] },
+    'calle': { sit: 'Calle inundada', icon: 'nocruzar', title: 'No cruces el agua', text: 'Ni a pie ni en auto. El agua que corre te puede arrastrar.', opts: [['Quedé adentro del auto', 'auto'], ['Hay alguien en peligro', 'peligro'], ['Buscar un lugar alto', 'subir']] },
+    'auto': { sit: 'Calle inundada', icon: 'nocruzar', title: 'Si el agua sube, dejá el auto', text: 'Si el auto se para o el agua sube, salí y buscá un lugar alto. Solo si podés hacerlo sin cruzar corriente.', opts: [['Llamar a emergencias', '!numeros'], ['Volver', 'calle']] },
+    'peligro': { sit: 'Calle inundada', icon: 'sos', title: 'No entres al agua', text: 'Llamá a emergencias. Desde un lugar seguro, tirale algo que flote o una soga.', opts: [['Llamar a emergencias', '!numeros'], ['Volver', 'calle']] },
+    'evacuar': { sit: 'Hay que evacuar', icon: 'home-move', title: 'Seguí la orden de evacuar', text: 'Salí con tiempo y por el camino que indiquen las autoridades.', list: 'salida', opts: [['Mandar "estoy bien"', '#kit-mensaje'], ['Ver mi punto de encuentro', '#plan-tarjeta']] },
+    'sin-luz': { sit: 'Se cortó la luz', icon: 'power', title: 'Desenchufá los aparatos', text: 'Usá linterna, no velas. Abrí la heladera lo menos posible.', opts: [['Necesito luz ahora', '!linterna'], ['Ahorrar batería', '#kit-bateria'], ['Hay alguien electrodependiente', 'electro']] },
+    'electro': { sit: 'Se cortó la luz', icon: 'power', title: 'Activá su plan de respaldo', text: 'Usá el equipo alternativo que tengan previsto. Si hay riesgo, llamá a emergencias.', opts: [['Llamar a emergencias', '!numeros'], ['Volver', 'sin-luz']] },
+    'sin-agua': { sit: 'Se cortó el agua', icon: 'water', title: 'Cuidá la reserva', text: 'Primero para tomar, después para cocinar. Para limpiar, usá agua no potable.', opts: [['Cómo hacer agua segura', '#despues-agua']] },
+    'herido': { sit: 'Alguien herido', icon: 'first-aid', title: 'Llamá a emergencias', text: 'Decí qué pasó, dónde están y cuántas personas hay.', opts: [['Ver los números', '!numeros'], ['Sangra mucho', 'sangrado'], ['Tiene frío y tiembla', 'frio'], ['Recibió una descarga', 'descarga']] },
+    'sangrado': { sit: 'Alguien herido', icon: 'first-aid', title: 'Apretá la herida', text: 'Con un trapo limpio, presión firme y sin soltar hasta que llegue ayuda.', opts: [['Llamar a emergencias', '!numeros'], ['Volver', 'herido']] },
+    'frio': { sit: 'Alguien herido', icon: 'first-aid', title: 'Secalo y abrigalo', text: 'Sacale la ropa mojada y abrigalo. Si está consciente, dale una bebida tibia.', opts: [['Llamar a emergencias', '!numeros'], ['Volver', 'herido']] },
+    'descarga': { sit: 'Alguien herido', icon: 'bolt-off', title: 'No lo toques todavía', text: 'Si sigue en contacto con la corriente, cortá la luz primero. Después llamá a emergencias.', opts: [['Llamar a emergencias', '!numeros'], ['Volver', 'herido']] }
+  };
+
+  var HUB = [
+    ['tormenta', 'Tormenta fuerte', 'storm'], ['agua-casa', 'Entra agua a la casa', 'flood'],
+    ['calle', 'Calle inundada', 'nocruzar'], ['evacuar', 'Hay que evacuar', 'home-move'],
+    ['sin-luz', 'Se cortó la luz', 'power'], ['sin-agua', 'Se cortó el agua', 'water'],
+    ['herido', 'Alguien herido', 'first-aid']
+  ];
+
+  /* ---------- content: checklists ---------- */
+  var L = {
+    mochila: { t: 'Mochila de emergencia', items: ['Agua para tres días', 'Comida que no necesite heladera', 'Linterna y pilas', 'Radio a pilas', 'Cargador portátil cargado', 'Botiquín', 'Remedios de uso diario', 'Documentos en bolsa hermética', 'Efectivo', 'Abrigo y muda de ropa', 'Silbato', 'Copia de llaves', 'Barbijo y guantes', 'Artículos de higiene', 'Lo que necesiten bebés, mayores o mascotas'] },
+    casa: { t: 'Preparar la casa', items: ['Limpiar desagües, canaletas y rejillas', 'Subir objetos de valor y documentos', 'Saber dónde está la llave de la luz', 'Saber cómo cortar el gas', 'Saber cómo cortar el agua', 'Asegurar macetas y objetos sueltos'] },
+    corte: { t: 'Corte largo de luz o agua', items: ['Reserva de agua para tomar', 'Comida que no necesite cocción', 'Cargar celulares cuando se anuncia la alerta', 'Linterna siempre en el mismo lugar', 'Plan para personas electrodependientes', 'Saber abrir puertas y portones sin luz'] },
+    salida: { t: 'Antes de salir', items: ['Llevá la mochila', 'Cortá luz y gas si es seguro', 'Cerrá la casa', 'Avisá a tu contacto', 'Andá al punto de encuentro'] },
+    entrar: { t: 'Antes de volver a entrar', items: ['Esperá el aviso de las autoridades', 'Fijate si hay olor a gas', 'Revisá daños en paredes y techo', 'No prendas la luz hasta revisar la instalación', 'Sacá fotos de los daños antes de limpiar'] },
+    agua: { t: 'Agua segura', items: ['Usá agua envasada mientras tengas', 'Herví el agua si no sabés si es segura', 'Si usás lavandina, seguí la dosis oficial', 'Limpiá tanques y cisternas'] },
+    comida: { t: 'Alimentos', items: ['Tirá lo que tocó agua de inundación', 'Tirá lo que estuvo mucho tiempo sin frío', 'Lavá las latas sanas antes de abrirlas'] },
+    salud: { t: 'Salud', items: ['Consultá si tenés fiebre después de tocar agua de inundación', 'Limpiá y cubrí cualquier herida', 'Vaciá recipientes con agua estancada', 'Pedí ayuda si te cuesta dormir o estás muy angustiado'] },
+    limpieza: { t: 'Limpieza', items: ['Usá guantes y botas', 'Ventilá la casa', 'Desinfectá pisos, muebles y juguetes', 'Lavá la ropa con agua caliente si podés'] }
+  };
+
+  /* ---------- helpers ---------- */
+  var view = document.getElementById('view');
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function ico(id, cls) { return '<svg class="' + (cls || 'ico') + '" aria-hidden="true"><use href="#i-' + id + '"/></svg>'; }
+  function done(k) { var c = state.checks[k] || {}; return L[k].items.filter(function (_, i) { return c[i]; }).length; }
+  function meter(n, t) { return '<div class="meter" role="img" aria-label="' + n + ' de ' + t + '"><i style="width:' + Math.round(n / t * 100) + '%"></i></div>'; }
+  function back(href, txt) { return '<a class="back" href="' + href + '">' + ico('back') + esc(txt) + '</a>'; }
+  function checklist(k) {
+    var c = state.checks[k] || {};
+    return '<div class="stack" data-list="' + k + '">' + L[k].items.map(function (t, i) {
+      var id = 'c-' + k + '-' + i;
+      return '<label class="check" for="' + id + '"><input type="checkbox" id="' + id + '" data-k="' + k + '" data-i="' + i + '"' + (c[i] ? ' checked' : '') + '><span>' + esc(t) + '</span></label>';
+    }).join('') + '</div>';
+  }
+  function rowLink(href, icon, title, sub, extra) {
+    return '<a class="row" href="' + href + '"><span class="ico-box">' + ico(icon) + '</span><span class="txt"><b>' + esc(title) + '</b>' + (sub ? '<small>' + esc(sub) + '</small>' : '') + (extra || '') + '</span>' + ico('chev', 'chev') + '</a>';
+  }
+
+  /* ---------- views ---------- */
+  var V = {};
+
+  V.inicio = function () {
+    var provCard = state.prov ? '' :
+      '<div class="card"><b>Elegí tu provincia</b><p class="muted">Así te mostramos los números y las alertas de tu zona.</p><label class="f" for="provSel">Provincia<select id="provSel"><option value="">Elegir…</option>' + PROVINCIAS.map(function (p) { return '<option>' + esc(p) + '</option>'; }).join('') + '</select></label></div>';
+    var plan = planProgress();
+    return provCard +
+      '<div class="stack"><p class="eyebrow">Durante la emergencia</p><h1 class="h-xl" data-speak>¿Qué está pasando?</h1></div>' +
+      '<div class="grid2">' + HUB.map(function (h) { return '<a class="tile" href="#d-' + h[0] + '">' + ico(h[2]) + '<b>' + esc(h[1]) + '</b></a>'; }).join('') +
+      '<button class="tile ayuda" type="button" data-act="numeros" style="border:0;text-align:left;cursor:pointer;font:inherit">' + ico('phone') + '<b>Necesito ayuda ya</b></button></div>' +
+      '<div class="stack"><p class="eyebrow">Preparate hoy</p>' +
+      rowLink('#antes-mochila', 'backpack', 'Mochila de emergencia', done('mochila') + ' de ' + L.mochila.items.length + ' listos', meter(done('mochila'), L.mochila.items.length)) +
+      rowLink('#plan', 'users', 'Mi plan familiar', plan.n + ' de ' + plan.t + ' datos cargados', meter(plan.n, plan.t)) +
+      rowLink('#antes-alertas', 'bell', 'Qué significa cada alerta', 'Amarilla, naranja y roja') +
+      rowLink('#despues', 'after', 'Después de la emergencia', 'Volver a casa, agua segura, salud') + '</div>';
+  };
+
+  V.durante = function (id) {
+    var s = D[id]; if (!s) return V.inicio();
+    var opts = (s.opts || []).map(function (o, i) {
+      var to = o[1], cls = to === '!numeros' ? 'call' : (i === 0 ? 'primary' : 'ghost');
+      if (to.charAt(0) === '!') return '<button type="button" class="opt ' + cls + '" data-act="' + to.slice(1) + '">' + esc(o[0]) + ico('chev') + '</button>';
+      var href = to.charAt(0) === '#' ? to : '#d-' + to;
+      return '<a class="opt ' + cls + '" href="' + href + '">' + esc(o[0]) + ico('chev') + '</a>';
+    }).join('');
+    return '<div class="step">' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><p class="eyebrow">' + esc(s.sit) + '</p><span class="tag-prueba">Texto de prueba</span></div>' +
+      '<svg class="picto" role="img" aria-label="' + esc(s.title) + '"><use href="#i-' + s.icon + '"/></svg>' +
+      '<h1 data-speak>' + esc(s.title) + '</h1>' +
+      '<p class="lead" data-speak>' + esc(s.text) + '</p>' +
+      (s.why ? '<p class="why" data-speak>' + esc(s.why) + '</p>' : '') +
+      (s.list ? checklist(s.list) : '') +
+      '<div class="stack">' + opts + '</div>' +
+      '<a class="back" href="#inicio" style="color:var(--night-ink)">' + ico('back') + 'Volver al inicio</a></div>';
+  };
+
+  V.antes = function () {
+    var total = 0, hechos = 0;
+    ['mochila', 'casa', 'corte'].forEach(function (k) { total += L[k].items.length; hechos += done(k); });
+    return '<div class="band"><p class="eyebrow" style="color:#fff">Antes</p><h1 class="h-l" data-speak>Prepararte cuando está todo tranquilo</h1><p>' + hechos + ' de ' + total + ' tareas listas</p>' + meter(hechos, total) + '</div>' +
+      '<div class="stack">' +
+      rowLink('#antes-alertas', 'bell', 'Entender las alertas', 'Qué hacer en cada nivel') +
+      rowLink('#antes-mochila', 'backpack', L.mochila.t, done('mochila') + ' de ' + L.mochila.items.length + ' listos') +
+      rowLink('#antes-casa', 'home', L.casa.t, done('casa') + ' de ' + L.casa.items.length + ' listos') +
+      rowLink('#antes-corte', 'power', L.corte.t, done('corte') + ' de ' + L.corte.items.length + ' listos') +
+      rowLink('#plan', 'users', 'Hacer el plan familiar', 'Contactos y puntos de encuentro') + '</div>';
+  };
+
+  function listView(k, backHref, backTxt, intro) {
+    var n = done(k), t = L[k].items.length;
+    return back(backHref, backTxt) + '<div class="stack"><h1 class="h-l" data-speak>' + esc(L[k].t) + '</h1>' + (intro ? '<p class="lead" data-speak>' + esc(intro) + '</p>' : '') +
+      '<p class="muted" id="cnt-' + k + '">' + n + ' de ' + t + ' listos</p>' + meter(n, t) + '</div>' + checklist(k) +
+      '<p class="muted" style="font-size:.88rem">Se guarda solo en este dispositivo.</p>';
+  }
+  V['antes-mochila'] = function () { return listView('mochila', '#antes', 'Antes', 'Tenela armada y en un lugar fácil de agarrar.'); };
+  V['antes-casa'] = function () { return listView('casa', '#antes', 'Antes', 'Hacelo antes de que empiece la temporada de tormentas.'); };
+  V['antes-corte'] = function () { return listView('corte', '#antes', 'Antes', 'Para aguantar varios días sin luz o sin agua.'); };
+
+  V['antes-alertas'] = function () {
+    function lvl(color, name, txt) { return '<div class="lvl" style="background:var(--card)"><span class="dot" style="background:' + color + '"></span><div class="stack" style="gap:4px"><b>' + name + '</b><p data-speak>' + txt + '</p></div></div>'; }
+    return back('#antes', 'Antes') + '<div class="stack"><h1 class="h-l" data-speak>Qué significa cada alerta</h1><p class="lead" data-speak>El Servicio Meteorológico Nacional usa tres niveles de color.</p></div>' +
+      lvl('#FFC72C', 'Amarilla', 'Puede haber fenómenos peligrosos. Informate y revisá tu mochila.') +
+      lvl('#F28C28', 'Naranja', 'Se esperan fenómenos peligrosos. Prepará la casa y tené tu plan a mano.') +
+      lvl('#C8202A', 'Roja', 'Fenómenos excepcionalmente peligrosos. Seguí las indicaciones de las autoridades.') +
+      '<p class="muted">Texto de prueba: falta validar las definiciones con el SMN.</p>' +
+      '<a class="btn" href="https://www.smn.gob.ar/" target="_blank" rel="noopener">Ver alertas vigentes en el SMN</a>';
+  };
+
+  V.despues = function () {
+    return '<div class="band"><p class="eyebrow" style="color:#fff">Después</p><h1 class="h-l" data-speak>Volver y recuperarse</h1><p data-speak>El peligro no termina cuando baja el agua.</p></div><div class="stack">' +
+      rowLink('#despues-entrar', 'home', L.entrar.t, done('entrar') + ' de ' + L.entrar.items.length) +
+      rowLink('#despues-agua', 'hervir', L.agua.t, done('agua') + ' de ' + L.agua.items.length) +
+      rowLink('#despues-comida', 'checklist', L.comida.t, done('comida') + ' de ' + L.comida.items.length) +
+      rowLink('#despues-salud', 'first-aid', L.salud.t, done('salud') + ' de ' + L.salud.items.length) +
+      rowLink('#despues-limpieza', 'shelter', L.limpieza.t, done('limpieza') + ' de ' + L.limpieza.items.length) + '</div>';
+  };
+  ['entrar', 'agua', 'comida', 'salud', 'limpieza'].forEach(function (k) { V['despues-' + k] = function () { return listView(k, '#despues', 'Después'); }; });
+
+  /* plan */
+  function planProgress() {
+    var p = state.plan, f = ['hogar', 'c1n', 'c1t', 'c2n', 'c2t', 'p1', 'p2', 'refugio'];
+    var n = f.filter(function (k) { return p[k] && String(p[k]).trim(); }).length + (p.integrantes.some(function (x) { return x.nombre.trim(); }) ? 1 : 0);
+    return { n: n, t: f.length + 1 };
+  }
+  function inp(id, label, val, ph, type) { return '<label class="f" for="pl-' + id + '">' + label + '<input id="pl-' + id + '" data-pl="' + id + '" type="' + (type || 'text') + '" value="' + esc(val) + '" placeholder="' + esc(ph) + '"></label>'; }
+  V.plan = function () {
+    var p = state.plan, pr = planProgress();
+    var personas = p.integrantes.map(function (x, i) {
+      return '<div class="card" style="gap:8px"><div class="persona"><label class="f" for="pi-n-' + i + '">Nombre y edad<input id="pi-n-' + i + '" data-pi="' + i + '" data-f="nombre" value="' + esc(x.nombre) + '" placeholder="Ej.: Ana, 34"></label>' +
+        (p.integrantes.length > 1 ? '<button type="button" class="x" data-del="' + i + '" aria-label="Quitar integrante">' + ico('x') + '</button>' : '<span></span>') + '</div>' +
+        '<label class="f" for="pi-d-' + i + '">Salud y necesidades<input id="pi-d-' + i + '" data-pi="' + i + '" data-f="datos" value="' + esc(x.datos) + '" placeholder="Grupo sanguíneo, remedios, alergias"></label></div>';
+    }).join('');
+    return '<div class="stack"><p class="eyebrow">Mi plan familiar</p><h1 class="h-l" data-speak>Qué hace tu familia si pasa algo</h1><p class="muted" id="planCnt">' + pr.n + ' de ' + pr.t + ' datos cargados</p>' + meter(pr.n, pr.t) + '</div>' +
+      '<a class="btn senal" href="#plan-tarjeta">' + ico('checklist') + 'Ver mi tarjeta</a>' +
+      '<section class="stack"><h2 class="h-m">1 · Mi hogar</h2>' + inp('hogar', 'Dirección y piso', p.hogar, 'Calle, número, piso') + '</section>' +
+      '<section class="stack"><h2 class="h-m">2 · Integrantes</h2>' + personas + '<button type="button" class="btn" id="addPersona">Agregar integrante</button></section>' +
+      '<section class="stack"><h2 class="h-m">3 · Contactos</h2><p class="muted">Uno cerca y uno en otra ciudad, que reciba los "estoy bien".</p><div class="two">' + inp('c1n', 'Contacto cercano', p.c1n, 'Nombre') + inp('c1t', 'Teléfono', p.c1t, '11 5555-5555', 'tel') + '</div><div class="two">' + inp('c2n', 'Contacto en otra ciudad', p.c2n, 'Nombre') + inp('c2t', 'Teléfono', p.c2t, '351 555-5555', 'tel') + '</div></section>' +
+      '<section class="stack"><h2 class="h-m">4 · Puntos de encuentro</h2>' + inp('p1', 'Cerca de casa', p.p1, 'Ej.: la esquina de la plaza') + inp('p2', 'Fuera del barrio', p.p2, 'Ej.: casa de la abuela') + inp('refugio', 'Lugar alto o centro de evacuación', p.refugio, 'Ej.: escuela N.º 12') + '</section>' +
+      '<p class="muted" style="font-size:.88rem">Todo queda guardado solo en este dispositivo. No se envía a ningún servidor.</p>';
+  };
+  V['plan-tarjeta'] = function () {
+    var p = state.plan;
+    function dd(v) { return v && String(v).trim() ? esc(v) : '<span class="vacio">Sin cargar</span>'; }
+    var gente = p.integrantes.filter(function (x) { return x.nombre.trim(); }).map(function (x) { return '<dd>' + esc(x.nombre) + (x.datos ? '<br><span style="font-weight:400">' + esc(x.datos) + '</span>' : '') + '</dd>'; }).join('') || '<dd><span class="vacio">Sin cargar</span></dd>';
+    return back('#plan', 'Mi plan') + '<h1 class="h-l">Mi tarjeta</h1>' +
+      '<div class="tarjeta" id="tarjeta"><div class="t-head"><svg width="34" height="34" aria-hidden="true"><use href="#i-logo-inv"/></svg><b>AGUANTE · PLAN FAMILIAR</b></div><div class="t-body"><dl>' +
+      '<div><dt>Hogar</dt><dd>' + dd(p.hogar) + '</dd></div><div><dt>Integrantes</dt>' + gente + '</div>' +
+      '<div><dt>Contacto cercano</dt><dd>' + dd(p.c1n) + ' · ' + dd(p.c1t) + '</dd></div>' +
+      '<div><dt>Contacto en otra ciudad</dt><dd>' + dd(p.c2n) + ' · ' + dd(p.c2t) + '</dd></div>' +
+      '<div><dt>Punto de encuentro cercano</dt><dd>' + dd(p.p1) + '</dd></div><div><dt>Punto fuera del barrio</dt><dd>' + dd(p.p2) + '</dd></div>' +
+      '<div><dt>Lugar alto o centro de evacuación</dt><dd>' + dd(p.refugio) + '</dd></div>' +
+      '<div><dt>Emergencias</dt><dd>911 · 107 · 100 · 103</dd></div></dl></div></div>' +
+      '<p class="muted">En la app instalada vas a poder guardarla como imagen o imprimirla. En este prototipo, hacé una captura de pantalla.</p>';
+  };
+
+  /* kit */
+  V.kit = function () {
+    function tool(act, icon, t, s, href) {
+      return href ? '<a class="tool" href="' + href + '">' + ico(icon) + '<span class="stack" style="gap:2px"><b>' + t + '</b><small>' + s + '</small></span></a>'
+        : '<button type="button" class="tool" data-act="' + act + '" aria-pressed="false">' + ico(icon) + '<span class="stack" style="gap:2px"><b>' + t + '</b><small>' + s + '</small></span></button>';
+    }
+    return '<div class="stack"><p class="eyebrow">Herramientas</p><h1 class="h-l" data-speak>Todo funciona sin señal</h1></div><div class="grid2">' +
+      tool('numeros', 'phone', 'Llamar', 'Números de emergencia') +
+      tool('linterna', 'light', 'Linterna', 'Pantalla en blanco') +
+      tool('sos', 'sos', 'Señal SOS', 'Luz y sonido en morse') +
+      tool('silbato', 'whistle', 'Silbato', 'Sonido fuerte para que te encuentren') +
+      tool('', 'msg', 'Estoy bien', 'Mensaje listo para mandar', '#kit-mensaje') +
+      tool('', 'compass', 'Brújula', 'Orientarte sin mapa', '#kit-brujula') +
+      tool('', 'battery', 'Batería', 'Estirar la carga', '#kit-bateria') +
+      tool('', 'bell', 'Alertas SMN', 'Cuando hay señal', '#antes-alertas') + '</div>' +
+      '<div class="card"><b>Texto más grande</b><label class="check" for="sizeTgl" style="border:0;padding:0;min-height:44px"><input type="checkbox" id="sizeTgl"' + (state.grande ? ' checked' : '') + '><span style="text-decoration:none;color:inherit">Agrandar las letras de toda la app</span></label></div>' +
+      '<a class="back" href="#creditos">Créditos y licencias</a>';
+  };
+
+  V['kit-mensaje'] = function () {
+    return back('#kit', 'Herramientas') + '<div class="stack"><h1 class="h-l" data-speak>Avisá que estás bien</h1><p class="lead">Armá el mensaje y mandalo por WhatsApp o SMS.</p></div>' +
+      '<div class="stack"><label class="f" for="m-estado">Cómo estás<select id="m-estado"><option>Estoy bien</option><option>Estoy bien pero necesito ayuda</option><option>Necesito ayuda urgente</option></select></label>' +
+      '<label class="f" for="m-donde">Dónde estás<input id="m-donde" placeholder="Ej.: en lo de Marta, Calle 9 y 44" value="' + esc(state.plan.p1 || '') + '"></label>' +
+      '<label class="f" for="m-quien">Con quién<input id="m-quien" placeholder="Ej.: con los chicos"></label></div>' +
+      '<pre class="msg" id="msgOut"></pre><div class="btns"><button type="button" class="btn fill" id="copyMsg">Copiar mensaje</button><a class="btn" id="waMsg" href="#" target="_blank" rel="noopener">Abrir en WhatsApp</a></div>' +
+      '<p class="muted" style="font-size:.88rem">En la app instalada se agregará tu ubicación GPS, que funciona sin datos.</p>';
+  };
+
+  V['kit-brujula'] = function () {
+    return back('#kit', 'Herramientas') + '<h1 class="h-l" data-speak>Brújula</h1><div class="compass"><span class="n-lbl">N</span><div class="needle" id="needle"></div></div><p class="lead" id="cmpTxt" style="text-align:center">Tocá "Activar" para usar el sensor del celular.</p><button type="button" class="btn fill" id="cmpOn">Activar brújula</button>';
+  };
+
+  V['kit-bateria'] = function () {
+    return back('#kit', 'Herramientas') + '<div class="stack"><h1 class="h-l" data-speak>Estirá la batería</h1><p class="lead" id="batTxt">Consultando la batería…</p></div><div class="stack">' +
+      ['Bajá el brillo al mínimo que puedas leer', 'Activá el modo ahorro de energía', 'Apagá wifi, bluetooth y datos si no los usás', 'Cerrá las apps que no necesitás', 'Usá mensajes de texto en lugar de llamadas largas', 'Cargá en el auto o con cargador portátil cuando puedas'].map(function (t, i) { return '<div class="row" style="min-height:56px"><span class="pill">' + (i + 1) + '</span><span class="txt" data-speak>' + t + '</span></div>'; }).join('') + '</div>';
+  };
+
+  V.creditos = function () {
+    return back('#kit', 'Herramientas') + '<h1 class="h-l">Créditos y licencias</h1>' +
+      '<div class="card"><b>OCHA Humanitarian Icons</b><p>Íconos de emergencia de la Oficina de Coordinación de Asuntos Humanitarios de la ONU. Dominio público (CC0).</p></div>' +
+      '<div class="card"><b>Tabler Icons</b><p>Íconos de interfaz. Licencia MIT.</p><pre class="msg" style="font-size:.78rem">MIT License\n\nCopyright (c) 2020-2026 Paweł Kuna\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</pre></div>' +
+      '<div class="card"><b>Tipografías</b><p>Barlow Condensed y Atkinson Hyperlegible, de Google Fonts, con licencia SIL Open Font License.</p></div>' +
+      '<div class="card"><b>Contenido</b><p>Los textos de este prototipo son de prueba. Antes de publicar se validan con fuentes oficiales y con especialistas.</p></div>';
+  };
+
+  /* ---------- router ---------- */
+  function current() { var h = (location.hash || '').replace('#', ''); return h || 'inicio'; }
+  function render() {
+    stopAll();
+    var h = current(), html, noche = false, sec = h.split('-')[0];
+    if (h.indexOf('d-') === 0) { html = V.durante(h.slice(2)); noche = true; sec = 'inicio'; }
+    else html = (V[h] || V.inicio)();
+    document.body.classList.toggle('noche', noche);
+    view.innerHTML = html;
+    document.querySelectorAll('.nav a').forEach(function (a) { if (a.dataset.sec === sec) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+    window.scrollTo(0, 0);
+    after(h);
+  }
+  window.addEventListener('hashchange', render);
+
+  function after(h) {
+    if (h === 'kit-mensaje') { ['m-estado', 'm-donde', 'm-quien'].forEach(function (id) { document.getElementById(id).addEventListener('input', buildMsg); }); buildMsg(); }
+    if (h === 'kit-bateria') battery();
+  }
+
+  /* ---------- events ---------- */
+  view.addEventListener('change', function (e) {
+    var t = e.target;
+    if (t.dataset.k) {
+      var k = t.dataset.k; state.checks[k] = state.checks[k] || {}; state.checks[k][t.dataset.i] = t.checked; save('checks', state.checks);
+      var c = document.getElementById('cnt-' + k);
+      if (c) { var n = done(k), tot = L[k].items.length; c.textContent = n + ' de ' + tot + ' listos'; var m = c.nextElementSibling; if (m) { m.setAttribute('aria-label', n + ' de ' + tot); m.firstChild.style.width = Math.round(n / tot * 100) + '%'; } }
+    }
+    if (t.id === 'provSel' && t.value) { setProv(t.value); render(); }
+    if (t.id === 'sizeTgl') { state.grande = t.checked; save('grande', state.grande); applySize(); }
+  });
+  view.addEventListener('input', function (e) {
+    var t = e.target;
+    if (t.dataset.pl) { state.plan[t.dataset.pl] = t.value; save('plan', state.plan); updPlanCnt(); }
+    if (t.dataset.pi) { state.plan.integrantes[+t.dataset.pi][t.dataset.f] = t.value; save('plan', state.plan); updPlanCnt(); }
+  });
+  function updPlanCnt() { var c = document.getElementById('planCnt'); if (!c) return; var p = planProgress(); c.textContent = p.n + ' de ' + p.t + ' datos cargados'; var m = c.nextElementSibling; if (m) m.firstChild.style.width = Math.round(p.n / p.t * 100) + '%'; }
+  view.addEventListener('click', function (e) {
+    var a = e.target.closest('[data-act]'); if (a) { act(a.dataset.act, a); return; }
+    if (e.target.closest('#addPersona')) { state.plan.integrantes.push({ nombre: '', datos: '' }); save('plan', state.plan); render(); var last = document.getElementById('pi-n-' + (state.plan.integrantes.length - 1)); if (last) last.focus(); return; }
+    var d = e.target.closest('[data-del]'); if (d) { state.plan.integrantes.splice(+d.dataset.del, 1); save('plan', state.plan); render(); return; }
+    if (e.target.closest('#copyMsg')) { copy(document.getElementById('msgOut').textContent); return; }
+    if (e.target.closest('#cmpOn')) { compass(); return; }
+  });
+  document.getElementById('callBtn').addEventListener('click', function () { act('numeros'); });
+  document.getElementById('provBtn').addEventListener('click', provSheet);
+
+  function act(name, el) {
+    if (name === 'numeros') return numbersSheet();
+    if (name === 'linterna') return linterna();
+    if (name === 'sos') return sosMode();
+    if (name === 'silbato') return silbato(el);
+  }
+
+  /* ---------- province ---------- */
+  function setProv(p) { state.prov = p; save('prov', p); document.getElementById('provLbl').textContent = p || 'Elegí provincia'; }
+  setProv(state.prov);
+  function provSheet() {
+    openSheet('<div class="sheet-head"><h2 class="h-m">Tu provincia</h2><button type="button" class="icon-btn" data-close aria-label="Cerrar">' + ico('x') + '</button></div>' +
+      '<label class="f" for="provSel2">Provincia<select id="provSel2">' + PROVINCIAS.map(function (p) { return '<option' + (p === state.prov ? ' selected' : '') + '>' + esc(p) + '</option>'; }).join('') + '</select></label>' +
+      '<button type="button" class="btn fill" id="provOk">Guardar</button>');
+    document.getElementById('provOk').addEventListener('click', function () { setProv(document.getElementById('provSel2').value); closeLayer(); render(); toast('Provincia guardada'); });
+  }
+
+  /* ---------- sheets & overlays ---------- */
+  var layer = document.getElementById('layer'), lastFocus = null;
+  function openSheet(inner) {
+    lastFocus = document.activeElement;
+    layer.innerHTML = '<div class="sheet-bg" data-close-bg><div class="sheet" role="dialog" aria-modal="true">' + inner + '</div></div>';
+    var f = layer.querySelector('button, a, select, input'); if (f) f.focus();
+  }
+  function closeLayer() { stopAll(); layer.innerHTML = ''; if (lastFocus && lastFocus.focus) lastFocus.focus(); }
+  layer.addEventListener('click', function (e) {
+    if (e.target.closest('[data-close]') || e.target.hasAttribute('data-close-bg')) { closeLayer(); return; }
+    var c = e.target.closest('[data-copy]'); if (c) copy(c.dataset.copy);
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && layer.innerHTML) closeLayer(); });
+
+  function numbersSheet() {
+    openSheet('<div class="sheet-head"><h2 class="h-m">Números de emergencia</h2><button type="button" class="icon-btn" data-close aria-label="Cerrar">' + ico('x') + '</button></div>' +
+      '<p class="muted">' + (state.prov ? 'Para ' + esc(state.prov) + '. ' : '') + 'Llamar no necesita datos móviles.</p>' +
+      NUMEROS.map(function (n) {
+        return '<div class="num"><span class="n">' + n[0] + '</span><span class="txt"><b>' + esc(n[1]) + '</b>' + (n[2] ? '<br><small class="muted">' + esc(n[2]) + '</small>' : '') + '</span><span class="acts"><a href="tel:' + n[0] + '">Llamar</a><button type="button" data-copy="' + n[0] + '" aria-label="Copiar ' + n[0] + '">Copiar</button></span></div>';
+      }).join('') +
+      '<p class="muted" style="font-size:.85rem">Números nacionales de referencia. Falta verificarlos provincia por provincia.</p>');
+  }
+
+  var wake = null;
+  function keepAwake() { try { if (navigator.wakeLock) navigator.wakeLock.request('screen').then(function (w) { wake = w; }).catch(function () {}); } catch (e) {} }
+  function linterna() {
+    lastFocus = document.activeElement;
+    layer.innerHTML = '<div class="overlay luz" role="dialog" aria-modal="true" aria-label="Linterna"><p>Subí el brillo del celular al máximo.</p><button type="button" class="close" data-close>Apagar linterna</button></div>';
+    layer.querySelector('.close').focus(); keepAwake();
+  }
+
+  /* audio */
+  var ac = null, timers = [], osc = null, gain = null;
+  function audio() { try { ac = ac || new (window.AudioContext || window.webkitAudioContext)(); if (ac.state === 'suspended') ac.resume(); return ac; } catch (e) { return null; } }
+  function tone(on, freq) {
+    var a = audio(); if (!a) return;
+    if (!osc) { osc = a.createOscillator(); gain = a.createGain(); osc.type = 'square'; osc.frequency.value = freq || 3150; gain.gain.value = 0; osc.connect(gain); gain.connect(a.destination); osc.start(); }
+    gain.gain.setTargetAtTime(on ? .35 : 0, a.currentTime, .005);
+  }
+  function stopAll() {
+    timers.forEach(clearTimeout); timers = [];
+    if (osc) { try { osc.stop(); } catch (e) {} osc = null; gain = null; }
+    document.querySelectorAll('.tool[aria-pressed="true"]').forEach(function (b) { b.setAttribute('aria-pressed', 'false'); });
+    try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) {}
+    var ab = document.getElementById('audioBtn'); if (ab) ab.setAttribute('aria-pressed', 'false');
+    if (wake) { try { wake.release(); } catch (e) {} wake = null; }
+    if (cmpHandler) { window.removeEventListener('deviceorientationabsolute', cmpHandler); window.removeEventListener('deviceorientation', cmpHandler); cmpHandler = null; }
+  }
+  function silbato(btn) {
+    if (btn && btn.getAttribute('aria-pressed') === 'true') { stopAll(); return; }
+    stopAll(); if (!audio()) { toast('El sonido no está disponible en este navegador.'); return; }
+    if (btn) btn.setAttribute('aria-pressed', 'true');
+    // three long blasts, pause, repeat: the usual distress pattern
+    (function loop() {
+      var seq = [[1, 900], [0, 300], [1, 900], [0, 300], [1, 900], [0, 1600]], t = 0;
+      seq.forEach(function (s) { timers.push(setTimeout(function () { tone(!!s[0]); }, t)); t += s[1]; });
+      timers.push(setTimeout(loop, t));
+    })();
+    toast('Silbato activado. Tocá de nuevo para apagar.');
+  }
+  function sosMode() {
+    lastFocus = document.activeElement;
+    layer.innerHTML = '<div class="overlay sos" role="dialog" aria-modal="true" aria-label="Señal SOS"><p id="sosTxt">Señal SOS en morse: · · · — — — · · ·</p><div class="btns" style="justify-content:center"><button type="button" class="close" id="sosSnd" aria-pressed="false">Sumar sonido</button><button type="button" class="close" data-close>Detener</button></div></div>';
+    var ov = layer.querySelector('.overlay'), snd = false; keepAwake();
+    document.getElementById('sosSnd').addEventListener('click', function (e) { snd = !snd; e.currentTarget.setAttribute('aria-pressed', String(snd)); e.currentTarget.textContent = snd ? 'Quitar sonido' : 'Sumar sonido'; if (!snd) tone(false); });
+    var u = 250, pat = [1, 1, 1, 3, 3, 3, 1, 1, 1];
+    (function loop() {
+      var t = 0;
+      pat.forEach(function (d, i) {
+        timers.push(setTimeout(function () { ov.classList.add('on'); if (snd) tone(true, 1000); }, t)); t += d * u;
+        timers.push(setTimeout(function () { ov.classList.remove('on'); tone(false); }, t)); t += (i === 2 || i === 5) ? 3 * u : u;
+      });
+      timers.push(setTimeout(loop, t + 7 * u));
+    })();
+    layer.querySelector('[data-close]').focus();
+  }
+
+  /* message */
+  function buildMsg() {
+    var est = document.getElementById('m-estado').value, donde = document.getElementById('m-donde').value.trim(), quien = document.getElementById('m-quien').value.trim();
+    var txt = est + '.' + (donde ? '\nEstoy en: ' + donde + '.' : '') + (quien ? '\nEstoy ' + quien + '.' : '') + '\nTe aviso de nuevo cuando pueda.';
+    document.getElementById('msgOut').textContent = txt;
+    document.getElementById('waMsg').href = 'https://wa.me/?text=' + encodeURIComponent(txt);
+  }
+  function copy(txt) {
+    try {
+      navigator.clipboard.writeText(txt).then(function () { toast('Copiado'); }, function () { toast('No se pudo copiar. Mantené apretado el texto para copiarlo.'); });
+    } catch (e) { toast('No se pudo copiar. Mantené apretado el texto para copiarlo.'); }
+  }
+
+  /* compass */
+  var cmpHandler = null;
+  function compass() {
+    var txt = document.getElementById('cmpTxt'), needle = document.getElementById('needle'), got = false;
+    cmpHandler = function (ev) {
+      var h = ev.webkitCompassHeading != null ? ev.webkitCompassHeading : (ev.absolute || ev.type === 'deviceorientationabsolute') && ev.alpha != null ? 360 - ev.alpha : null;
+      if (h == null) return; got = true;
+      needle.style.transform = 'rotate(' + (-h) + 'deg)';
+      txt.textContent = 'Rumbo: ' + Math.round(h) + '°';
+    };
+    function start() { window.addEventListener('deviceorientationabsolute', cmpHandler); window.addEventListener('deviceorientation', cmpHandler); txt.textContent = 'Mové el celular en forma de ocho para calibrar.'; }
+    try {
+      if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === 'function') DeviceOrientationEvent.requestPermission().then(function (r) { if (r === 'granted') start(); else txt.textContent = 'Sin permiso para usar el sensor.'; }, function () { txt.textContent = 'En este prototipo no hay acceso al sensor. Funcionará en la app instalada.'; });
+      else if (window.DeviceOrientationEvent) start();
+      else { txt.textContent = 'Este dispositivo no tiene brújula.'; return; }
+    } catch (e) { txt.textContent = 'En este prototipo no hay acceso al sensor. Funcionará en la app instalada.'; return; }
+    timers.push(setTimeout(function () { if (!got) txt.textContent = 'En este prototipo no hay acceso al sensor. Funcionará en la app instalada.'; }, 3000));
+  }
+
+  /* battery */
+  function battery() {
+    var t = document.getElementById('batTxt');
+    try {
+      if (navigator.getBattery) navigator.getBattery().then(function (b) { t.textContent = 'Tenés ' + Math.round(b.level * 100) + '% de batería' + (b.charging ? ', cargando.' : '.'); }, function () { t.textContent = 'Seguí estos pasos para que dure más.'; });
+      else t.textContent = 'Seguí estos pasos para que dure más.';
+    } catch (e) { t.textContent = 'Seguí estos pasos para que dure más.'; }
+  }
+
+  /* read aloud */
+  document.getElementById('audioBtn').addEventListener('click', function (e) {
+    var b = e.currentTarget;
+    if (!('speechSynthesis' in window)) { toast('La lectura en voz no está disponible en este navegador.'); return; }
+    if (b.getAttribute('aria-pressed') === 'true') { speechSynthesis.cancel(); b.setAttribute('aria-pressed', 'false'); return; }
+    var parts = [].map.call(view.querySelectorAll('[data-speak]'), function (n) { return n.textContent; });
+    if (!parts.length) parts = [view.textContent];
+    var u = new SpeechSynthesisUtterance(parts.join('. '));
+    u.lang = 'es-AR'; u.rate = .95;
+    var v = speechSynthesis.getVoices().filter(function (x) { return /^es/.test(x.lang); });
+    if (v.length) u.voice = v.filter(function (x) { return x.lang === 'es-AR'; })[0] || v[0];
+    u.onend = function () { b.setAttribute('aria-pressed', 'false'); };
+    b.setAttribute('aria-pressed', 'true'); speechSynthesis.cancel(); speechSynthesis.speak(u);
+  });
+
+  /* text size */
+  function applySize() { document.documentElement.classList.toggle('grande', !!state.grande); }
+  applySize();
+
+  /* toast */
+  var tt = null;
+  function toast(msg) { var d = document.querySelector('.toast'); if (!d) { d = document.createElement('div'); d.className = 'toast'; d.setAttribute('role', 'status'); document.body.appendChild(d); } d.textContent = msg; d.hidden = false; clearTimeout(tt); tt = setTimeout(function () { d.hidden = true; }, 2600); }
+
+  /* testers: comment on the current screen */
+  var comments = null;
+  if (window.claude && window.claude.use) {
+    window.claude.use('comments').then(function (c) { comments = c; if (c) document.getElementById('commentBtn').hidden = false; }, function () {});
+  }
+  document.getElementById('commentBtn').addEventListener('click', function () {
+    if (!comments) return;
+    comments.openComposer({ element: view }).catch(function () { toast('No se pudo abrir el comentario. Probá de nuevo en un momento.'); });
+  });
+
+  render();
+})();
+</script>
+
+</body>
+</html>
