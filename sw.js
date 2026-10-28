@@ -1,6 +1,6 @@
 /* Aguante: funciona sin conexión.
    Cambiá VERSION en cada publicación para que los celulares bajen la nueva. */
-const VERSION = 'aguante-v2';
+const VERSION = 'aguante-v3';
 const SHELL = [
   './',
   './index.html',

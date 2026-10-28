@@ -205,6 +205,19 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
 .overlay.aux h2 { font-size: 3rem; text-transform: uppercase; }
 .overlay.aux .code { font-family: var(--f-display); font-weight: 800; font-size: 2rem; letter-spacing: .2em; }
 .overlay.aux p { margin: 0; }
+.mesh-status { display: flex; align-items: center; gap: 12px; }
+.mesh-dot { width: 14px; height: 14px; border-radius: 50%; flex: none; background: var(--muted); }
+.mesh-dot.on { background: #2E9E5B; box-shadow: 0 0 0 4px rgba(46,158,91,.25); }
+.mesh-dot.demo { background: var(--senal); box-shadow: 0 0 0 4px rgba(255,199,44,.3); }
+.quick { min-height: 56px; border-radius: 12px; border: 2px solid var(--line); background: var(--card); font-weight: 700; padding: 8px 12px; cursor: pointer; text-align: left; }
+.feed { display: flex; flex-direction: column; gap: 8px; }
+.msg-item { border-radius: 12px; padding: 10px 14px; background: var(--card); border: 2px solid var(--line); display: flex; flex-direction: column; gap: 4px; max-width: 92%; }
+.msg-item.mio { align-self: flex-end; background: var(--tint); border-color: var(--tint); }
+.msg-item.sos { border-color: var(--auxilio); }
+.msg-item .meta { font-size: .78rem; color: var(--muted); display: flex; gap: 8px; flex-wrap: wrap; }
+.msg-item p { overflow-wrap: anywhere; }
+.compose { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: end; }
+.compose textarea { min-height: 52px; border: 2px solid var(--line); border-radius: 10px; padding: 10px 12px; background: var(--card); width: 100%; resize: vertical; }
 .install { background: var(--senal); color: var(--senal-ink); border-radius: var(--r); padding: 16px; display: flex; flex-direction: column; gap: 10px; }
 .install .btn { border-color: var(--senal-ink); color: var(--senal-ink); align-self: flex-start; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
@@ -315,7 +328,7 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
     'cable': { sit: 'Tormenta fuerte', icon: 'bolt-off', title: 'No toques cables caídos', text: 'Tratá todo cable como si tuviera corriente. Alejate y no pises charcos cerca.', why: 'Avisá a la empresa de luz o a emergencias.', opts: [['Llamar a emergencias', '!numeros'], ['Volver a tormenta', 'tormenta']] },
     'tormenta-calle': { sit: 'Tormenta fuerte', icon: 'ventana', title: 'Buscá un lugar cerrado', text: 'Entrá a un edificio. Si vas en auto, frená lejos de árboles y cables y quedate adentro.', opts: [['Volver a tormenta', 'tormenta']] },
     'agua-casa': { sit: 'Entra agua a la casa', icon: 'flood', title: 'Cortá la luz', text: 'Desde la llave general, solo si estás seco y no estás parado en el agua.', opts: [['El agua sigue subiendo', 'subir'], ['No llego a la llave', 'no-llave'], ['Hay que salir', 'evacuar']] },
-    'subir': { sit: 'Entra agua a la casa', icon: 'stairs', title: 'Subí a lo más alto', text: 'Llevá la mochila, el celular y agua. Quedate ahí y avisá dónde estás.', opts: [['Mandar "estoy bien"', '#kit-mensaje'], ['Hacer señales de auxilio', '#kit-auxilio'], ['Llamar a emergencias', '!numeros'], ['Hay que salir', 'evacuar']] },
+    'subir': { sit: 'Entra agua a la casa', icon: 'stairs', title: 'Subí a lo más alto', text: 'Llevá la mochila, el celular y agua. Quedate ahí y avisá dónde estás.', opts: [['Mandar "estoy bien"', '#kit-mensaje'], ['Hacer señales de auxilio', '#kit-auxilio'], ['Avisar a la red de vecinos', '#red'], ['Llamar a emergencias', '!numeros'], ['Hay que salir', 'evacuar']] },
     'no-llave': { sit: 'Entra agua a la casa', icon: 'bolt-off', title: 'No toques nada eléctrico', text: 'Alejate de enchufes y aparatos mojados. Subí a lo alto.', opts: [['Subir a lo alto', 'subir']] },
     'calle': { sit: 'Calle inundada', icon: 'nocruzar', title: 'No cruces el agua', text: 'Ni a pie ni en auto. El agua que corre te puede arrastrar.', opts: [['Quedé adentro del auto', 'auto'], ['Hay alguien en peligro', 'peligro'], ['Buscar un lugar alto', 'subir']] },
     'auto': { sit: 'Calle inundada', icon: 'nocruzar', title: 'Si el agua sube, dejá el auto', text: 'Si el auto se para o el agua sube, salí y buscá un lugar alto. Solo si podés hacerlo sin cruzar corriente.', opts: [['Llamar a emergencias', '!numeros'], ['Volver', 'calle']] },
@@ -496,9 +509,9 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
       tool('', 'sos', 'Pedir auxilio', 'SOS con sonido y luz', '#kit-auxilio') +
       tool('', 'msg', 'Estoy bien', 'Mensaje listo para mandar', '#kit-mensaje') +
       tool('', 'compass', 'Brújula', 'Orientarte sin mapa', '#kit-brujula') +
-      tool('', 'assembly', 'Sin señal', 'Cómo comunicarte', '#kit-sinsenal') +
+      tool('', 'bell', 'Sin señal', 'Cómo comunicarte', '#kit-sinsenal') +
       tool('', 'battery', 'Batería', 'Estirar la carga', '#kit-bateria') +
-      tool('', 'bell', 'Alertas SMN', 'Cuando hay señal', '#antes-alertas') + '</div>' +
+      tool('', 'assembly', 'Red de vecinos', 'Mensajes por radio, sin red', '#red') + '</div>' +
       '<div class="card"><b>Texto más grande</b><label class="check" for="sizeTgl" style="border:0;padding:0;min-height:44px"><input type="checkbox" id="sizeTgl"' + (state.grande ? ' checked' : '') + '><span style="text-decoration:none;color:inherit">Agrandar las letras de toda la app</span></label></div>' +
       '<a class="back" href="#creditos">Créditos y licencias</a>';
   };
@@ -530,13 +543,88 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
       '</div></div>';
   };
 
+  /* ---------- red de vecinos (Meshtastic) ---------- */
+  var mesh = { mode: 'off', name: '', msgs: [] };
+  var QUICK = ['Estoy bien', 'Necesito agua', 'Necesito un médico', 'Hay lugar en mi casa'];
+  function meshStatus() {
+    if (mesh.mode === 'live') return '<span class="mesh-dot on"></span><span class="txt"><b>Conectado a ' + esc(mesh.name) + '</b><small>Tus mensajes viajan por radio entre nodos</small></span>';
+    if (mesh.mode === 'demo') return '<span class="mesh-dot demo"></span><span class="txt"><b>Modo demostración</b><small>Los vecinos y respuestas son simulados</small></span>';
+    return '<span class="mesh-dot"></span><span class="txt"><b>Sin nodo vinculado</b><small>Necesitás una radio Meshtastic cerca, vinculada por Bluetooth</small></span>';
+  }
+  function feedHtml() {
+    if (!mesh.msgs.length) return '<p class="muted">Todavía no hay mensajes. Los que mandes y recibas aparecen acá.</p>';
+    return mesh.msgs.slice().reverse().map(function (m) {
+      return '<div class="msg-item' + (m.mio ? ' mio' : '') + (m.sos ? ' sos' : '') + '"><span class="meta"><b>' + esc(m.from) + '</b><span>' + esc(m.hora) + '</span>' + (m.estado ? '<span>' + esc(m.estado) + '</span>' : '') + '</span><p>' + esc(m.text) + '</p></div>';
+    }).join('');
+  }
+  V.red = function () {
+    var on = mesh.mode !== 'off';
+    return back('#kit', 'Herramientas') +
+      '<div class="stack"><p class="eyebrow">Sin internet ni señal</p><h1 class="h-l" data-speak>Red de vecinos</h1><p class="lead" data-speak>Mandá mensajes por radio a los vecinos que tengan un nodo Meshtastic. Funciona aunque se caigan las antenas de celular.</p></div>' +
+      '<div class="card"><div class="mesh-status" id="meshStatus">' + meshStatus() + '</div>' +
+      (on ? '<button type="button" class="btn" data-act="mesh-off" style="align-self:flex-start">Desconectar</button>'
+          : '<div class="btns"><button type="button" class="btn fill" data-act="mesh-link">Vincular mi nodo</button><button type="button" class="btn" data-act="mesh-demo">Probar modo demostración</button></div>') + '</div>' +
+      (on ? '<button type="button" class="btn-start" data-act="mesh-sos">' + ico('sos') + 'Mandar SOS a los vecinos</button>' +
+        '<p class="muted" style="font-size:.9rem">Envía tu ubicación GPS y tu nombre a todos los nodos al alcance.</p>' +
+        '<div class="grid2">' + QUICK.map(function (q, i) { return '<button type="button" class="quick" data-act="mesh-quick" data-q="' + i + '">' + esc(q) + '</button>'; }).join('') + '</div>' +
+        '<div class="compose"><label class="f" for="meshTxt" style="gap:6px">Mensaje<textarea id="meshTxt" maxlength="200" placeholder="Escribí un mensaje corto"></textarea></label><button type="button" class="btn fill" data-act="mesh-send" style="min-height:52px">Enviar</button></div>' : '') +
+      '<div class="stack"><h2 class="h-m">Mensajes</h2><div class="feed" id="feed">' + feedHtml() + '</div></div>' +
+      '<details class="card"><summary style="font-weight:700;cursor:pointer;min-height:32px">Cómo funciona</summary><div class="stack" style="gap:6px;margin-top:8px">' +
+      ['Cada vecino tiene una radio Meshtastic chica, vinculada a su celular por Bluetooth.', 'Las radios se pasan los mensajes entre sí y pueden cubrir varios kilómetros.', 'Los nodos fijos en techos, clubes o escuelas extienden el alcance del barrio.', 'Usá radios de 915 MHz configuradas en la región ANZ.', 'Funciona en Chrome para Android. En iPhone, usá la app oficial de Meshtastic con el mismo canal.'].map(function (t) { return '<p>' + t + '</p>'; }).join('') +
+      '</div></details>';
+  };
+  function meshRefresh() { var f = document.getElementById('feed'); if (f) f.innerHTML = feedHtml(); }
+  function hora() { var d = new Date(); return ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2); }
+  function miNombre() { var n = (state.plan.integrantes[0] || {}).nombre; return n && n.trim() ? n.trim() : 'Vecino sin nombre'; }
+  function ubicacion() {
+    return new Promise(function (res) {
+      try {
+        if (!navigator.geolocation) return res(null);
+        navigator.geolocation.getCurrentPosition(function (p) { res(p.coords.latitude.toFixed(5) + ', ' + p.coords.longitude.toFixed(5) + ' (±' + Math.round(p.coords.accuracy) + ' m)'); }, function () { res(null); }, { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 });
+      } catch (e) { res(null); }
+    });
+  }
+  function meshSend(text, sos) {
+    var m = { mio: true, sos: !!sos, from: 'Vos', hora: hora(), text: text, estado: 'Enviando…' };
+    mesh.msgs.push(m); meshRefresh();
+    if (mesh.mode === 'demo') {
+      setTimeout(function () { m.estado = 'Lo recibieron 2 nodos'; meshRefresh(); }, 1800);
+      setTimeout(function () {
+        mesh.msgs.push({ from: 'Nodo Club del barrio (demo)', hora: hora(), text: sos ? 'Recibido tu SOS. Avisamos a Defensa Civil con tu ubicación. Quedate donde estás.' : 'Recibido. Te leemos.' });
+        meshRefresh(); toast('Nuevo mensaje de la red');
+      }, 4200);
+    }
+  }
+  function meshAct(name, el) {
+    if (name === 'mesh-demo') { mesh.mode = 'demo'; mesh.name = 'demostración'; if (!mesh.msgs.length) mesh.msgs.push({ from: 'Nodo Escuela 12 (demo)', hora: hora(), text: 'Prueba de la red del barrio. Si leés esto, tu nodo está conectado.' }); render(); return; }
+    if (name === 'mesh-off') { mesh.mode = 'off'; render(); return; }
+    if (name === 'mesh-link') {
+      var bt = !!navigator.bluetooth;
+      openSheet('<div class="sheet-head"><h2 class="h-m">Vincular tu nodo</h2><button type="button" class="icon-btn" data-close aria-label="Cerrar">' + ico('x') + '</button></div>' +
+        (bt ? '<p>Tu navegador puede conectarse por Bluetooth. La conexión con radios reales se activa en la próxima versión, cuando la probemos con equipos.</p>'
+            : '<p>Este navegador no puede conectarse por Bluetooth. La vinculación funciona en <b>Chrome para Android</b>.</p><p>En iPhone, instalá la app oficial de Meshtastic y uní tu radio al canal del barrio.</p>') +
+        '<p class="muted">Mientras tanto, probá cómo funciona en modo demostración.</p><button type="button" class="btn fill" id="goDemo">Probar modo demostración</button>');
+      document.getElementById('goDemo').addEventListener('click', function () { closeLayer(); meshAct('mesh-demo'); });
+      return;
+    }
+    if (name === 'mesh-quick') { meshSend(QUICK[+el.dataset.q] + ' · ' + miNombre()); return; }
+    if (name === 'mesh-send') { var t = document.getElementById('meshTxt'); var v = t.value.trim(); if (!v) { t.focus(); return; } meshSend(v); t.value = ''; return; }
+    if (name === 'mesh-sos') {
+      el.disabled = true; toast('Buscando tu ubicación…');
+      ubicacion().then(function (pos) {
+        el.disabled = false;
+        meshSend('SOS · ' + miNombre() + ' · ' + (pos ? 'Ubicación: ' + pos : 'Sin GPS' + (state.plan.hogar ? ' · Casa: ' + state.plan.hogar : '')), true);
+      });
+    }
+  }
+
   V['kit-sinsenal'] = function () {
     function c(t, items) { return '<div class="card"><b class="h-m" style="font-family:var(--f-display)">' + t + '</b><div class="stack" style="gap:6px">' + items.map(function (x) { return '<p data-speak>' + x + '</p>'; }).join('') + '</div></div>'; }
     return back('#kit', 'Herramientas') + '<div class="stack"><p class="eyebrow">Guía</p><h1 class="h-l" data-speak>Comunicarte sin señal</h1></div>' +
       c('Si hay poca señal', ['Mandá mensajes de texto en lugar de llamar: necesitan menos señal y suelen pasar cuando la red está saturada.', 'Usá el mensaje "Estoy bien" de esta app para avisar rápido.', 'Hablá poco y cortá: así dejás la línea libre para emergencias.']) +
       c('Si no hay ninguna señal', ['Usá "Pedir auxilio" para que te escuchen o te vean.', 'Andá al punto de encuentro de tu plan familiar: es el acuerdo para encontrarse sin teléfono.', 'Dejá una nota visible en tu casa diciendo adónde fuiste.']) +
       c('Con radios de mano', ['Acuerden con tu familia un canal fijo.', 'Acuerden un horario para escuchar, por ejemplo los primeros cinco minutos de cada hora.', 'Guardá pilas de repuesto junto a la radio.']) +
-      '<div class="card" style="border-style:dashed"><span class="pill" style="align-self:flex-start">Próximamente</span><b>Mensajes entre vecinos sin red</b><p>Aguante va a poder conectarse a radios Meshtastic para mandar un pedido de auxilio con tu ubicación, sin internet ni señal de celular.</p></div>';
+      '<a class="row" href="#red"><span class="ico-box">' + ico('assembly') + '</span><span class="txt"><b>Red de vecinos</b><small>Mensajes por radio Meshtastic, sin internet ni señal</small></span>' + ico('chev', 'chev') + '</a>';
   };
 
   V['kit-bateria'] = function () {
@@ -604,6 +692,7 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
     if (name === 'numeros') return numbersSheet();
     if (name === 'linterna') return linterna();
     if (name === 'auxilio') return auxilio();
+    if (name.indexOf('mesh-') === 0) return meshAct(name, el);
   }
 
   /* ---------- province ---------- */
