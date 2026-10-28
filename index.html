@@ -6,6 +6,13 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#1A1A1A">
 <title>Aguante</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Aguante">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Condensed:wght@600;800&display=swap">
 <style>
@@ -183,6 +190,23 @@ body.noche .nav a { color: var(--night-muted); }
 .nav a[aria-current="page"] { color: var(--ink); border-top-color: var(--senal); }
 body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
 .toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(80px + env(safe-area-inset-bottom, 0px)); z-index: 70; background: var(--ink); color: var(--paper); padding: 12px 18px; border-radius: 12px; font-weight: 700; max-width: calc(100% - 32px); }
+.seg { border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.seg legend { font-weight: 700; padding: 0; margin-bottom: 8px; }
+.seg .opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.seg label { position: relative; flex: 1 1 140px; min-height: 60px; border: 2px solid var(--line); border-radius: 12px; padding: 10px 14px; display: flex; flex-direction: column; justify-content: center; gap: 2px; cursor: pointer; background: var(--card); }
+.seg label small { color: var(--muted); font-size: .82rem; }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.seg label:has(input:checked) { border-color: var(--senal); background: var(--senal); color: var(--senal-ink); }
+.seg label:has(input:checked) small { color: var(--senal-ink); }
+.seg label:has(input:focus-visible) { outline: 3px solid var(--refugio-fg); outline-offset: 2px; }
+.btn-start { min-height: 72px; border: 0; border-radius: var(--r); background: var(--auxilio); color: #fff; font-family: var(--f-display); font-weight: 800; font-size: 1.7rem; letter-spacing: .03em; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 12px; cursor: pointer; }
+.overlay.aux { background: #000; color: #F4F2EC; justify-content: center; gap: 18px; text-align: center; }
+.overlay.aux.on { background: #FFFFFF; color: #1A1A1A; }
+.overlay.aux h2 { font-size: 3rem; text-transform: uppercase; }
+.overlay.aux .code { font-family: var(--f-display); font-weight: 800; font-size: 2rem; letter-spacing: .2em; }
+.overlay.aux p { margin: 0; }
+.install { background: var(--senal); color: var(--senal-ink); border-radius: var(--r); padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.install .btn { border-color: var(--senal-ink); color: var(--senal-ink); align-self: flex-start; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 </style>
@@ -270,7 +294,8 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
     prov: load('prov', ''),
     checks: load('checks', {}),
     plan: load('plan', { hogar: '', integrantes: [{ nombre: '', datos: '' }], c1n: '', c1t: '', c2n: '', c2t: '', p1: '', p2: '', refugio: '' }),
-    grande: load('grande', false)
+    grande: load('grande', false),
+    aux: load('aux', { senal: 'sos', modo: 'ambos', ritmo: 'intermitente' })
   };
 
   var PROVINCIAS = ['Buenos Aires', 'CABA', 'Catamarca', 'Chaco', 'Chubut', 'Córdoba', 'Corrientes', 'Entre Ríos', 'Formosa', 'Jujuy', 'La Pampa', 'La Rioja', 'Mendoza', 'Misiones', 'Neuquén', 'Río Negro', 'Salta', 'San Juan', 'San Luis', 'Santa Cruz', 'Santa Fe', 'Santiago del Estero', 'Tierra del Fuego', 'Tucumán'];
@@ -290,11 +315,11 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
     'cable': { sit: 'Tormenta fuerte', icon: 'bolt-off', title: 'No toques cables caídos', text: 'Tratá todo cable como si tuviera corriente. Alejate y no pises charcos cerca.', why: 'Avisá a la empresa de luz o a emergencias.', opts: [['Llamar a emergencias', '!numeros'], ['Volver a tormenta', 'tormenta']] },
     'tormenta-calle': { sit: 'Tormenta fuerte', icon: 'ventana', title: 'Buscá un lugar cerrado', text: 'Entrá a un edificio. Si vas en auto, frená lejos de árboles y cables y quedate adentro.', opts: [['Volver a tormenta', 'tormenta']] },
     'agua-casa': { sit: 'Entra agua a la casa', icon: 'flood', title: 'Cortá la luz', text: 'Desde la llave general, solo si estás seco y no estás parado en el agua.', opts: [['El agua sigue subiendo', 'subir'], ['No llego a la llave', 'no-llave'], ['Hay que salir', 'evacuar']] },
-    'subir': { sit: 'Entra agua a la casa', icon: 'stairs', title: 'Subí a lo más alto', text: 'Llevá la mochila, el celular y agua. Quedate ahí y avisá dónde estás.', opts: [['Mandar "estoy bien"', '#kit-mensaje'], ['Llamar a emergencias', '!numeros'], ['Hay que salir', 'evacuar']] },
+    'subir': { sit: 'Entra agua a la casa', icon: 'stairs', title: 'Subí a lo más alto', text: 'Llevá la mochila, el celular y agua. Quedate ahí y avisá dónde estás.', opts: [['Mandar "estoy bien"', '#kit-mensaje'], ['Hacer señales de auxilio', '#kit-auxilio'], ['Llamar a emergencias', '!numeros'], ['Hay que salir', 'evacuar']] },
     'no-llave': { sit: 'Entra agua a la casa', icon: 'bolt-off', title: 'No toques nada eléctrico', text: 'Alejate de enchufes y aparatos mojados. Subí a lo alto.', opts: [['Subir a lo alto', 'subir']] },
     'calle': { sit: 'Calle inundada', icon: 'nocruzar', title: 'No cruces el agua', text: 'Ni a pie ni en auto. El agua que corre te puede arrastrar.', opts: [['Quedé adentro del auto', 'auto'], ['Hay alguien en peligro', 'peligro'], ['Buscar un lugar alto', 'subir']] },
     'auto': { sit: 'Calle inundada', icon: 'nocruzar', title: 'Si el agua sube, dejá el auto', text: 'Si el auto se para o el agua sube, salí y buscá un lugar alto. Solo si podés hacerlo sin cruzar corriente.', opts: [['Llamar a emergencias', '!numeros'], ['Volver', 'calle']] },
-    'peligro': { sit: 'Calle inundada', icon: 'sos', title: 'No entres al agua', text: 'Llamá a emergencias. Desde un lugar seguro, tirale algo que flote o una soga.', opts: [['Llamar a emergencias', '!numeros'], ['Volver', 'calle']] },
+    'peligro': { sit: 'Calle inundada', icon: 'sos', title: 'No entres al agua', text: 'Llamá a emergencias. Desde un lugar seguro, tirale algo que flote o una soga.', opts: [['Llamar a emergencias', '!numeros'], ['Pedir auxilio con sonido', '#kit-auxilio'], ['Volver', 'calle']] },
     'evacuar': { sit: 'Hay que evacuar', icon: 'home-move', title: 'Seguí la orden de evacuar', text: 'Salí con tiempo y por el camino que indiquen las autoridades.', list: 'salida', opts: [['Mandar "estoy bien"', '#kit-mensaje'], ['Ver mi punto de encuentro', '#plan-tarjeta']] },
     'sin-luz': { sit: 'Se cortó la luz', icon: 'power', title: 'Desenchufá los aparatos', text: 'Usá linterna, no velas. Abrí la heladera lo menos posible.', opts: [['Necesito luz ahora', '!linterna'], ['Ahorrar batería', '#kit-bateria'], ['Hay alguien electrodependiente', 'electro']] },
     'electro': { sit: 'Se cortó la luz', icon: 'power', title: 'Activá su plan de respaldo', text: 'Usá el equipo alternativo que tengan previsto. Si hay riesgo, llamá a emergencias.', opts: [['Llamar a emergencias', '!numeros'], ['Volver', 'sin-luz']] },
@@ -350,7 +375,7 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
     var provCard = state.prov ? '' :
       '<div class="card"><b>Elegí tu provincia</b><p class="muted">Así te mostramos los números y las alertas de tu zona.</p><label class="f" for="provSel">Provincia<select id="provSel"><option value="">Elegir…</option>' + PROVINCIAS.map(function (p) { return '<option>' + esc(p) + '</option>'; }).join('') + '</select></label></div>';
     var plan = planProgress();
-    return provCard +
+    return installCard() + provCard +
       '<div class="stack"><p class="eyebrow">Durante la emergencia</p><h1 class="h-xl" data-speak>¿Qué está pasando?</h1></div>' +
       '<div class="grid2">' + HUB.map(function (h) { return '<a class="tile" href="#d-' + h[0] + '">' + ico(h[2]) + '<b>' + esc(h[1]) + '</b></a>'; }).join('') +
       '<button class="tile ayuda" type="button" data-act="numeros" style="border:0;text-align:left;cursor:pointer;font:inherit">' + ico('phone') + '<b>Necesito ayuda ya</b></button></div>' +
@@ -468,10 +493,10 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
     return '<div class="stack"><p class="eyebrow">Herramientas</p><h1 class="h-l" data-speak>Todo funciona sin señal</h1></div><div class="grid2">' +
       tool('numeros', 'phone', 'Llamar', 'Números de emergencia') +
       tool('linterna', 'light', 'Linterna', 'Pantalla en blanco') +
-      tool('sos', 'sos', 'Señal SOS', 'Luz y sonido en morse') +
-      tool('silbato', 'whistle', 'Silbato', 'Sonido fuerte para que te encuentren') +
+      tool('', 'sos', 'Pedir auxilio', 'SOS con sonido y luz', '#kit-auxilio') +
       tool('', 'msg', 'Estoy bien', 'Mensaje listo para mandar', '#kit-mensaje') +
       tool('', 'compass', 'Brújula', 'Orientarte sin mapa', '#kit-brujula') +
+      tool('', 'assembly', 'Sin señal', 'Cómo comunicarte', '#kit-sinsenal') +
       tool('', 'battery', 'Batería', 'Estirar la carga', '#kit-bateria') +
       tool('', 'bell', 'Alertas SMN', 'Cuando hay señal', '#antes-alertas') + '</div>' +
       '<div class="card"><b>Texto más grande</b><label class="check" for="sizeTgl" style="border:0;padding:0;min-height:44px"><input type="checkbox" id="sizeTgl"' + (state.grande ? ' checked' : '') + '><span style="text-decoration:none;color:inherit">Agrandar las letras de toda la app</span></label></div>' +
@@ -489,6 +514,29 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
 
   V['kit-brujula'] = function () {
     return back('#kit', 'Herramientas') + '<h1 class="h-l" data-speak>Brújula</h1><div class="compass"><span class="n-lbl">N</span><div class="needle" id="needle"></div></div><p class="lead" id="cmpTxt" style="text-align:center">Tocá "Activar" para usar el sensor del celular.</p><button type="button" class="btn fill" id="cmpOn">Activar brújula</button>';
+  };
+
+  V['kit-auxilio'] = function () {
+    var a = state.aux;
+    function opt(name, val, t, sub) { var id = 'ax-' + name + '-' + val; return '<label for="' + id + '"><input type="radio" id="' + id + '" name="' + name + '" value="' + val + '"' + (a[name] === val ? ' checked' : '') + '><b>' + t + '</b><small>' + sub + '</small></label>'; }
+    return back('#kit', 'Herramientas') +
+      '<div class="stack"><p class="eyebrow">Herramienta</p><h1 class="h-l" data-speak>Pedir auxilio</h1><p class="lead" data-speak>Para cuando estás atrapado o perdido y no podés llamar. El celular emite una señal que se escucha y se ve.</p></div>' +
+      '<button type="button" class="btn-start" data-act="auxilio">' + ico('sos', 'ico') + 'Empezar</button>' +
+      '<fieldset class="seg"><legend>Qué señal</legend><div class="opts">' + opt('senal', 'sos', 'SOS en morse', '· · · — — — · · ·') + opt('senal', 'tres', 'Tres pitidos', 'Señal de socorro de rescate') + '</div></fieldset>' +
+      '<fieldset class="seg"><legend>Cómo</legend><div class="opts">' + opt('modo', 'sonido', 'Sonido', 'Mejor de día') + opt('modo', 'luz', 'Luz', 'Mejor de noche') + opt('modo', 'ambos', 'Sonido y luz', 'Lo más visible') + '</div></fieldset>' +
+      '<fieldset class="seg"><legend>Ritmo</legend><div class="opts">' + opt('ritmo', 'intermitente', 'Intermitente', '1 minuto sí, 1 minuto no') + opt('ritmo', 'continuo', 'Continuo', 'Sin pausas') + '</div></fieldset>' +
+      '<div class="card"><b>Para que se escuche más lejos</b><div class="stack" style="gap:6px">' +
+      ['Subí el volumen al máximo.', 'Apuntá el parlante hacia afuera, sin taparlo.', 'Dejá la pantalla encendida: si se bloquea, el sonido se corta.', 'En la pausa, escuchá si alguien responde.', 'Si tenés un silbato de verdad, usalo: suena más fuerte y no gasta batería.'].map(function (t) { return '<p data-speak>' + t + '</p>'; }).join('') +
+      '</div></div>';
+  };
+
+  V['kit-sinsenal'] = function () {
+    function c(t, items) { return '<div class="card"><b class="h-m" style="font-family:var(--f-display)">' + t + '</b><div class="stack" style="gap:6px">' + items.map(function (x) { return '<p data-speak>' + x + '</p>'; }).join('') + '</div></div>'; }
+    return back('#kit', 'Herramientas') + '<div class="stack"><p class="eyebrow">Guía</p><h1 class="h-l" data-speak>Comunicarte sin señal</h1></div>' +
+      c('Si hay poca señal', ['Mandá mensajes de texto en lugar de llamar: necesitan menos señal y suelen pasar cuando la red está saturada.', 'Usá el mensaje "Estoy bien" de esta app para avisar rápido.', 'Hablá poco y cortá: así dejás la línea libre para emergencias.']) +
+      c('Si no hay ninguna señal', ['Usá "Pedir auxilio" para que te escuchen o te vean.', 'Andá al punto de encuentro de tu plan familiar: es el acuerdo para encontrarse sin teléfono.', 'Dejá una nota visible en tu casa diciendo adónde fuiste.']) +
+      c('Con radios de mano', ['Acuerden con tu familia un canal fijo.', 'Acuerden un horario para escuchar, por ejemplo los primeros cinco minutos de cada hora.', 'Guardá pilas de repuesto junto a la radio.']) +
+      '<div class="card" style="border-style:dashed"><span class="pill" style="align-self:flex-start">Próximamente</span><b>Mensajes entre vecinos sin red</b><p>Aguante va a poder conectarse a radios Meshtastic para mandar un pedido de auxilio con tu ubicación, sin internet ni señal de celular.</p></div>';
   };
 
   V['kit-bateria'] = function () {
@@ -533,6 +581,7 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
       if (c) { var n = done(k), tot = L[k].items.length; c.textContent = n + ' de ' + tot + ' listos'; var m = c.nextElementSibling; if (m) { m.setAttribute('aria-label', n + ' de ' + tot); m.firstChild.style.width = Math.round(n / tot * 100) + '%'; } }
     }
     if (t.id === 'provSel' && t.value) { setProv(t.value); render(); }
+    if (t.name && state.aux[t.name] !== undefined) { state.aux[t.name] = t.value; save('aux', state.aux); }
     if (t.id === 'sizeTgl') { state.grande = t.checked; save('grande', state.grande); applySize(); }
   });
   view.addEventListener('input', function (e) {
@@ -554,8 +603,7 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
   function act(name, el) {
     if (name === 'numeros') return numbersSheet();
     if (name === 'linterna') return linterna();
-    if (name === 'sos') return sosMode();
-    if (name === 'silbato') return silbato(el);
+    if (name === 'auxilio') return auxilio();
   }
 
   /* ---------- province ---------- */
@@ -604,8 +652,9 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
   function audio() { try { ac = ac || new (window.AudioContext || window.webkitAudioContext)(); if (ac.state === 'suspended') ac.resume(); return ac; } catch (e) { return null; } }
   function tone(on, freq) {
     var a = audio(); if (!a) return;
-    if (!osc) { osc = a.createOscillator(); gain = a.createGain(); osc.type = 'square'; osc.frequency.value = freq || 3150; gain.gain.value = 0; osc.connect(gain); gain.connect(a.destination); osc.start(); }
-    gain.gain.setTargetAtTime(on ? .35 : 0, a.currentTime, .005);
+    if (!osc) { osc = a.createOscillator(); gain = a.createGain(); osc.type = 'square'; osc.frequency.value = freq || 3000; gain.gain.value = 0; osc.connect(gain); gain.connect(a.destination); osc.start(); }
+    if (freq) osc.frequency.setValueAtTime(freq, a.currentTime);
+    gain.gain.setTargetAtTime(on ? .6 : 0, a.currentTime, .004);
   }
   function stopAll() {
     timers.forEach(clearTimeout); timers = [];
@@ -616,33 +665,41 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
     if (wake) { try { wake.release(); } catch (e) {} wake = null; }
     if (cmpHandler) { window.removeEventListener('deviceorientationabsolute', cmpHandler); window.removeEventListener('deviceorientation', cmpHandler); cmpHandler = null; }
   }
-  function silbato(btn) {
-    if (btn && btn.getAttribute('aria-pressed') === 'true') { stopAll(); return; }
-    stopAll(); if (!audio()) { toast('El sonido no está disponible en este navegador.'); return; }
-    if (btn) btn.setAttribute('aria-pressed', 'true');
-    // three long blasts, pause, repeat: the usual distress pattern
-    (function loop() {
-      var seq = [[1, 900], [0, 300], [1, 900], [0, 300], [1, 900], [0, 1600]], t = 0;
-      seq.forEach(function (s) { timers.push(setTimeout(function () { tone(!!s[0]); }, t)); t += s[1]; });
-      timers.push(setTimeout(loop, t));
-    })();
-    toast('Silbato activado. Tocá de nuevo para apagar.');
-  }
-  function sosMode() {
+  /* pedir auxilio: SOS en morse o tres pitidos, con sonido, luz o ambos */
+  var SEQ = {
+    // [encendido ms, apagado ms] · morse con unidad de 200 ms
+    sos: [[200, 200], [200, 200], [200, 600], [600, 200], [600, 200], [600, 600], [200, 200], [200, 200], [200, 1400]],
+    tres: [[1000, 500], [1000, 500], [1000, 3000]]
+  };
+  function auxilio() {
+    var cfg = state.aux, snd = cfg.modo !== 'luz', luz = cfg.modo !== 'sonido', inter = cfg.ritmo === 'intermitente';
+    stopAll();
+    if (snd && !audio()) toast('El sonido no está disponible en este navegador. Sigo solo con luz.');
     lastFocus = document.activeElement;
-    layer.innerHTML = '<div class="overlay sos" role="dialog" aria-modal="true" aria-label="Señal SOS"><p id="sosTxt">Señal SOS en morse: · · · — — — · · ·</p><div class="btns" style="justify-content:center"><button type="button" class="close" id="sosSnd" aria-pressed="false">Sumar sonido</button><button type="button" class="close" data-close>Detener</button></div></div>';
-    var ov = layer.querySelector('.overlay'), snd = false; keepAwake();
-    document.getElementById('sosSnd').addEventListener('click', function (e) { snd = !snd; e.currentTarget.setAttribute('aria-pressed', String(snd)); e.currentTarget.textContent = snd ? 'Quitar sonido' : 'Sumar sonido'; if (!snd) tone(false); });
-    var u = 250, pat = [1, 1, 1, 3, 3, 3, 1, 1, 1];
-    (function loop() {
-      var t = 0;
-      pat.forEach(function (d, i) {
-        timers.push(setTimeout(function () { ov.classList.add('on'); if (snd) tone(true, 1000); }, t)); t += d * u;
-        timers.push(setTimeout(function () { ov.classList.remove('on'); tone(false); }, t)); t += (i === 2 || i === 5) ? 3 * u : u;
-      });
-      timers.push(setTimeout(loop, t + 7 * u));
-    })();
+    layer.innerHTML = '<div class="overlay aux" role="dialog" aria-modal="true" aria-label="Pidiendo auxilio"><h2>Pidiendo auxilio</h2><p class="code">' + (cfg.senal === 'sos' ? '· · · — — — · · ·' : '— — —') + '</p><p id="auxEstado">Sonando</p><button type="button" class="close" data-close>Detener</button></div>';
+    var ov = layer.querySelector('.overlay'), est = document.getElementById('auxEstado'), seq = SEQ[cfg.senal] || SEQ.sos;
+    keepAwake();
     layer.querySelector('[data-close]').focus();
+    var phaseEnd = 0, on = true;
+    function mark(state1) { if (luz) ov.classList.toggle('on', state1); if (snd) tone(state1, 3000); }
+    function runSeq() {
+      if (inter && Date.now() >= phaseEnd) return pause();
+      var t = 0;
+      seq.forEach(function (p) {
+        timers.push(setTimeout(function () { mark(true); }, t)); t += p[0];
+        timers.push(setTimeout(function () { mark(false); }, t)); t += p[1];
+      });
+      timers.push(setTimeout(runSeq, t));
+    }
+    function pause() { on = false; mark(false); phaseEnd = Date.now() + 60000; timers.push(setTimeout(function () { on = true; phaseEnd = Date.now() + 60000; runSeq(); }, 60000)); }
+    function tick() {
+      if (!inter) { est.textContent = 'Señal continua. Tocá Detener para parar.'; return; }
+      var s2 = Math.max(0, Math.ceil((phaseEnd - Date.now()) / 1000));
+      est.textContent = on ? 'Sonando · pausa en ' + s2 + ' s' : 'Pausa: escuchá si alguien responde · vuelve en ' + s2 + ' s';
+    }
+    phaseEnd = Date.now() + 60000;
+    runSeq(); tick();
+    timers.push(setInterval(tick, 1000));
   }
 
   /* message */
@@ -718,6 +775,32 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
     if (!comments) return;
     comments.openComposer({ element: view }).catch(function () { toast('No se pudo abrir el comentario. Probá de nuevo en un momento.'); });
   });
+
+  /* ---------- instalar como app ---------- */
+  var deferred = null;
+  var standalone = (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+  var ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  function installCard() {
+    if (standalone || load('installHidden', false)) return '';
+    var how = deferred ? '<button type="button" class="btn" id="installBtn">Instalar Aguante</button>'
+      : ios ? '<p>En Safari, tocá <b>Compartir</b> y después <b>Agregar a inicio</b>.</p>'
+      : '<p>Abrí el menú del navegador y elegí <b>Instalar app</b> o <b>Agregar a la pantalla principal</b>.</p>';
+    return '<div class="install"><b class="h-m" style="font-family:var(--f-display)">Instalá Aguante</b><p>Queda como una app en tu celular y funciona sin señal.</p>' + how +
+      '<button type="button" class="back" id="installHide" style="border:0;background:none;padding:0;cursor:pointer">Ahora no</button></div>';
+  }
+  window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); deferred = e; if (current() === 'inicio') render(); });
+  window.addEventListener('appinstalled', function () { deferred = null; standalone = true; toast('Aguante quedó instalada'); if (current() === 'inicio') render(); });
+  view.addEventListener('click', function (e) {
+    if (e.target.closest('#installBtn') && deferred) { deferred.prompt(); deferred.userChoice.then(function () { deferred = null; render(); }); }
+    if (e.target.closest('#installHide')) { save('installHidden', true); render(); }
+  });
+  if ('serviceWorker' in navigator && location.protocol === 'https:') {
+    navigator.serviceWorker.register('sw.js').then(function (reg) {
+      if (!navigator.serviceWorker.controller) reg.addEventListener('updatefound', function () {
+        var w = reg.installing; if (w) w.addEventListener('statechange', function () { if (w.state === 'activated') toast('Listo: Aguante ya funciona sin conexión'); });
+      });
+    }).catch(function () {});
+  }
 
   render();
 })();
