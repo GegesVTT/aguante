@@ -157,10 +157,10 @@ label.f textarea { min-height: 96px; resize: vertical; }
 .sheet { width: 100%; max-width: 560px; background: var(--paper); color: var(--ink); border-radius: 18px 18px 0 0; padding: 18px max(16px, env(safe-area-inset-right, 0px)) calc(18px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 12px; max-height: 88vh; overflow: auto; }
 .sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .icon-btn { min-width: 44px; min-height: 44px; border-radius: 22px; border: 2px solid var(--line); background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-.num { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: center; background: var(--card); border: 2px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+.num { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; align-items: center; background: var(--card); border: 2px solid var(--line); border-radius: 12px; padding: 10px 12px; }
 .num .n { font-family: var(--f-display); font-weight: 800; font-size: 2rem; min-width: 3.2rem; user-select: all; font-variant-numeric: tabular-nums; }
-.num .acts { display: flex; gap: 6px; }
-.num .acts a, .num .acts button { min-height: 44px; padding: 0 12px; border-radius: 10px; font-weight: 700; font-size: .9rem; display: inline-flex; align-items: center; text-decoration: none; cursor: pointer; }
+.num .acts { grid-column: 1 / -1; display: grid; grid-template-columns: 2fr 1fr; gap: 8px; }
+.num .acts a, .num .acts button { min-height: 48px; padding: 0 12px; border-radius: 10px; font-weight: 700; font-size: 1rem; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; cursor: pointer; }
 .num .acts a { background: var(--auxilio); color: #fff; border: 0; }
 .num .acts button { background: transparent; border: 2px solid var(--line); }
 .overlay { position: fixed; inset: 0; z-index: 60; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding: 24px max(16px, env(safe-area-inset-right, 0px)) calc(32px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
@@ -207,19 +207,6 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
 .overlay.aux h2 { font-size: 3rem; text-transform: uppercase; }
 .overlay.aux .code { font-family: var(--f-display); font-weight: 800; font-size: 2rem; letter-spacing: .2em; }
 .overlay.aux p { margin: 0; }
-.mesh-status { display: flex; align-items: center; gap: 12px; }
-.mesh-dot { width: 14px; height: 14px; border-radius: 50%; flex: none; background: var(--muted); }
-.mesh-dot.on { background: #2E9E5B; box-shadow: 0 0 0 4px rgba(46,158,91,.25); }
-.mesh-dot.demo { background: var(--senal); box-shadow: 0 0 0 4px rgba(255,199,44,.3); }
-.quick { min-height: 56px; border-radius: 12px; border: 2px solid var(--line); background: var(--card); font-weight: 700; padding: 8px 12px; cursor: pointer; text-align: left; }
-.feed { display: flex; flex-direction: column; gap: 8px; }
-.msg-item { border-radius: 12px; padding: 10px 14px; background: var(--card); border: 2px solid var(--line); display: flex; flex-direction: column; gap: 4px; max-width: 92%; }
-.msg-item.mio { align-self: flex-end; background: var(--tint); border-color: var(--tint); }
-.msg-item.sos { border-color: var(--auxilio); }
-.msg-item .meta { font-size: .78rem; color: var(--muted); display: flex; gap: 8px; flex-wrap: wrap; }
-.msg-item p { overflow-wrap: anywhere; }
-.compose { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: end; }
-.compose textarea { min-height: 52px; border: 2px solid var(--line); border-radius: 10px; padding: 10px 12px; background: var(--card); width: 100%; resize: vertical; }
 .install { background: var(--senal); color: var(--senal-ink); border-radius: var(--r); padding: 16px; display: flex; flex-direction: column; gap: 10px; }
 .install .btn { border-color: var(--senal-ink); color: var(--senal-ink); align-self: flex-start; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
@@ -308,21 +295,38 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
   var state = {
     prov: load('prov', ''),
     checks: load('checks2', {}),
-    plan: load('plan', { hogar: '', integrantes: [{ nombre: '', datos: '' }], c1n: '', c1t: '', c2n: '', c2t: '', p1: '', p2: '', refugio: '' }),
+    plan: load('plan', { hogar: '', integrantes: [{ nombre: '', datos: '' }], c1n: '', c1t: '', c2n: '', c2t: '', p1: '', p2: '', refugio: '', loc1n: '', loc1t: '', loc2n: '', loc2t: '' }),
     grande: load('tamano', 'normal'),
     aux: load('aux', { senal: 'sos', modo: 'ambos', ritmo: 'intermitente' })
   };
 
   var PROVINCIAS = ['Buenos Aires', 'CABA', 'Catamarca', 'Chaco', 'Chubut', 'Córdoba', 'Corrientes', 'Entre Ríos', 'Formosa', 'Jujuy', 'La Pampa', 'La Rioja', 'Mendoza', 'Misiones', 'Neuquén', 'Río Negro', 'Salta', 'San Juan', 'San Luis', 'Santa Cruz', 'Santa Fe', 'Santiago del Estero', 'Tierra del Fuego', 'Tucumán'];
 
-  var NUMEROS = [
-    ['911', 'Central de Emergencias Nacional', 'El número principal en todo el país'],
-    ['100', 'Bomberos', ''],
-    ['103', 'Defensa Civil', ''],
-    ['107', 'Emergencias médicas (SAME)', 'Solo en CABA y algunas localidades de Buenos Aires'],
-    ['106', 'Emergencias náuticas', ''],
-    ['105', 'Emergencia ambiental', '']
-  ];
+  /* Números por provincia. estado: ok = verificado en fuente oficial · parcial = verificación incompleta · (sin entrada) = sin verificar.
+     Revisado el 29/10/2026. Ver claude/numeros-emergencia-por-provincia.md en el proyecto. */
+  var NAC = { estado: 'pendiente', nums: [['911', 'Central de emergencias', 'Probá primero este'], ['101', 'Policía', 'En muchas provincias'], ['107', 'Emergencias médicas', 'En muchas provincias'], ['100', 'Bomberos', ''], ['103', 'Defensa Civil', '']] };
+  var SIN911 = ['911', 'Central de emergencias', 'Nacional · sin confirmar en toda la provincia'];
+  var PROV_NUMS = {
+    'CABA': { estado: 'ok', fuente: 'argentina.gob.ar', nums: [['911', 'Policía y emergencias', ''], ['107', 'SAME, emergencias médicas', ''], ['100', 'Bomberos', ''], ['103', 'Defensa Civil', '']] },
+    'Buenos Aires': { estado: 'parcial', fuente: 'gba.gob.ar · argentina.gob.ar', nota: 'El 107 del SAME solo funciona en algunos municipios. Agendá el número de emergencias médicas de tu municipio en Mi plan.', nums: [['911', 'Central de emergencias provincial', ''], ['100', 'Bomberos', ''], ['103', 'Defensa Civil', ''], ['107', 'SAME, emergencias médicas', 'Solo en algunos municipios']] },
+    'Córdoba': { estado: 'ok', fuente: 'cba.gov.ar', nota: 'En San Francisco, el 100 ya lo atiende el 911 (julio de 2026).', nums: [['911', 'Emergencias', ''], ['107', 'Emergencias médicas', ''], ['100', 'Bomberos', ''], ['101', 'Policía', ''], ['105', 'Defensa Civil', ''], ['103', 'Defensa Civil municipal', '']] },
+    'Formosa': { estado: 'ok', fuente: 'formosa.gob.ar', nums: [['911', 'Policía y emergencias', ''], ['107', 'SIPEC, emergencias médicas', ''], ['100', 'Bomberos', ''], ['103', 'Defensa Civil', ''], ['106', 'Emergencias náuticas', '']] },
+    'Mendoza': { estado: 'ok', fuente: 'mendoza.gov.ar (sept. 2024)', nota: 'El 911 funciona en toda la provincia y coordina salud, bomberos y Defensa Civil.', nums: [['911', 'Emergencias: policía, salud, bomberos y Defensa Civil', '']] },
+    'San Juan': { estado: 'ok', fuente: 'sanjuan.gob.ar', nums: [['911', 'CISEM: policía, bomberos y ambulancia', ''], ['107', 'Ambulancia de salud pública', 'Solo urgencias con riesgo de vida']] },
+    'Santa Fe': { estado: 'ok', fuente: 'santafe.gob.ar', nums: [['911', 'Emergencias, servicio provincial', ''], ['107', 'SIES, emergencias de salud', '']] },
+    'Tucumán': { estado: 'ok', fuente: 'tucuman.gob.ar', nums: [['911', 'Emergencias', ''], ['107', 'Asistencia pública, emergencias médicas', ''], ['100', 'Bomberos', ''], ['101', 'Policía', ''], ['103', 'Defensa Civil', ''], ['105', 'Emergencia ambiental', '']] },
+    'Chubut': { estado: 'parcial', fuente: 'chubut.gov.ar', nota: 'En Puerto Madryn el 100 tuvo fallas en noviembre de 2025. Bomberos Voluntarios informó como alternativa el 280 447-1111.', nums: [SIN911, ['107', 'Emergencias médicas', 'Confirmado en Puerto Madryn'], ['100', 'Bomberos', ''], ['2804471111', 'Bomberos Voluntarios de Puerto Madryn', 'Alternativa si falla el 100']] },
+    'Jujuy': { estado: 'parcial', fuente: 'jujuy.gob.ar', nums: [['107', 'SAME, emergencias médicas', 'En toda la provincia'], SIN911] },
+    'La Rioja': { estado: 'parcial', fuente: 'larioja.gob.ar', nums: [['101', 'Policía', ''], ['107', 'Emergencias médicas', ''], ['100', 'Bomberos', ''], ['03804468429', 'Defensa Civil', ''], SIN911] },
+    'Misiones': { estado: 'parcial', fuente: 'misiones.gob.ar', nums: [['107', 'Emergencias médicas', 'En toda la provincia'], SIN911] },
+    'Neuquén': { estado: 'parcial', fuente: 'neuquen.gov.ar', nums: [['107', 'SIEN, emergencias médicas', 'Alcance provincial'], SIN911] },
+    'Río Negro': { estado: 'parcial', fuente: 'rionegro.gov.ar', nums: [['911', 'Emergencias', ''], ['107', 'Emergencias médicas', 'Sin confirmar en toda la provincia']] },
+    'Salta': { estado: 'parcial', fuente: 'salta.gob.ar', nums: [['911', 'Sistema de emergencias', ''], ['107', 'Emergencias médicas', 'Sin confirmar']] },
+    'Santa Cruz': { estado: 'parcial', fuente: 'santacruz.gob.ar (2020)', nota: 'En Santa Cruz el 103 se informó como línea de apoyo y contingencia social, no de Defensa Civil.', nums: [['107', 'Emergencias médicas', ''], SIN911] }
+  };
+  function numsFor(prov) { return PROV_NUMS[prov] || NAC; }
+  function telOf(n) { return String(n).replace(/\D/g, ''); }
+  function showNum(n) { var d = telOf(n); return d.length > 4 ? (d.length === 11 ? d.slice(0, 4) + ' ' + d.slice(4, 7) + '-' + d.slice(7) : d.slice(0, 3) + ' ' + d.slice(3, 6) + '-' + d.slice(6)) : d; }
 
   /* ---------- content: durante ---------- */
   var D = {
@@ -333,7 +337,7 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
     'tormenta-auto': { sit: 'Tormenta fuerte', icon: 'storm', title: 'Quedate adentro del auto', text: 'Con las ventanas cerradas. Frená lejos de árboles y cables. Solo protege un auto con techo rígido, no una moto.', src: 'SINAGIR · SMN · CDC', opts: [['Volver a tormenta', 'tormenta']] },
     'campo': { sit: 'Tormenta fuerte', icon: 'storm', title: 'Buscá refugio cerrado ya', text: 'Bajá de lomas y alejate de árboles solos, alambrados, ríos y animales grandes. No te acuestes en el piso.', why: 'Si no hay nada cerca, agachate con la cabeza baja y tapate los oídos hasta poder moverte.', src: 'SINAGIR · CDC · a validar', opts: [['Volver a tormenta', 'tormenta']] },
     'agua-casa': { sit: 'Entra agua a la casa', icon: 'flood', title: 'Cortá la luz', text: 'Desde la llave general, solo si estás seco y no estás parado en el agua. Cerrá el gas y el agua.', src: 'SINAGIR · Ready.gov', opts: [['El agua sigue subiendo', 'subir'], ['No llego a la llave', 'no-llave'], ['Hay alguien que no puede moverse', 'movilidad'], ['Hay que salir', 'evacuar']] },
-    'subir': { sit: 'Entra agua a la casa', icon: 'stairs', title: 'Subí a lo más alto', text: 'No bajes al sótano ni te quedes en planta baja. Llevá la mochila, el celular y agua.', why: 'No te encierres en un entretecho: el agua te puede atrapar. Subí al techo solo si es necesario, y pedí auxilio desde ahí.', src: 'SINAGIR · Ready.gov', opts: [['Hacer señales de auxilio', '#kit-auxilio'], ['Mandar "estoy bien"', '#kit-mensaje'], ['Avisar a la red de vecinos', '#red'], ['Llamar a emergencias', '!numeros'], ['Hay que salir', 'evacuar']] },
+    'subir': { sit: 'Entra agua a la casa', icon: 'stairs', title: 'Subí a lo más alto', text: 'No bajes al sótano ni te quedes en planta baja. Llevá la mochila, el celular y agua.', why: 'No te encierres en un entretecho: el agua te puede atrapar. Subí al techo solo si es necesario, y pedí auxilio desde ahí.', src: 'SINAGIR · Ready.gov', opts: [['Hacer señales de auxilio', '#kit-auxilio'], ['Mandar "estoy bien"', '#kit-mensaje'], ['Llamar a emergencias', '!numeros'], ['Hay que salir', 'evacuar']] },
     'no-llave': { sit: 'Entra agua a la casa', icon: 'bolt-off', title: 'Alejate de lo eléctrico', text: 'No toques enchufes ni aparatos mojados. Subí a lo más alto.', src: 'Ready.gov', opts: [['Subir a lo alto', 'subir']] },
     'movilidad': { sit: 'Entra agua a la casa', icon: 'users', title: 'Avisá a las autoridades', text: 'Decí que hay una persona con movilidad reducida que no puede salir sola, y dónde está.', src: 'SINAGIR', opts: [['Llamar a emergencias', '!numeros'], ['Volver', 'agua-casa']] },
     'calle': { sit: 'Calle inundada', icon: 'nocruzar', title: 'No cruces el agua', text: 'Buscá otro camino, por lo alto. Ni a pie ni en auto.', why: '15 cm de agua que corre te pueden voltear. 30 cm arrastran un auto.', src: 'SINAGIR · Ready.gov', opts: [['Quedé adentro del auto', 'auto'], ['Hay alguien en peligro', 'peligro'], ['Buscar un lugar alto', 'subir']] },
@@ -489,6 +493,7 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
       '<section class="stack"><h2 class="h-m">2 · Integrantes</h2>' + personas + '<button type="button" class="btn" id="addPersona">Agregar integrante</button></section>' +
       '<section class="stack"><h2 class="h-m">3 · Contactos</h2><p class="muted">Uno cerca y uno en otra ciudad, que reciba los "estoy bien".</p><div class="two">' + inp('c1n', 'Contacto cercano', p.c1n, 'Nombre') + inp('c1t', 'Teléfono', p.c1t, '11 5555-5555', 'tel') + '</div><div class="two">' + inp('c2n', 'Contacto en otra ciudad', p.c2n, 'Nombre') + inp('c2t', 'Teléfono', p.c2t, '351 555-5555', 'tel') + '</div></section>' +
       '<section class="stack"><h2 class="h-m">4 · Puntos de encuentro</h2>' + inp('p1', 'Cerca de casa', p.p1, 'Ej.: la esquina de la plaza') + inp('p2', 'Fuera del barrio', p.p2, 'Ej.: casa de la abuela') + inp('refugio', 'Lugar alto o centro de evacuación', p.refugio, 'Ej.: escuela N.º 12') + '</section>' +
+      '<section class="stack" id="plan-numeros"><h2 class="h-m">5 · Números de mi municipio</h2><p class="muted">Defensa Civil, bomberos voluntarios u hospital de tu zona. Aparecen primero cuando tocás Llamar a emergencias.</p><div class="two">' + inp('loc1n', 'Nombre', p.loc1n || '', 'Ej.: Bomberos Voluntarios') + inp('loc1t', 'Teléfono', p.loc1t || '', 'Con código de área', 'tel') + '</div><div class="two">' + inp('loc2n', 'Nombre', p.loc2n || '', 'Ej.: Defensa Civil municipal') + inp('loc2t', 'Teléfono', p.loc2t || '', 'Con código de área', 'tel') + '</div></section>' +
       '<p class="muted" style="font-size:.88rem">Todo queda guardado solo en este dispositivo. No se envía a ningún servidor.</p>';
   };
   V['plan-tarjeta'] = function () {
@@ -502,7 +507,7 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
       '<div><dt>Contacto en otra ciudad</dt><dd>' + dd(p.c2n) + ' · ' + dd(p.c2t) + '</dd></div>' +
       '<div><dt>Punto de encuentro cercano</dt><dd>' + dd(p.p1) + '</dd></div><div><dt>Punto fuera del barrio</dt><dd>' + dd(p.p2) + '</dd></div>' +
       '<div><dt>Lugar alto o centro de evacuación</dt><dd>' + dd(p.refugio) + '</dd></div>' +
-      '<div><dt>Emergencias</dt><dd>911 · 107 · 100 · 103</dd></div></dl></div></div>' +
+      '<div><dt>Emergencias' + (state.prov ? ' · ' + esc(state.prov) : '') + '</dt><dd>' + numsFor(state.prov).nums.slice(0, 4).map(function (n) { return esc(showNum(n[0])); }).join(' · ') + (p.loc1t ? ' · ' + esc(p.loc1t) : '') + '</dd></div></dl></div></div>' +
       '<p class="muted">En la app instalada vas a poder guardarla como imagen o imprimirla. En este prototipo, hacé una captura de pantalla.</p>';
   };
 
@@ -520,7 +525,7 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
       tool('', 'compass', 'Brújula', 'Orientarte sin mapa', '#kit-brujula') +
       tool('', 'bell', 'Sin señal', 'Cómo comunicarte', '#kit-sinsenal') +
       tool('', 'battery', 'Batería', 'Estirar la carga', '#kit-bateria') +
-      tool('', 'assembly', 'Red de vecinos', 'Mensajes por radio, sin red', '#red') + '</div>' +
+      '</div>' +
       '<fieldset class="seg card"><legend>Tamaño de la letra</legend><div class="opts">' + [['normal', 'Normal'], ['grande', 'Grande'], ['muygrande', 'Muy grande']].map(function (o) { return '<label for="tam-' + o[0] + '"><input type="radio" id="tam-' + o[0] + '" name="tamano" value="' + o[0] + '"' + (state.grande === o[0] ? ' checked' : '') + '><b>' + o[1] + '</b></label>'; }).join('') + '</div></fieldset>' +
       '<a class="back" href="#creditos">Créditos y licencias</a>';
   };
@@ -552,88 +557,13 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
       '</div></div>';
   };
 
-  /* ---------- red de vecinos (Meshtastic) ---------- */
-  var mesh = { mode: 'off', name: '', msgs: [] };
-  var QUICK = ['Estoy bien', 'Necesito agua', 'Necesito un médico', 'Hay lugar en mi casa'];
-  function meshStatus() {
-    if (mesh.mode === 'live') return '<span class="mesh-dot on"></span><span class="txt"><b>Conectado a ' + esc(mesh.name) + '</b><small>Tus mensajes viajan por radio entre nodos</small></span>';
-    if (mesh.mode === 'demo') return '<span class="mesh-dot demo"></span><span class="txt"><b>Modo demostración</b><small>Los vecinos y respuestas son simulados</small></span>';
-    return '<span class="mesh-dot"></span><span class="txt"><b>Sin nodo vinculado</b><small>Necesitás una radio Meshtastic cerca, vinculada por Bluetooth</small></span>';
-  }
-  function feedHtml() {
-    if (!mesh.msgs.length) return '<p class="muted">Todavía no hay mensajes. Los que mandes y recibas aparecen acá.</p>';
-    return mesh.msgs.slice().reverse().map(function (m) {
-      return '<div class="msg-item' + (m.mio ? ' mio' : '') + (m.sos ? ' sos' : '') + '"><span class="meta"><b>' + esc(m.from) + '</b><span>' + esc(m.hora) + '</span>' + (m.estado ? '<span>' + esc(m.estado) + '</span>' : '') + '</span><p>' + esc(m.text) + '</p></div>';
-    }).join('');
-  }
-  V.red = function () {
-    var on = mesh.mode !== 'off';
-    return back('#kit', 'Herramientas') +
-      '<div class="stack"><p class="eyebrow">Sin internet ni señal</p><h1 class="h-l" data-speak>Red de vecinos</h1><p class="lead" data-speak>Mandá mensajes por radio a los vecinos que tengan un nodo Meshtastic. Funciona aunque se caigan las antenas de celular.</p></div>' +
-      '<div class="card"><div class="mesh-status" id="meshStatus">' + meshStatus() + '</div>' +
-      (on ? '<button type="button" class="btn" data-act="mesh-off" style="align-self:flex-start">Desconectar</button>'
-          : '<div class="btns"><button type="button" class="btn fill" data-act="mesh-link">Vincular mi nodo</button><button type="button" class="btn" data-act="mesh-demo">Probar modo demostración</button></div>') + '</div>' +
-      (on ? '<button type="button" class="btn-start" data-act="mesh-sos">' + ico('sos') + 'Mandar SOS a los vecinos</button>' +
-        '<p class="muted" style="font-size:.9rem">Envía tu ubicación GPS y tu nombre a todos los nodos al alcance.</p>' +
-        '<div class="grid2">' + QUICK.map(function (q, i) { return '<button type="button" class="quick" data-act="mesh-quick" data-q="' + i + '">' + esc(q) + '</button>'; }).join('') + '</div>' +
-        '<div class="compose"><label class="f" for="meshTxt" style="gap:6px">Mensaje<textarea id="meshTxt" maxlength="200" placeholder="Escribí un mensaje corto"></textarea></label><button type="button" class="btn fill" data-act="mesh-send" style="min-height:52px">Enviar</button></div>' : '') +
-      '<div class="stack"><h2 class="h-m">Mensajes</h2><div class="feed" id="feed">' + feedHtml() + '</div></div>' +
-      '<details class="card"><summary style="font-weight:700;cursor:pointer;min-height:32px">Cómo funciona</summary><div class="stack" style="gap:6px;margin-top:8px">' +
-      ['Cada vecino tiene una radio Meshtastic chica, vinculada a su celular por Bluetooth.', 'Las radios se pasan los mensajes entre sí y pueden cubrir varios kilómetros.', 'Los nodos fijos en techos, clubes o escuelas extienden el alcance del barrio.', 'Usá radios de 915 MHz configuradas en la región ANZ.', 'Funciona en Chrome para Android. En iPhone, usá la app oficial de Meshtastic con el mismo canal.'].map(function (t) { return '<p>' + t + '</p>'; }).join('') +
-      '</div></details>';
-  };
-  function meshRefresh() { var f = document.getElementById('feed'); if (f) f.innerHTML = feedHtml(); }
-  function hora() { var d = new Date(); return ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2); }
-  function miNombre() { var n = (state.plan.integrantes[0] || {}).nombre; return n && n.trim() ? n.trim() : 'Vecino sin nombre'; }
-  function ubicacion() {
-    return new Promise(function (res) {
-      try {
-        if (!navigator.geolocation) return res(null);
-        navigator.geolocation.getCurrentPosition(function (p) { res(p.coords.latitude.toFixed(5) + ', ' + p.coords.longitude.toFixed(5) + ' (±' + Math.round(p.coords.accuracy) + ' m)'); }, function () { res(null); }, { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 });
-      } catch (e) { res(null); }
-    });
-  }
-  function meshSend(text, sos) {
-    var m = { mio: true, sos: !!sos, from: 'Vos', hora: hora(), text: text, estado: 'Enviando…' };
-    mesh.msgs.push(m); meshRefresh();
-    if (mesh.mode === 'demo') {
-      setTimeout(function () { m.estado = 'Lo recibieron 2 nodos'; meshRefresh(); }, 1800);
-      setTimeout(function () {
-        mesh.msgs.push({ from: 'Nodo Club del barrio (demo)', hora: hora(), text: sos ? 'Recibido tu SOS. Avisamos a Defensa Civil con tu ubicación. Quedate donde estás.' : 'Recibido. Te leemos.' });
-        meshRefresh(); toast('Nuevo mensaje de la red');
-      }, 4200);
-    }
-  }
-  function meshAct(name, el) {
-    if (name === 'mesh-demo') { mesh.mode = 'demo'; mesh.name = 'demostración'; if (!mesh.msgs.length) mesh.msgs.push({ from: 'Nodo Escuela 12 (demo)', hora: hora(), text: 'Prueba de la red del barrio. Si leés esto, tu nodo está conectado.' }); render(); return; }
-    if (name === 'mesh-off') { mesh.mode = 'off'; render(); return; }
-    if (name === 'mesh-link') {
-      var bt = !!navigator.bluetooth;
-      openSheet('<div class="sheet-head"><h2 class="h-m">Vincular tu nodo</h2><button type="button" class="icon-btn" data-close aria-label="Cerrar">' + ico('x') + '</button></div>' +
-        (bt ? '<p>Tu navegador puede conectarse por Bluetooth. La conexión con radios reales se activa en la próxima versión, cuando la probemos con equipos.</p>'
-            : '<p>Este navegador no puede conectarse por Bluetooth. La vinculación funciona en <b>Chrome para Android</b>.</p><p>En iPhone, instalá la app oficial de Meshtastic y uní tu radio al canal del barrio.</p>') +
-        '<p class="muted">Mientras tanto, probá cómo funciona en modo demostración.</p><button type="button" class="btn fill" id="goDemo">Probar modo demostración</button>');
-      document.getElementById('goDemo').addEventListener('click', function () { closeLayer(); meshAct('mesh-demo'); });
-      return;
-    }
-    if (name === 'mesh-quick') { meshSend(QUICK[+el.dataset.q] + ' · ' + miNombre()); return; }
-    if (name === 'mesh-send') { var t = document.getElementById('meshTxt'); var v = t.value.trim(); if (!v) { t.focus(); return; } meshSend(v); t.value = ''; return; }
-    if (name === 'mesh-sos') {
-      el.disabled = true; toast('Buscando tu ubicación…');
-      ubicacion().then(function (pos) {
-        el.disabled = false;
-        meshSend('SOS · ' + miNombre() + ' · ' + (pos ? 'Ubicación: ' + pos : 'Sin GPS' + (state.plan.hogar ? ' · Casa: ' + state.plan.hogar : '')), true);
-      });
-    }
-  }
-
   V['kit-sinsenal'] = function () {
     function c(t, items) { return '<div class="card"><b class="h-m" style="font-family:var(--f-display)">' + t + '</b><div class="stack" style="gap:6px">' + items.map(function (x) { return '<p data-speak>' + x + '</p>'; }).join('') + '</div></div>'; }
     return back('#kit', 'Herramientas') + '<div class="stack"><p class="eyebrow">Guía</p><h1 class="h-l" data-speak>Comunicarte sin señal</h1></div>' +
       c('Si hay poca señal', ['Mandá mensajes de texto en lugar de llamar: necesitan menos señal y suelen pasar cuando la red está saturada.', 'Usá el mensaje "Estoy bien" de esta app para avisar rápido.', 'Hablá poco y cortá: así dejás la línea libre para emergencias.']) +
       c('Si no hay ninguna señal', ['Usá "Pedir auxilio" para que te escuchen o te vean.', 'Andá al punto de encuentro de tu plan familiar: es el acuerdo para encontrarse sin teléfono.', 'Dejá una nota visible en tu casa diciendo adónde fuiste.']) +
       c('Con radios de mano', ['Acuerden con tu familia un canal fijo.', 'Acuerden un horario para escuchar, por ejemplo los primeros cinco minutos de cada hora.', 'Guardá pilas de repuesto junto a la radio.']) +
-      '<a class="row" href="#red"><span class="ico-box">' + ico('assembly') + '</span><span class="txt"><b>Red de vecinos</b><small>Mensajes por radio Meshtastic, sin internet ni señal</small></span>' + ico('chev', 'chev') + '</a>';
+      '<div class="card" style="border-style:dashed"><span class="pill" style="align-self:flex-start">En desarrollo · todavía no funciona</span><b>Mensajes entre vecinos por radio</b><p>Estamos preparando la conexión con radios Meshtastic para mandar pedidos de auxilio sin internet ni señal. Va a aparecer en la app recién cuando esté probada con equipos reales.</p></div>';
   };
 
   V['kit-bateria'] = function () {
@@ -655,11 +585,12 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
     stopAll();
     var h = current(), html, noche = false, sec = h.split('-')[0];
     if (h.indexOf('d-') === 0) { html = V.durante(h.slice(2)); noche = true; sec = 'inicio'; }
+    else if (h === 'plan-numeros') { html = V.plan(); sec = 'plan'; }
     else html = (V[h] || V.inicio)();
     document.body.classList.toggle('noche', noche);
     view.innerHTML = html;
     document.querySelectorAll('.nav a').forEach(function (a) { if (a.dataset.sec === sec) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
-    window.scrollTo(0, 0);
+    if (h === 'plan-numeros') { var el = document.getElementById('plan-numeros'); if (el) el.scrollIntoView(); } else window.scrollTo(0, 0);
     after(h);
   }
   window.addEventListener('hashchange', render);
@@ -701,7 +632,6 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
     if (name === 'numeros') return numbersSheet();
     if (name === 'linterna') return linterna();
     if (name === 'auxilio') return auxilio();
-    if (name.indexOf('mesh-') === 0) return meshAct(name, el);
   }
 
   /* ---------- province ---------- */
@@ -728,13 +658,25 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
   });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && layer.innerHTML) closeLayer(); });
 
+  function numRow(n, local) {
+    var d = telOf(n[0]);
+    return '<div class="num"><span class="n"' + (d.length > 4 ? ' style="font-size:1.2rem"' : '') + '>' + esc(showNum(n[0])) + '</span><span class="txt"><b>' + esc(n[1]) + '</b>' + (n[2] ? '<br><small class="muted">' + esc(n[2]) + '</small>' : '') + '</span><span class="acts"><a href="tel:' + d + '">Llamar</a><button type="button" data-copy="' + d + '" aria-label="Copiar ' + esc(n[0]) + '">Copiar</button></span></div>';
+  }
   function numbersSheet() {
+    var info = numsFor(state.prov), p = state.plan, mios = [];
+    if (p.loc1t && p.loc1t.trim()) mios.push([p.loc1t, p.loc1n || 'Número local', 'Lo cargaste en tu plan']);
+    if (p.loc2t && p.loc2t.trim()) mios.push([p.loc2t, p.loc2n || 'Número local', 'Lo cargaste en tu plan']);
+    var estado = info.estado === 'ok' ? 'Verificado en fuente oficial (' + esc(info.fuente) + '), octubre de 2026.'
+      : info.estado === 'parcial' ? 'Verificación incompleta (' + esc(info.fuente) + '), octubre de 2026.'
+      : (state.prov ? 'Todavía no verificamos los números de ' + esc(state.prov) + '. Estos son los más comunes en el país.' : 'Elegí tu provincia para ver sus números.');
     openSheet('<div class="sheet-head"><h2 class="h-m">Números de emergencia</h2><button type="button" class="icon-btn" data-close aria-label="Cerrar">' + ico('x') + '</button></div>' +
-      '<p class="muted">' + (state.prov ? 'Para ' + esc(state.prov) + '. ' : '') + 'Llamar no necesita datos móviles.</p>' +
-      NUMEROS.map(function (n) {
-        return '<div class="num"><span class="n">' + n[0] + '</span><span class="txt"><b>' + esc(n[1]) + '</b>' + (n[2] ? '<br><small class="muted">' + esc(n[2]) + '</small>' : '') + '</span><span class="acts"><a href="tel:' + n[0] + '">Llamar</a><button type="button" data-copy="' + n[0] + '" aria-label="Copiar ' + n[0] + '">Copiar</button></span></div>';
-      }).join('') +
-      '<p class="muted" style="font-size:.85rem">Números nacionales de referencia. Falta verificarlos provincia por provincia.</p>');
+      '<p class="muted">' + (state.prov ? esc(state.prov) + ' · ' : '') + 'Llamar no necesita datos móviles. Si un número no atiende, probá el siguiente.</p>' +
+      (mios.length ? '<p class="eyebrow">Mis números</p>' + mios.map(function (n) { return numRow(n, true); }).join('') : '') +
+      (mios.length ? '<p class="eyebrow">' + (state.prov ? esc(state.prov) : 'Generales') + '</p>' : '') +
+      info.nums.map(function (n) { return numRow(n); }).join('') +
+      (info.nota ? '<p class="card" style="padding:12px 14px">' + esc(info.nota) + '</p>' : '') +
+      '<p class="muted" style="font-size:.85rem">' + estado + ' Los números cambian: agendá los de tu municipio en Mi plan.</p>' +
+      '<a class="btn" href="#plan-numeros" data-close>Agregar números de mi municipio</a>');
   }
 
   var wake = null;
