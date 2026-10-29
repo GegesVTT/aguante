@@ -35,6 +35,7 @@
 
 html { font-size: 17px; }
 html.grande { font-size: 20px; }
+html.muygrande { font-size: 26px; }
 body { background: var(--paper); color: var(--ink); font-family: var(--f-body); font-size: 1rem; line-height: 1.45; }
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bar); }
 body.noche { background: var(--night); color: var(--night-ink); }
@@ -45,6 +46,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 a { color: var(--refugio-fg); }
 :focus-visible { outline: 3px solid var(--senal); outline-offset: 2px; }
 .ico { width: 1.4rem; height: 1.4rem; flex: none; }
+.top .ico, .sos-row .ico { width: 22px; height: 22px; }
 .wrap { max-width: 560px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 
 /* header */
@@ -53,22 +55,22 @@ body.noche .top { background: #000; color: var(--night-ink); }
 .top .wrap { padding-block: 10px; display: flex; flex-direction: column; gap: 10px; }
 .brand-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .brand { display: flex; align-items: center; gap: 8px; text-decoration: none; color: inherit; min-height: 44px; }
-.brand span { font-family: var(--f-display); font-weight: 800; font-size: 1.6rem; letter-spacing: .04em; }
-.chip { min-height: 44px; padding: 0 12px; border-radius: 22px; border: 2px solid currentColor; background: transparent; display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: .9rem; cursor: pointer; }
+.brand span { font-family: var(--f-display); font-weight: 800; font-size: 26px; letter-spacing: .04em; }
+.chip { min-height: 44px; padding: 0 12px; border-radius: 22px; border: 2px solid currentColor; background: transparent; display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 14px; cursor: pointer; max-width: 50%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .sos-row { display: flex; gap: 8px; }
-.btn-aux { flex: 1; min-height: 52px; border: 0; border-radius: 12px; background: var(--auxilio); color: #fff; font-weight: 700; font-size: 1.05rem; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; }
+.btn-aux { flex: 1; min-height: 52px; border: 0; border-radius: 12px; background: var(--auxilio); color: #fff; font-weight: 700; font-size: 17px; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; }
 .btn-audio { width: 52px; min-height: 52px; border-radius: 12px; border: 2px solid var(--senal); background: transparent; color: var(--senal); display: flex; align-items: center; justify-content: center; cursor: pointer; }
 .btn-audio[aria-pressed="true"] { background: var(--senal); color: var(--senal-ink); }
 .prueba { background: var(--senal); color: var(--senal-ink); }
-.prueba .wrap { padding-block: 6px; display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: .82rem; font-weight: 700; flex-wrap: wrap; }
+.prueba .wrap { padding-block: 6px; display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 13px; font-weight: 700; flex-wrap: wrap; }
 .prueba button { min-height: 36px; border: 2px solid var(--senal-ink); border-radius: 18px; background: transparent; padding: 0 12px; font-weight: 700; font-size: .82rem; cursor: pointer; }
 
 /* main */
 main .wrap { padding-block: 20px 120px; display: flex; flex-direction: column; gap: 20px; }
 .eyebrow { font-size: .78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
 body.noche .eyebrow { color: var(--night-muted); }
-.h-xl { font-size: 2.6rem; text-transform: uppercase; }
-.h-l { font-size: 2rem; text-transform: uppercase; }
+.h-xl { font-size: min(2.6rem, 12vw); text-transform: uppercase; overflow-wrap: anywhere; }
+.h-l { font-size: min(2rem, 10vw); text-transform: uppercase; overflow-wrap: anywhere; }
 .h-m { font-size: 1.45rem; text-transform: uppercase; }
 .lead { font-size: 1.1rem; }
 .muted { color: var(--muted); }
@@ -116,8 +118,8 @@ body.noche .check:has(input:checked) span { color: var(--night-muted); }
 
 /* durante (noche) */
 .step { display: flex; flex-direction: column; gap: 18px; }
-.step .picto { width: 9rem; height: 9rem; color: var(--senal); align-self: center; }
-.step h1 { font-size: 3rem; color: var(--senal); text-transform: uppercase; line-height: .95; }
+.step .picto { width: min(9rem, 40vw); height: min(9rem, 40vw); color: var(--senal); align-self: center; }
+.step h1 { font-size: min(3rem, 13vw); overflow-wrap: anywhere; color: var(--senal); text-transform: uppercase; line-height: .95; }
 .step .lead { font-size: 1.25rem; }
 .step .why { color: var(--night-muted); }
 .opt { min-height: 68px; border-radius: var(--r); padding: 0 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; font-weight: 700; font-size: 1.12rem; text-decoration: none; cursor: pointer; width: 100%; text-align: left; }
@@ -184,9 +186,9 @@ pre.msg { white-space: pre-wrap; margin: 0; font-family: var(--f-body); backgrou
 .nav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; background: var(--card); border-top: 2px solid var(--ink); padding-bottom: env(safe-area-inset-bottom, 0px); }
 body.noche .nav { background: #000; border-top-color: var(--night-line); }
 .nav .wrap { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); padding-block: 0; }
-.nav a { min-height: 62px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; text-decoration: none; color: var(--muted); font-size: .74rem; font-weight: 700; border-top: 4px solid transparent; }
+.nav a { min-height: 62px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; text-decoration: none; color: var(--muted); font-size: 11px; font-weight: 700; border-top: 4px solid transparent; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 body.noche .nav a { color: var(--night-muted); }
-.nav a svg { width: 1.35rem; height: 1.35rem; }
+.nav a svg { width: 22px; height: 22px; flex: none; }
 .nav a[aria-current="page"] { color: var(--ink); border-top-color: var(--senal); }
 body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
 .toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(80px + env(safe-area-inset-bottom, 0px)); z-index: 70; background: var(--ink); color: var(--paper); padding: 12px 18px; border-radius: 12px; font-weight: 700; max-width: calc(100% - 32px); }
@@ -281,7 +283,7 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
     </div>
   </div>
 </header>
-<div class="prueba"><div class="wrap"><span>Prototipo de prueba · textos sin validar</span><button type="button" id="commentBtn" hidden>Comentar esta pantalla</button></div></div>
+<div class="prueba"><div class="wrap"><span>Prototipo de prueba · revisión experta pendiente</span><button type="button" id="commentBtn" hidden>Comentar esta pantalla</button></div></div>
 
 <main id="main"><div class="wrap" id="view" aria-live="polite"></div></main>
 
@@ -305,42 +307,47 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
 
   var state = {
     prov: load('prov', ''),
-    checks: load('checks', {}),
+    checks: load('checks2', {}),
     plan: load('plan', { hogar: '', integrantes: [{ nombre: '', datos: '' }], c1n: '', c1t: '', c2n: '', c2t: '', p1: '', p2: '', refugio: '' }),
-    grande: load('grande', false),
+    grande: load('tamano', 'normal'),
     aux: load('aux', { senal: 'sos', modo: 'ambos', ritmo: 'intermitente' })
   };
 
   var PROVINCIAS = ['Buenos Aires', 'CABA', 'Catamarca', 'Chaco', 'Chubut', 'Córdoba', 'Corrientes', 'Entre Ríos', 'Formosa', 'Jujuy', 'La Pampa', 'La Rioja', 'Mendoza', 'Misiones', 'Neuquén', 'Río Negro', 'Salta', 'San Juan', 'San Luis', 'Santa Cruz', 'Santa Fe', 'Santiago del Estero', 'Tierra del Fuego', 'Tucumán'];
 
   var NUMEROS = [
-    ['911', 'Emergencias y policía', 'La cobertura varía según la provincia'],
-    ['107', 'Emergencias médicas', ''],
+    ['911', 'Central de Emergencias Nacional', 'El número principal en todo el país'],
     ['100', 'Bomberos', ''],
     ['103', 'Defensa Civil', ''],
-    ['106', 'Emergencias náuticas', '']
+    ['107', 'Emergencias médicas (SAME)', 'Solo en CABA y algunas localidades de Buenos Aires'],
+    ['106', 'Emergencias náuticas', ''],
+    ['105', 'Emergencia ambiental', '']
   ];
 
   /* ---------- content: durante ---------- */
   var D = {
-    'tormenta': { sit: 'Tormenta fuerte', icon: 'storm', title: 'Quedate adentro', text: 'Alejate de ventanas y puertas de vidrio. Desenchufá los aparatos.', opts: [['Hay rayos', 'rayos'], ['Se cayó un cable o un árbol', 'cable'], ['Estoy en la calle o en el auto', 'tormenta-calle'], ['Ya estoy a resguardo', '#inicio']] },
-    'rayos': { sit: 'Tormenta fuerte', icon: 'storm', title: 'Lejos del agua y del metal', text: 'No te bañes ni uses canillas mientras haya rayos. No uses aparatos enchufados.', opts: [['Volver a tormenta', 'tormenta']] },
-    'cable': { sit: 'Tormenta fuerte', icon: 'bolt-off', title: 'No toques cables caídos', text: 'Tratá todo cable como si tuviera corriente. Alejate y no pises charcos cerca.', why: 'Avisá a la empresa de luz o a emergencias.', opts: [['Llamar a emergencias', '!numeros'], ['Volver a tormenta', 'tormenta']] },
-    'tormenta-calle': { sit: 'Tormenta fuerte', icon: 'ventana', title: 'Buscá un lugar cerrado', text: 'Entrá a un edificio. Si vas en auto, frená lejos de árboles y cables y quedate adentro.', opts: [['Volver a tormenta', 'tormenta']] },
-    'agua-casa': { sit: 'Entra agua a la casa', icon: 'flood', title: 'Cortá la luz', text: 'Desde la llave general, solo si estás seco y no estás parado en el agua.', opts: [['El agua sigue subiendo', 'subir'], ['No llego a la llave', 'no-llave'], ['Hay que salir', 'evacuar']] },
-    'subir': { sit: 'Entra agua a la casa', icon: 'stairs', title: 'Subí a lo más alto', text: 'Llevá la mochila, el celular y agua. Quedate ahí y avisá dónde estás.', opts: [['Mandar "estoy bien"', '#kit-mensaje'], ['Hacer señales de auxilio', '#kit-auxilio'], ['Avisar a la red de vecinos', '#red'], ['Llamar a emergencias', '!numeros'], ['Hay que salir', 'evacuar']] },
-    'no-llave': { sit: 'Entra agua a la casa', icon: 'bolt-off', title: 'No toques nada eléctrico', text: 'Alejate de enchufes y aparatos mojados. Subí a lo alto.', opts: [['Subir a lo alto', 'subir']] },
-    'calle': { sit: 'Calle inundada', icon: 'nocruzar', title: 'No cruces el agua', text: 'Ni a pie ni en auto. El agua que corre te puede arrastrar.', opts: [['Quedé adentro del auto', 'auto'], ['Hay alguien en peligro', 'peligro'], ['Buscar un lugar alto', 'subir']] },
-    'auto': { sit: 'Calle inundada', icon: 'nocruzar', title: 'Si el agua sube, dejá el auto', text: 'Si el auto se para o el agua sube, salí y buscá un lugar alto. Solo si podés hacerlo sin cruzar corriente.', opts: [['Llamar a emergencias', '!numeros'], ['Volver', 'calle']] },
-    'peligro': { sit: 'Calle inundada', icon: 'sos', title: 'No entres al agua', text: 'Llamá a emergencias. Desde un lugar seguro, tirale algo que flote o una soga.', opts: [['Llamar a emergencias', '!numeros'], ['Pedir auxilio con sonido', '#kit-auxilio'], ['Volver', 'calle']] },
-    'evacuar': { sit: 'Hay que evacuar', icon: 'home-move', title: 'Seguí la orden de evacuar', text: 'Salí con tiempo y por el camino que indiquen las autoridades.', list: 'salida', opts: [['Mandar "estoy bien"', '#kit-mensaje'], ['Ver mi punto de encuentro', '#plan-tarjeta']] },
-    'sin-luz': { sit: 'Se cortó la luz', icon: 'power', title: 'Desenchufá los aparatos', text: 'Usá linterna, no velas. Abrí la heladera lo menos posible.', opts: [['Necesito luz ahora', '!linterna'], ['Ahorrar batería', '#kit-bateria'], ['Hay alguien electrodependiente', 'electro']] },
-    'electro': { sit: 'Se cortó la luz', icon: 'power', title: 'Activá su plan de respaldo', text: 'Usá el equipo alternativo que tengan previsto. Si hay riesgo, llamá a emergencias.', opts: [['Llamar a emergencias', '!numeros'], ['Volver', 'sin-luz']] },
-    'sin-agua': { sit: 'Se cortó el agua', icon: 'water', title: 'Cuidá la reserva', text: 'Primero para tomar, después para cocinar. Para limpiar, usá agua no potable.', opts: [['Cómo hacer agua segura', '#despues-agua']] },
-    'herido': { sit: 'Alguien herido', icon: 'first-aid', title: 'Llamá a emergencias', text: 'Decí qué pasó, dónde están y cuántas personas hay.', opts: [['Ver los números', '!numeros'], ['Sangra mucho', 'sangrado'], ['Tiene frío y tiembla', 'frio'], ['Recibió una descarga', 'descarga']] },
-    'sangrado': { sit: 'Alguien herido', icon: 'first-aid', title: 'Apretá la herida', text: 'Con un trapo limpio, presión firme y sin soltar hasta que llegue ayuda.', opts: [['Llamar a emergencias', '!numeros'], ['Volver', 'herido']] },
-    'frio': { sit: 'Alguien herido', icon: 'first-aid', title: 'Secalo y abrigalo', text: 'Sacale la ropa mojada y abrigalo. Si está consciente, dale una bebida tibia.', opts: [['Llamar a emergencias', '!numeros'], ['Volver', 'herido']] },
-    'descarga': { sit: 'Alguien herido', icon: 'bolt-off', title: 'No lo toques todavía', text: 'Si sigue en contacto con la corriente, cortá la luz primero. Después llamá a emergencias.', opts: [['Llamar a emergencias', '!numeros'], ['Volver', 'herido']] }
+    'tormenta': { sit: 'Tormenta fuerte', icon: 'storm', title: 'Quedate adentro', text: 'Alejate de ventanas y puertas. Desenchufá los aparatos y alejate de ellos.', src: 'SINAGIR · CDC', opts: [['Hay rayos', 'rayos'], ['Se cayó un cable o un árbol', 'cable'], ['Estoy en la calle', 'tormenta-calle'], ['Estoy en el auto', 'tormenta-auto'], ['Estoy al aire libre, sin refugio', 'campo'], ['Ya estoy a resguardo', '#inicio']] },
+    'rayos': { sit: 'Tormenta fuerte', icon: 'storm', title: 'Lejos del agua y del metal', text: 'No te bañes ni uses canillas: las cañerías conducen la electricidad del rayo. No uses teléfonos con cable; el celular sí es seguro.', why: 'Salí recién 30 minutos después del último trueno.', src: 'SINAGIR · CDC', opts: [['Volver a tormenta', 'tormenta']] },
+    'cable': { sit: 'Tormenta fuerte', icon: 'bolt-off', title: 'Alejate de los cables caídos', text: 'Tratá todo cable como si tuviera corriente. No pises charcos cerca: el agua puede estar electrificada.', why: 'Avisá a la empresa de luz o a emergencias.', src: 'SINAGIR · Ready.gov', opts: [['Llamar a emergencias', '!numeros'], ['Volver a tormenta', 'tormenta']] },
+    'tormenta-calle': { sit: 'Tormenta fuerte', icon: 'ventana', title: 'Entrá a un lugar cerrado', text: 'Buscá un edificio. Los árboles, postes, carpas y sombrillas no protegen de los rayos.', src: 'SINAGIR · CDC', opts: [['No hay ningún lugar cerrado', 'campo'], ['Volver a tormenta', 'tormenta']] },
+    'tormenta-auto': { sit: 'Tormenta fuerte', icon: 'storm', title: 'Quedate adentro del auto', text: 'Con las ventanas cerradas. Frená lejos de árboles y cables. Solo protege un auto con techo rígido, no una moto.', src: 'SINAGIR · SMN · CDC', opts: [['Volver a tormenta', 'tormenta']] },
+    'campo': { sit: 'Tormenta fuerte', icon: 'storm', title: 'Buscá refugio cerrado ya', text: 'Bajá de lomas y alejate de árboles solos, alambrados, ríos y animales grandes. No te acuestes en el piso.', why: 'Si no hay nada cerca, agachate con la cabeza baja y tapate los oídos hasta poder moverte.', src: 'SINAGIR · CDC · a validar', opts: [['Volver a tormenta', 'tormenta']] },
+    'agua-casa': { sit: 'Entra agua a la casa', icon: 'flood', title: 'Cortá la luz', text: 'Desde la llave general, solo si estás seco y no estás parado en el agua. Cerrá el gas y el agua.', src: 'SINAGIR · Ready.gov', opts: [['El agua sigue subiendo', 'subir'], ['No llego a la llave', 'no-llave'], ['Hay alguien que no puede moverse', 'movilidad'], ['Hay que salir', 'evacuar']] },
+    'subir': { sit: 'Entra agua a la casa', icon: 'stairs', title: 'Subí a lo más alto', text: 'No bajes al sótano ni te quedes en planta baja. Llevá la mochila, el celular y agua.', why: 'No te encierres en un entretecho: el agua te puede atrapar. Subí al techo solo si es necesario, y pedí auxilio desde ahí.', src: 'SINAGIR · Ready.gov', opts: [['Hacer señales de auxilio', '#kit-auxilio'], ['Mandar "estoy bien"', '#kit-mensaje'], ['Avisar a la red de vecinos', '#red'], ['Llamar a emergencias', '!numeros'], ['Hay que salir', 'evacuar']] },
+    'no-llave': { sit: 'Entra agua a la casa', icon: 'bolt-off', title: 'Alejate de lo eléctrico', text: 'No toques enchufes ni aparatos mojados. Subí a lo más alto.', src: 'Ready.gov', opts: [['Subir a lo alto', 'subir']] },
+    'movilidad': { sit: 'Entra agua a la casa', icon: 'users', title: 'Avisá a las autoridades', text: 'Decí que hay una persona con movilidad reducida que no puede salir sola, y dónde está.', src: 'SINAGIR', opts: [['Llamar a emergencias', '!numeros'], ['Volver', 'agua-casa']] },
+    'calle': { sit: 'Calle inundada', icon: 'nocruzar', title: 'No cruces el agua', text: 'Buscá otro camino, por lo alto. Ni a pie ni en auto.', why: '15 cm de agua que corre te pueden voltear. 30 cm arrastran un auto.', src: 'SINAGIR · Ready.gov', opts: [['Quedé adentro del auto', 'auto'], ['Hay alguien en peligro', 'peligro'], ['Buscar un lugar alto', 'subir']] },
+    'auto': { sit: 'Calle inundada', icon: 'sos', title: 'Quedate adentro del auto', text: 'Si el agua corre fuerte alrededor, no salgas. Si el agua entra al auto, subí al techo.', why: 'Desde ahí, hacé señales de auxilio y llamá a emergencias.', src: 'Ready.gov · a validar', opts: [['Hacer señales de auxilio', '#kit-auxilio'], ['Llamar a emergencias', '!numeros'], ['Volver', 'calle']] },
+    'peligro': { sit: 'Calle inundada', icon: 'sos', title: 'Ayudá desde afuera del agua', text: 'Llamá a emergencias. Desde un lugar seguro, tirale algo que flote o una soga.', src: 'A validar', opts: [['Llamar a emergencias', '!numeros'], ['Pedir auxilio con sonido', '#kit-auxilio'], ['Volver', 'calle']] },
+    'evacuar': { sit: 'Hay que evacuar', icon: 'home-move', title: 'Seguí la orden de evacuar', text: 'Salí con tiempo y por el camino que indiquen las autoridades.', list: 'salida', src: 'SINAGIR', opts: [['Mandar "estoy bien"', '#kit-mensaje'], ['Ver mi punto de encuentro', '#plan-tarjeta']] },
+    'sin-luz': { sit: 'Se cortó la luz', icon: 'power', title: 'Desenchufá los aparatos', text: 'Usá linterna, no velas: así evitás incendios. No abras la heladera.', why: 'Nunca uses generador, parrilla ni calentador a garrafa adentro: el monóxido de carbono mata.', src: 'SINAGIR · CDC', opts: [['Necesito luz ahora', '!linterna'], ['¿Qué hago con la heladera?', 'heladera'], ['Ahorrar batería', '#kit-bateria'], ['Hay alguien electrodependiente', 'electro']] },
+    'heladera': { sit: 'Se cortó la luz', icon: 'power', title: 'Mantené la heladera cerrada', text: 'Cerrada conserva el frío 4 horas. El freezer lleno, 48 horas; por la mitad, 24.', why: 'Pasadas 4 horas sin luz, tirá carnes, lácteos, huevos y sobras de la heladera.', src: 'CDC · FoodSafety.gov', opts: [['Volver', 'sin-luz']] },
+    'electro': { sit: 'Se cortó la luz', icon: 'power', title: 'Activá el equipo de respaldo', text: 'Fijate cuánto le dura la batería y avisá a tu distribuidora de luz. Si hay riesgo, llamá a emergencias.', src: 'FEMA · ENRE · a validar', opts: [['Llamar a emergencias', '!numeros'], ['Volver', 'sin-luz']] },
+    'sin-agua': { sit: 'Se cortó el agua', icon: 'water', title: 'Cuidá la reserva', text: 'Primero para tomar, después para cocinar. Para limpiar, usá agua no potable.', why: 'Calculá unos 4 litros por persona por día.', src: 'CDC · a validar', opts: [['Cómo hacer agua segura', '#despues-agua']] },
+    'herido': { sit: 'Alguien herido', icon: 'first-aid', title: 'Llamá a emergencias', text: 'Decí qué pasó, dónde están y cuántas personas hay. No muevas a la persona herida.', src: 'SINAGIR', opts: [['Ver los números', '!numeros'], ['Sangra mucho', 'sangrado'], ['Tiene frío y tiembla', 'frio'], ['Recibió una descarga', 'descarga']] },
+    'sangrado': { sit: 'Alguien herido', icon: 'first-aid', title: 'Apretá la herida', text: 'Con un trapo limpio, presión directa y firme, sin soltar hasta que llegue ayuda.', why: 'No hace falta levantar el brazo o la pierna.', src: 'Cruz Roja (IFRC)', opts: [['Llamar a emergencias', '!numeros'], ['Volver', 'herido']] },
+    'frio': { sit: 'Alguien herido', icon: 'first-aid', title: 'Secalo y abrigalo', text: 'Llevalo a un lugar reparado. Sacale la ropa mojada y abrigalo, con la cabeza cubierta.', why: 'Si está despierto, dale una bebida tibia sin alcohol. No lo frotes ni lo metas en agua caliente.', src: 'NHS', opts: [['Llamar a emergencias', '!numeros'], ['Volver', 'herido']] },
+    'descarga': { sit: 'Alguien herido', icon: 'bolt-off', title: 'Cortá la corriente primero', text: 'No lo toques mientras siga en contacto. Si no podés cortar, separalo con algo seco que no conduzca, como una escoba de madera.', why: 'Si es un cable de alta tensión, quedate a 6 metros y llamá a emergencias.', src: 'MedlinePlus', opts: [['Llamar a emergencias', '!numeros'], ['Volver', 'herido']] }
   };
 
   var HUB = [
@@ -352,15 +359,15 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
 
   /* ---------- content: checklists ---------- */
   var L = {
-    mochila: { t: 'Mochila de emergencia', items: ['Agua para tres días', 'Comida que no necesite heladera', 'Linterna y pilas', 'Radio a pilas', 'Cargador portátil cargado', 'Botiquín', 'Remedios de uso diario', 'Documentos en bolsa hermética', 'Efectivo', 'Abrigo y muda de ropa', 'Silbato', 'Copia de llaves', 'Barbijo y guantes', 'Artículos de higiene', 'Lo que necesiten bebés, mayores o mascotas'] },
-    casa: { t: 'Preparar la casa', items: ['Limpiar desagües, canaletas y rejillas', 'Subir objetos de valor y documentos', 'Saber dónde está la llave de la luz', 'Saber cómo cortar el gas', 'Saber cómo cortar el agua', 'Asegurar macetas y objetos sueltos'] },
-    corte: { t: 'Corte largo de luz o agua', items: ['Reserva de agua para tomar', 'Comida que no necesite cocción', 'Cargar celulares cuando se anuncia la alerta', 'Linterna siempre en el mismo lugar', 'Plan para personas electrodependientes', 'Saber abrir puertas y portones sin luz'] },
-    salida: { t: 'Antes de salir', items: ['Llevá la mochila', 'Cortá luz y gas si es seguro', 'Cerrá la casa', 'Avisá a tu contacto', 'Andá al punto de encuentro'] },
-    entrar: { t: 'Antes de volver a entrar', items: ['Esperá el aviso de las autoridades', 'Fijate si hay olor a gas', 'Revisá daños en paredes y techo', 'No prendas la luz hasta revisar la instalación', 'Sacá fotos de los daños antes de limpiar'] },
-    agua: { t: 'Agua segura', items: ['Usá agua envasada mientras tengas', 'Herví el agua si no sabés si es segura', 'Si usás lavandina, seguí la dosis oficial', 'Limpiá tanques y cisternas'] },
-    comida: { t: 'Alimentos', items: ['Tirá lo que tocó agua de inundación', 'Tirá lo que estuvo mucho tiempo sin frío', 'Lavá las latas sanas antes de abrirlas'] },
-    salud: { t: 'Salud', items: ['Consultá si tenés fiebre después de tocar agua de inundación', 'Limpiá y cubrí cualquier herida', 'Vaciá recipientes con agua estancada', 'Pedí ayuda si te cuesta dormir o estás muy angustiado'] },
-    limpieza: { t: 'Limpieza', items: ['Usá guantes y botas', 'Ventilá la casa', 'Desinfectá pisos, muebles y juguetes', 'Lavá la ropa con agua caliente si podés'] }
+    mochila: { t: 'Mochila de emergencia', items: ['Linterna y pilas', 'Radio a pilas o a manivela', 'Documentos en bolsa hermética', 'Celular, cargador y batería extra', 'Agua: 4 litros por persona por día, para 3 días', 'Comida que no necesite heladera ni cocción', 'Abrelatas manual', 'Botiquín', 'Remedios de uso diario y anteojos', 'Silbato', 'Barbijo', 'Efectivo', 'Abrigo y muda de ropa', 'Artículos de higiene', 'Mapa del barrio y copia de llaves', 'Lo que necesiten bebés, mayores o mascotas'] },
+    casa: { t: 'Preparar la casa', items: ['Limpiar cunetas, desagües y canaletas', 'Avisar si un desagüe está tapado', 'Entrar o atar muebles de jardín, parrillas, macetas y tachos', 'Saber dónde está la llave de la luz', 'Saber cómo cerrar el gas y el agua', 'Agendar los números de tu provincia', 'Conocer los puntos de encuentro y de evacuación'] },
+    corte: { t: 'Corte largo de luz o agua', items: ['Reserva de agua: 4 litros por persona por día', 'Comida que no necesite cocción', 'Linternas, pilas y baterías cargadas', 'Cargar celulares cuando se anuncia la alerta', 'Si alguien es electrodependiente: inscribirlo en el registro de tu distribuidora', 'Saber cuánto le dura la batería a cada equipo médico', 'Saber abrir puertas y portones sin luz'] },
+    salida: { t: 'Antes de salir', items: ['Cortá la luz en la llave general', 'Cerrá el gas, en la llave o la garrafa', 'Llevá la mochila', 'Salí sin cruzar calles inundadas', 'Andá al lugar de evacuación o al sitio alto', 'Avisá a tu contacto'] },
+    entrar: { t: 'Antes de volver a entrar', items: ['Esperá el aviso de las autoridades', 'Volvé de día', 'Fijate que la luz y el gas estén cortados', 'No prendas nada hasta que la instalación esté seca', 'Si ves chispas o hay olor a quemado, cortá la llave general', 'Sacá fotos de los daños antes de limpiar'] },
+    agua: { t: 'Agua segura', items: ['Tomá agua envasada si tenés', 'Lavandina: 2 gotas por litro y esperá 30 minutos', 'Si el agua está turbia, poné el doble de lavandina', 'O hervila 3 minutos y dejala enfriar', 'Si está muy sucia, filtrala antes con una tela limpia', 'Limpiá tanques y cisternas'] },
+    comida: { t: 'Alimentos', items: ['Tirá carnes, pollo, pescado y huevos que tocaron el agua', 'Tirá lo perecedero que estuvo más de 4 horas sin frío', 'Tirá paquetes abiertos o mojados', 'Tirá latas abolladas, hinchadas u oxidadas', 'Si das la teta, seguí haciéndolo'] },
+    salud: { t: 'Salud', items: ['No entres a agua estancada; que los chicos no jueguen en charcos', 'Consultá ya si tenés fiebre o dolor muscular después de tocar agua de inundación', 'Consultá por diarrea, vómitos o heridas que tocaron el agua', 'No toques víboras, aunque parezcan muertas', 'Vaciá recipientes con agua estancada', 'Pedí ayuda si te cuesta dormir o estás muy angustiado'] },
+    limpieza: { t: 'Limpieza', items: ['Usá guantes y botas de goma', 'Que los chicos no participen de la limpieza', 'Ventilá la casa', 'Pisos y paredes: un pocillo de lavandina por balde de 10 litros', 'Herví ollas y cubiertos 10 minutos', 'Tirá cucharas de madera, mamaderas y chupetes', 'Lavá la ropa con agua caliente, separada del resto', 'Generadores solo afuera y lejos de ventanas'] }
   };
 
   /* ---------- helpers ---------- */
@@ -408,7 +415,7 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
       return '<a class="opt ' + cls + '" href="' + href + '">' + esc(o[0]) + ico('chev') + '</a>';
     }).join('');
     return '<div class="step">' +
-      '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><p class="eyebrow">' + esc(s.sit) + '</p><span class="tag-prueba">Texto de prueba</span></div>' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><p class="eyebrow">' + esc(s.sit) + '</p><span class="tag-prueba">' + (s.src ? 'Fuente: ' + esc(s.src) : 'A validar') + '</span></div>' +
       '<svg class="picto" role="img" aria-label="' + esc(s.title) + '"><use href="#i-' + s.icon + '"/></svg>' +
       '<h1 data-speak>' + esc(s.title) + '</h1>' +
       '<p class="lead" data-speak>' + esc(s.text) + '</p>' +
@@ -441,13 +448,15 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
   V['antes-corte'] = function () { return listView('corte', '#antes', 'Antes', 'Para aguantar varios días sin luz o sin agua.'); };
 
   V['antes-alertas'] = function () {
-    function lvl(color, name, txt) { return '<div class="lvl" style="background:var(--card)"><span class="dot" style="background:' + color + '"></span><div class="stack" style="gap:4px"><b>' + name + '</b><p data-speak>' + txt + '</p></div></div>'; }
-    return back('#antes', 'Antes') + '<div class="stack"><h1 class="h-l" data-speak>Qué significa cada alerta</h1><p class="lead" data-speak>El Servicio Meteorológico Nacional usa tres niveles de color.</p></div>' +
-      lvl('#FFC72C', 'Amarilla', 'Puede haber fenómenos peligrosos. Informate y revisá tu mochila.') +
-      lvl('#F28C28', 'Naranja', 'Se esperan fenómenos peligrosos. Prepará la casa y tené tu plan a mano.') +
-      lvl('#C8202A', 'Roja', 'Fenómenos excepcionalmente peligrosos. Seguí las indicaciones de las autoridades.') +
-      '<p class="muted">Texto de prueba: falta validar las definiciones con el SMN.</p>' +
-      '<a class="btn" href="https://www.smn.gob.ar/" target="_blank" rel="noopener">Ver alertas vigentes en el SMN</a>';
+    function lvl(color, name, mean, todo) { return '<div class="lvl" style="background:var(--card)"><span class="dot" style="background:' + color + '"></span><div class="stack" style="gap:4px"><b>' + name + '</b><p class="muted" data-speak>' + mean + '</p><p data-speak>' + todo + '</p></div></div>'; }
+    return back('#antes', 'Antes') + '<div class="stack"><h1 class="h-l" data-speak>Qué significa cada alerta</h1><p class="lead" data-speak>El Servicio Meteorológico Nacional usa cuatro colores.</p></div>' +
+      lvl('#3E9B5A', 'Verde', 'No se esperan fenómenos de riesgo.', 'Buen momento para revisar tu mochila.') +
+      lvl('#FFC72C', 'Amarilla', 'Pueden causar daños e interrumpir por un rato la vida diaria.', 'Evitá estar al aire libre. No te refugies bajo árboles ni postes. Alejate de ríos y piletas. Limpiá desagües.') +
+      lvl('#F28C28', 'Naranja', 'Fenómenos peligrosos para las personas y los bienes.', 'Quedate en un lugar cerrado. Si viajás, quedate en el auto. Si puede entrar agua, cortá la luz. No circules por calles inundadas.') +
+      lvl('#C8202A', 'Roja', 'Fenómenos excepcionales que pueden causar emergencias.', 'Seguí las indicaciones de las autoridades. Alejate de costas y ríos. Conocé tus rutas de evacuación.') +
+      '<p class="muted">Los avisos a muy corto plazo valen 3 horas y avisan tormentas fuertes, lluvia intensa, ráfagas o granizo detectados por radar.</p>' +
+      '<p class="muted" style="font-size:.85rem">Fuente: Servicio Meteorológico Nacional, recomendaciones 2023, y SINAGIR.</p>' +
+      '<a class="btn" href="https://www.smn.gob.ar/alertas" target="_blank" rel="noopener">Ver alertas vigentes en el SMN</a>';
   };
 
   V.despues = function () {
@@ -472,7 +481,7 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
     var personas = p.integrantes.map(function (x, i) {
       return '<div class="card" style="gap:8px"><div class="persona"><label class="f" for="pi-n-' + i + '">Nombre y edad<input id="pi-n-' + i + '" data-pi="' + i + '" data-f="nombre" value="' + esc(x.nombre) + '" placeholder="Ej.: Ana, 34"></label>' +
         (p.integrantes.length > 1 ? '<button type="button" class="x" data-del="' + i + '" aria-label="Quitar integrante">' + ico('x') + '</button>' : '<span></span>') + '</div>' +
-        '<label class="f" for="pi-d-' + i + '">Salud y necesidades<input id="pi-d-' + i + '" data-pi="' + i + '" data-f="datos" value="' + esc(x.datos) + '" placeholder="Grupo sanguíneo, remedios, alergias"></label></div>';
+        '<label class="f" for="pi-d-' + i + '">Salud y necesidades<input id="pi-d-' + i + '" data-pi="' + i + '" data-f="datos" value="' + esc(x.datos) + '" placeholder="Grupo sanguíneo, remedios, alergias, equipo médico y cuánto dura su batería"></label></div>';
     }).join('');
     return '<div class="stack"><p class="eyebrow">Mi plan familiar</p><h1 class="h-l" data-speak>Qué hace tu familia si pasa algo</h1><p class="muted" id="planCnt">' + pr.n + ' de ' + pr.t + ' datos cargados</p>' + meter(pr.n, pr.t) + '</div>' +
       '<a class="btn senal" href="#plan-tarjeta">' + ico('checklist') + 'Ver mi tarjeta</a>' +
@@ -512,7 +521,7 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
       tool('', 'bell', 'Sin señal', 'Cómo comunicarte', '#kit-sinsenal') +
       tool('', 'battery', 'Batería', 'Estirar la carga', '#kit-bateria') +
       tool('', 'assembly', 'Red de vecinos', 'Mensajes por radio, sin red', '#red') + '</div>' +
-      '<div class="card"><b>Texto más grande</b><label class="check" for="sizeTgl" style="border:0;padding:0;min-height:44px"><input type="checkbox" id="sizeTgl"' + (state.grande ? ' checked' : '') + '><span style="text-decoration:none;color:inherit">Agrandar las letras de toda la app</span></label></div>' +
+      '<fieldset class="seg card"><legend>Tamaño de la letra</legend><div class="opts">' + [['normal', 'Normal'], ['grande', 'Grande'], ['muygrande', 'Muy grande']].map(function (o) { return '<label for="tam-' + o[0] + '"><input type="radio" id="tam-' + o[0] + '" name="tamano" value="' + o[0] + '"' + (state.grande === o[0] ? ' checked' : '') + '><b>' + o[1] + '</b></label>'; }).join('') + '</div></fieldset>' +
       '<a class="back" href="#creditos">Créditos y licencias</a>';
   };
 
@@ -535,11 +544,11 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
     return back('#kit', 'Herramientas') +
       '<div class="stack"><p class="eyebrow">Herramienta</p><h1 class="h-l" data-speak>Pedir auxilio</h1><p class="lead" data-speak>Para cuando estás atrapado o perdido y no podés llamar. El celular emite una señal que se escucha y se ve.</p></div>' +
       '<button type="button" class="btn-start" data-act="auxilio">' + ico('sos', 'ico') + 'Empezar</button>' +
-      '<fieldset class="seg"><legend>Qué señal</legend><div class="opts">' + opt('senal', 'sos', 'SOS en morse', '· · · — — — · · ·') + opt('senal', 'tres', 'Tres pitidos', 'Señal de socorro de rescate') + '</div></fieldset>' +
+      '<fieldset class="seg"><legend>Qué señal</legend><div class="opts">' + opt('senal', 'sos', 'SOS en morse', '· · · — — — · · ·') + opt('senal', 'seis', 'Señal internacional', '6 señales por minuto') + '</div></fieldset>' +
       '<fieldset class="seg"><legend>Cómo</legend><div class="opts">' + opt('modo', 'sonido', 'Sonido', 'Mejor de día') + opt('modo', 'luz', 'Luz', 'Mejor de noche') + opt('modo', 'ambos', 'Sonido y luz', 'Lo más visible') + '</div></fieldset>' +
-      '<fieldset class="seg"><legend>Ritmo</legend><div class="opts">' + opt('ritmo', 'intermitente', 'Intermitente', '1 minuto sí, 1 minuto no') + opt('ritmo', 'continuo', 'Continuo', 'Sin pausas') + '</div></fieldset>' +
+      '<fieldset class="seg"><legend>Ritmo</legend><div class="opts">' + opt('ritmo', 'intermitente', 'Intermitente', '1 minuto sí, 1 minuto no') + opt('ritmo', 'continuo', 'Continuo', 'Sin pausas') + '</div><small class="muted">Solo para SOS. La señal internacional ya trae su pausa de un minuto.</small></fieldset>' +
       '<div class="card"><b>Para que se escuche más lejos</b><div class="stack" style="gap:6px">' +
-      ['Subí el volumen al máximo.', 'Apuntá el parlante hacia afuera, sin taparlo.', 'Dejá la pantalla encendida: si se bloquea, el sonido se corta.', 'En la pausa, escuchá si alguien responde.', 'Si tenés un silbato de verdad, usalo: suena más fuerte y no gasta batería.'].map(function (t) { return '<p data-speak>' + t + '</p>'; }).join('') +
+      ['Subí el volumen al máximo.', 'Apuntá el parlante hacia afuera, sin taparlo.', 'Dejá la pantalla encendida: si se bloquea, el sonido se corta.', 'Si te responden, no pares: los rescatistas siguen tu señal para encontrarte.', 'Si tenés un silbato de verdad, usalo: suena más fuerte y no gasta batería.'].map(function (t) { return '<p data-speak>' + t + '</p>'; }).join('') +
       '</div></div>';
   };
 
@@ -664,13 +673,13 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
   view.addEventListener('change', function (e) {
     var t = e.target;
     if (t.dataset.k) {
-      var k = t.dataset.k; state.checks[k] = state.checks[k] || {}; state.checks[k][t.dataset.i] = t.checked; save('checks', state.checks);
+      var k = t.dataset.k; state.checks[k] = state.checks[k] || {}; state.checks[k][t.dataset.i] = t.checked; save('checks2', state.checks);
       var c = document.getElementById('cnt-' + k);
       if (c) { var n = done(k), tot = L[k].items.length; c.textContent = n + ' de ' + tot + ' listos'; var m = c.nextElementSibling; if (m) { m.setAttribute('aria-label', n + ' de ' + tot); m.firstChild.style.width = Math.round(n / tot * 100) + '%'; } }
     }
     if (t.id === 'provSel' && t.value) { setProv(t.value); render(); }
     if (t.name && state.aux[t.name] !== undefined) { state.aux[t.name] = t.value; save('aux', state.aux); }
-    if (t.id === 'sizeTgl') { state.grande = t.checked; save('grande', state.grande); applySize(); }
+    if (t.name === 'tamano') { state.grande = t.value; save('tamano', state.grande); applySize(); }
   });
   view.addEventListener('input', function (e) {
     var t = e.target;
@@ -754,18 +763,20 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
     if (wake) { try { wake.release(); } catch (e) {} wake = null; }
     if (cmpHandler) { window.removeEventListener('deviceorientationabsolute', cmpHandler); window.removeEventListener('deviceorientation', cmpHandler); cmpHandler = null; }
   }
-  /* pedir auxilio: SOS en morse o tres pitidos, con sonido, luz o ambos */
+  /* pedir auxilio: SOS en morse o señal internacional (6 por minuto), con sonido, luz o ambos */
   var SEQ = {
     // [encendido ms, apagado ms] · morse con unidad de 200 ms
     sos: [[200, 200], [200, 200], [200, 600], [600, 200], [600, 200], [600, 600], [200, 200], [200, 200], [200, 1400]],
-    tres: [[1000, 500], [1000, 500], [1000, 3000]]
+    // señal internacional de socorro: 6 señales cortas seguidas, una vez por minuto
+    seis: [[500, 500], [500, 500], [500, 500], [500, 500], [500, 500], [500, 54500]]
   };
   function auxilio() {
-    var cfg = state.aux, snd = cfg.modo !== 'luz', luz = cfg.modo !== 'sonido', inter = cfg.ritmo === 'intermitente';
+    var cfg = state.aux; if (cfg.senal !== 'sos') cfg.senal = 'seis';
+    var snd = cfg.modo !== 'luz', luz = cfg.modo !== 'sonido', inter = cfg.senal === 'sos' && cfg.ritmo === 'intermitente';
     stopAll();
     if (snd && !audio()) toast('El sonido no está disponible en este navegador. Sigo solo con luz.');
     lastFocus = document.activeElement;
-    layer.innerHTML = '<div class="overlay aux" role="dialog" aria-modal="true" aria-label="Pidiendo auxilio"><h2>Pidiendo auxilio</h2><p class="code">' + (cfg.senal === 'sos' ? '· · · — — — · · ·' : '— — —') + '</p><p id="auxEstado">Sonando</p><button type="button" class="close" data-close>Detener</button></div>';
+    layer.innerHTML = '<div class="overlay aux" role="dialog" aria-modal="true" aria-label="Pidiendo auxilio"><h2>Pidiendo auxilio</h2><p class="code">' + (cfg.senal === 'sos' ? '· · · — — — · · ·' : '· · · · · ·') + '</p><p id="auxEstado">Sonando</p><button type="button" class="close" data-close>Detener</button></div>';
     var ov = layer.querySelector('.overlay'), est = document.getElementById('auxEstado'), seq = SEQ[cfg.senal] || SEQ.sos;
     keepAwake();
     layer.querySelector('[data-close]').focus();
@@ -782,9 +793,10 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
     }
     function pause() { on = false; mark(false); phaseEnd = Date.now() + 60000; timers.push(setTimeout(function () { on = true; phaseEnd = Date.now() + 60000; runSeq(); }, 60000)); }
     function tick() {
-      if (!inter) { est.textContent = 'Señal continua. Tocá Detener para parar.'; return; }
+      if (cfg.senal === 'seis') { est.textContent = '6 señales por minuto. Si te responden, seguí: así te encuentran.'; return; }
+      if (!inter) { est.textContent = 'Señal continua. Si te responden, seguí: así te encuentran.'; return; }
       var s2 = Math.max(0, Math.ceil((phaseEnd - Date.now()) / 1000));
-      est.textContent = on ? 'Sonando · pausa en ' + s2 + ' s' : 'Pausa: escuchá si alguien responde · vuelve en ' + s2 + ' s';
+      est.textContent = on ? 'Sonando · pausa en ' + s2 + ' s' : 'Pausa: escuchá si alguien responde. Si te responden, retomá la señal · vuelve en ' + s2 + ' s';
     }
     phaseEnd = Date.now() + 60000;
     runSeq(); tick();
@@ -848,7 +860,7 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
   });
 
   /* text size */
-  function applySize() { document.documentElement.classList.toggle('grande', !!state.grande); }
+  function applySize() { var r = document.documentElement; r.classList.toggle('grande', state.grande === 'grande'); r.classList.toggle('muygrande', state.grande === 'muygrande'); }
   applySize();
 
   /* toast */
