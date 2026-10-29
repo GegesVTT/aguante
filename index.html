@@ -302,31 +302,43 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
 
   var PROVINCIAS = ['Buenos Aires', 'CABA', 'Catamarca', 'Chaco', 'Chubut', 'Córdoba', 'Corrientes', 'Entre Ríos', 'Formosa', 'Jujuy', 'La Pampa', 'La Rioja', 'Mendoza', 'Misiones', 'Neuquén', 'Río Negro', 'Salta', 'San Juan', 'San Luis', 'Santa Cruz', 'Santa Fe', 'Santiago del Estero', 'Tierra del Fuego', 'Tucumán'];
 
-  /* Números por provincia. estado: ok = verificado en fuente oficial · parcial = verificación incompleta · (sin entrada) = sin verificar.
+  /* Números por provincia. estado: ok = verificado en fuente oficial · revisado = revisado por el equipo con canales oficiales provinciales · parcial = verificación incompleta.
      Revisado el 29/10/2026. Ver claude/numeros-emergencia-por-provincia.md en el proyecto. */
-  var NAC = { estado: 'pendiente', nums: [['911', 'Central de emergencias', 'Probá primero este'], ['101', 'Policía', 'En muchas provincias'], ['107', 'Emergencias médicas', 'En muchas provincias'], ['100', 'Bomberos', ''], ['103', 'Defensa Civil', '']] };
-  var SIN911 = ['911', 'Central de emergencias', 'Nacional · sin confirmar en toda la provincia'];
+  var E911 = ['911', 'Central de emergencias', 'Nacional'];
+  var E107 = ['107', 'Emergencias médicas', 'Número habitual en el país'];
+  var E100 = ['100', 'Bomberos', ''];
+  var E103 = ['103', 'Defensa Civil', ''];
+  var REV = 'canales oficiales de la provincia';
+  var NAC = { estado: 'pendiente', nums: [E911, E103, E107, E100, ['101', 'Policía', 'En muchas provincias']] };
   var PROV_NUMS = {
-    'CABA': { estado: 'ok', fuente: 'argentina.gob.ar', nums: [['911', 'Policía y emergencias', ''], ['107', 'SAME, emergencias médicas', ''], ['100', 'Bomberos', ''], ['103', 'Defensa Civil', '']] },
-    'Buenos Aires': { estado: 'parcial', fuente: 'gba.gob.ar · argentina.gob.ar', nota: 'El 107 del SAME solo funciona en algunos municipios. Agendá el número de emergencias médicas de tu municipio en Mi plan.', nums: [['911', 'Central de emergencias provincial', ''], ['100', 'Bomberos', ''], ['103', 'Defensa Civil', ''], ['107', 'SAME, emergencias médicas', 'Solo en algunos municipios']] },
-    'Córdoba': { estado: 'ok', fuente: 'cba.gov.ar', nota: 'En San Francisco, el 100 ya lo atiende el 911 (julio de 2026).', nums: [['911', 'Emergencias', ''], ['107', 'Emergencias médicas', ''], ['100', 'Bomberos', ''], ['101', 'Policía', ''], ['105', 'Defensa Civil', ''], ['103', 'Defensa Civil municipal', '']] },
-    'Formosa': { estado: 'ok', fuente: 'formosa.gob.ar', nums: [['911', 'Policía y emergencias', ''], ['107', 'SIPEC, emergencias médicas', ''], ['100', 'Bomberos', ''], ['103', 'Defensa Civil', ''], ['106', 'Emergencias náuticas', '']] },
+    'CABA': { estado: 'ok', fuente: 'argentina.gob.ar', nums: [['911', 'Policía y emergencias', ''], ['107', 'SAME, emergencias médicas', ''], E100, E103] },
+    'Buenos Aires': { estado: 'parcial', fuente: 'gba.gob.ar · argentina.gob.ar', nota: 'El 107 del SAME solo funciona en algunos municipios. Agendá el número de emergencias médicas de tu municipio en Mi plan.', nums: [['911', 'Central de emergencias provincial', ''], E100, E103, ['107', 'SAME, emergencias médicas', 'Solo en algunos municipios']] },
+    'Catamarca': { estado: 'revisado', fuente: REV, nums: [E911, E103, E107, E100] },
+    'Chaco': { estado: 'revisado', fuente: REV, nums: [E911, E103, E107, E100] },
+    'Chubut': { estado: 'revisado', fuente: REV, nota: 'En Puerto Madryn el 100 tuvo fallas en noviembre de 2025. Bomberos Voluntarios informó como alternativa el 280 447-1111.', nums: [E911, E103, ['0800 666 2447', 'Defensa Civil', 'Línea gratuita alternativa'], ['107', 'Emergencias médicas', ''], E100, ['280 447-1111', 'Bomberos Voluntarios de Puerto Madryn', 'Alternativa si falla el 100']] },
+    'Córdoba': { estado: 'ok', fuente: 'cba.gov.ar', nota: 'En San Francisco, el 100 ya lo atiende el 911 (julio de 2026).', nums: [['911', 'Emergencias', ''], ['107', 'Emergencias médicas', ''], E100, ['101', 'Policía', ''], ['105', 'Defensa Civil', ''], ['103', 'Defensa Civil municipal', '']] },
+    'Corrientes': { estado: 'revisado', fuente: REV, nums: [E911, E103, E107, E100] },
+    'Entre Ríos': { estado: 'revisado', fuente: REV, nums: [E911, E103, E107, E100, ['106', 'Emergencias náuticas', '']] },
+    'Formosa': { estado: 'ok', fuente: 'formosa.gob.ar', nums: [['911', 'Policía y emergencias', ''], ['107', 'SIPEC, emergencias médicas', ''], E100, E103, ['106', 'Emergencias náuticas', '']] },
+    'Jujuy': { estado: 'revisado', fuente: REV + ' · jujuy.gob.ar', nums: [E911, ['107', 'SAME, emergencias médicas', 'En toda la provincia'], E103, ['388 423-1368', 'Defensa Civil', 'Para llamadas'], ['388 445-9916', 'Defensa Civil por WhatsApp', 'Necesita internet', 'wa'], E100] },
+    'La Pampa': { estado: 'revisado', fuente: REV, nums: [E911, E103, ['2954 39-3019', 'Defensa Civil', 'Alternativo'], ['2954 42-4156', 'Defensa Civil', 'Alternativo'], E107, E100] },
+    'La Rioja': { estado: 'revisado', fuente: REV + ' · larioja.gob.ar', nums: [E911, ['(0380) 446-8429', 'Defensa Civil', ''], ['101', 'Policía', ''], ['107', 'Emergencias médicas', ''], E100] },
     'Mendoza': { estado: 'ok', fuente: 'mendoza.gov.ar (sept. 2024)', nota: 'El 911 funciona en toda la provincia y coordina salud, bomberos y Defensa Civil.', nums: [['911', 'Emergencias: policía, salud, bomberos y Defensa Civil', '']] },
-    'San Juan': { estado: 'ok', fuente: 'sanjuan.gob.ar', nums: [['911', 'CISEM: policía, bomberos y ambulancia', ''], ['107', 'Ambulancia de salud pública', 'Solo urgencias con riesgo de vida']] },
-    'Santa Fe': { estado: 'ok', fuente: 'santafe.gob.ar', nums: [['911', 'Emergencias, servicio provincial', ''], ['107', 'SIES, emergencias de salud', '']] },
-    'Tucumán': { estado: 'ok', fuente: 'tucuman.gob.ar', nums: [['911', 'Emergencias', ''], ['107', 'Asistencia pública, emergencias médicas', ''], ['100', 'Bomberos', ''], ['101', 'Policía', ''], ['103', 'Defensa Civil', ''], ['105', 'Emergencia ambiental', '']] },
-    'Chubut': { estado: 'parcial', fuente: 'chubut.gov.ar', nota: 'En Puerto Madryn el 100 tuvo fallas en noviembre de 2025. Bomberos Voluntarios informó como alternativa el 280 447-1111.', nums: [SIN911, ['107', 'Emergencias médicas', 'Confirmado en Puerto Madryn'], ['100', 'Bomberos', ''], ['2804471111', 'Bomberos Voluntarios de Puerto Madryn', 'Alternativa si falla el 100']] },
-    'Jujuy': { estado: 'parcial', fuente: 'jujuy.gob.ar', nums: [['107', 'SAME, emergencias médicas', 'En toda la provincia'], SIN911] },
-    'La Rioja': { estado: 'parcial', fuente: 'larioja.gob.ar', nums: [['101', 'Policía', ''], ['107', 'Emergencias médicas', ''], ['100', 'Bomberos', ''], ['03804468429', 'Defensa Civil', ''], SIN911] },
-    'Misiones': { estado: 'parcial', fuente: 'misiones.gob.ar', nums: [['107', 'Emergencias médicas', 'En toda la provincia'], SIN911] },
-    'Neuquén': { estado: 'parcial', fuente: 'neuquen.gov.ar', nums: [['107', 'SIEN, emergencias médicas', 'Alcance provincial'], SIN911] },
-    'Río Negro': { estado: 'parcial', fuente: 'rionegro.gov.ar', nums: [['911', 'Emergencias', ''], ['107', 'Emergencias médicas', 'Sin confirmar en toda la provincia']] },
-    'Salta': { estado: 'parcial', fuente: 'salta.gob.ar', nums: [['911', 'Sistema de emergencias', ''], ['107', 'Emergencias médicas', 'Sin confirmar']] },
-    'Santa Cruz': { estado: 'parcial', fuente: 'santacruz.gob.ar (2020)', nota: 'En Santa Cruz el 103 se informó como línea de apoyo y contingencia social, no de Defensa Civil.', nums: [['107', 'Emergencias médicas', ''], SIN911] }
+    'Misiones': { estado: 'revisado', fuente: REV + ' · misiones.gob.ar', nums: [E911, ['107', 'Emergencias médicas', 'En toda la provincia'], E103, ['(0376) 444-7636', 'Defensa Civil', 'Alternativo'], E100] },
+    'Neuquén': { estado: 'revisado', fuente: REV + ' · neuquen.gov.ar', nums: [E911, ['107', 'SIEN, emergencias médicas', 'Alcance provincial'], E103, E100] },
+    'Río Negro': { estado: 'parcial', fuente: 'rionegro.gov.ar', nums: [['911', 'Emergencias', ''], E103, E107, E100] },
+    'Salta': { estado: 'parcial', fuente: 'salta.gob.ar', nums: [['911', 'Sistema de emergencias', ''], E103, E107, E100] },
+    'San Juan': { estado: 'ok', fuente: 'sanjuan.gob.ar', nums: [['911', 'CISEM: policía, bomberos y ambulancia', ''], ['107', 'Ambulancia de salud pública', 'Solo urgencias con riesgo de vida'], E103] },
+    'San Luis': { estado: 'revisado', fuente: REV, nums: [E911, E103, ['147', 'Línea provincial', 'Alternativa a Defensa Civil'], ['(02664) 45-2000', 'Defensa Civil', 'Alternativo'], E107, E100] },
+    'Santa Cruz': { estado: 'parcial', fuente: 'santacruz.gob.ar (2020)', nota: 'En Santa Cruz el 103 se informó como línea de apoyo y contingencia social, no de Defensa Civil.', nums: [E911, ['107', 'Emergencias médicas', ''], E100] },
+    'Santa Fe': { estado: 'ok', fuente: 'santafe.gob.ar', nums: [['911', 'Emergencias, servicio provincial', ''], ['107', 'SIES, emergencias de salud', ''], E103, E100] },
+    'Santiago del Estero': { estado: 'revisado', fuente: REV, nota: 'El número de Defensa Civil es local: desde un celular, marcá antes el código de área de tu ciudad.', nums: [E911, ['600-7819', 'Defensa Civil', 'Número local'], E103, E107, E100] },
+    'Tierra del Fuego': { estado: 'revisado', fuente: REV, nota: 'Los números de Defensa Civil son locales: desde un celular, marcá antes el código de área de tu ciudad.', nums: [E911, E103, ['42-2108', 'Defensa Civil', 'Número local'], ['43-5316', 'Defensa Civil', 'Número local'], E107, E100] },
+    'Tucumán': { estado: 'ok', fuente: 'tucuman.gob.ar', nums: [['911', 'Emergencias', ''], ['107', 'Asistencia pública, emergencias médicas', ''], E100, ['101', 'Policía', ''], E103, ['105', 'Emergencia ambiental', '']] }
   };
   function numsFor(prov) { return PROV_NUMS[prov] || NAC; }
   function telOf(n) { return String(n).replace(/\D/g, ''); }
-  function showNum(n) { var d = telOf(n); return d.length > 4 ? (d.length === 11 ? d.slice(0, 4) + ' ' + d.slice(4, 7) + '-' + d.slice(7) : d.slice(0, 3) + ' ' + d.slice(3, 6) + '-' + d.slice(6)) : d; }
+  function showNum(n) { if (/\D/.test(String(n))) return String(n); var d = telOf(n); return d.length > 4 ? (d.length === 11 ? d.slice(0, 4) + ' ' + d.slice(4, 7) + '-' + d.slice(7) : d.slice(0, 3) + ' ' + d.slice(3, 6) + '-' + d.slice(6)) : d; }
 
   /* ---------- content: durante ---------- */
   var D = {
@@ -660,13 +672,14 @@ body.noche .nav a[aria-current="page"] { color: var(--night-ink); }
 
   function numRow(n, local) {
     var d = telOf(n[0]);
-    return '<div class="num"><span class="n"' + (d.length > 4 ? ' style="font-size:1.2rem"' : '') + '>' + esc(showNum(n[0])) + '</span><span class="txt"><b>' + esc(n[1]) + '</b>' + (n[2] ? '<br><small class="muted">' + esc(n[2]) + '</small>' : '') + '</span><span class="acts"><a href="tel:' + d + '">Llamar</a><button type="button" data-copy="' + d + '" aria-label="Copiar ' + esc(n[0]) + '">Copiar</button></span></div>';
+    return '<div class="num"><span class="n"' + (d.length > 4 ? ' style="font-size:1.2rem"' : '') + '>' + esc(showNum(n[0])) + '</span><span class="txt"><b>' + esc(n[1]) + '</b>' + (n[2] ? '<br><small class="muted">' + esc(n[2]) + '</small>' : '') + '</span><span class="acts">' + (n[3] === 'wa' ? '<a href="https://wa.me/549' + d + '" target="_blank" rel="noopener">WhatsApp</a>' : '<a href="tel:' + d + '">Llamar</a>') + '<button type="button" data-copy="' + d + '" aria-label="Copiar ' + esc(n[0]) + '">Copiar</button></span></div>';
   }
   function numbersSheet() {
     var info = numsFor(state.prov), p = state.plan, mios = [];
     if (p.loc1t && p.loc1t.trim()) mios.push([p.loc1t, p.loc1n || 'Número local', 'Lo cargaste en tu plan']);
     if (p.loc2t && p.loc2t.trim()) mios.push([p.loc2t, p.loc2n || 'Número local', 'Lo cargaste en tu plan']);
     var estado = info.estado === 'ok' ? 'Verificado en fuente oficial (' + esc(info.fuente) + '), octubre de 2026.'
+      : info.estado === 'revisado' ? 'Revisado con ' + esc(info.fuente) + ', octubre de 2026.'
       : info.estado === 'parcial' ? 'Verificación incompleta (' + esc(info.fuente) + '), octubre de 2026.'
       : (state.prov ? 'Todavía no verificamos los números de ' + esc(state.prov) + '. Estos son los más comunes en el país.' : 'Elegí tu provincia para ver sus números.');
     openSheet('<div class="sheet-head"><h2 class="h-m">Números de emergencia</h2><button type="button" class="icon-btn" data-close aria-label="Cerrar">' + ico('x') + '</button></div>' +
